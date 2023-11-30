@@ -18,5 +18,17 @@ public static class DataStoreInstaller
         {
             options.UseNpgsql(dataContextConnectionString);
         });
+
+        var redisConnectionString = configuration.GetConnectionString("Redis");
+        if (string.IsNullOrEmpty(redisConnectionString))
+        {
+            throw new Exception("Redis cache is not configured.");
+        }
+
+        services.AddStackExchangeRedisCache(options =>
+        {
+            options.Configuration = redisConnectionString;
+            options.InstanceName = "SpotlessSolution_";
+        });
     }
 }

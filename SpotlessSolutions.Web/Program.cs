@@ -1,3 +1,4 @@
+using SpotlessSolutions.Web.Extensions;
 using SpotlessSolutions.Web.Installers;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -18,10 +19,13 @@ app.UseHttpsRedirection();
 app.UseStaticFiles();
 app.UseRouting();
 
+// This middleware blocks the request when if its still on the blocking period
+app.UseIpBlockingFilter();
+
 app.MapControllerRoute(
     name: "default",
     pattern: "{controller}/{action=Index}/{id?}");
 
 app.MapFallbackToFile("index.html");
 
-app.Run();
+await app.RunAsync();
