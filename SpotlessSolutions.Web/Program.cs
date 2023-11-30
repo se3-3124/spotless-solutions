@@ -1,8 +1,9 @@
+using SpotlessSolutions.Web.Installers;
+
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
-
 builder.Services.AddControllersWithViews();
+builder.Services.InstallDataContexts(builder.Configuration);
 
 var app = builder.Build();
 
