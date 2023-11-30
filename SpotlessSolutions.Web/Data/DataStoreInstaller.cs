@@ -1,8 +1,6 @@
-using System.Runtime.CompilerServices;
 using Microsoft.EntityFrameworkCore;
-using SpotlessSolutions.Web.Data;
 
-namespace SpotlessSolutions.Web.Installers;
+namespace SpotlessSolutions.Web.Data;
 
 public static class DataStoreInstaller
 {
