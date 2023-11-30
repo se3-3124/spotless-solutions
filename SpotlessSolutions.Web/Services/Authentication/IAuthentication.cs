@@ -1,3 +1,5 @@
+using SpotlessSolutions.Web.Services.Authentication.Session;
+
 namespace SpotlessSolutions.Web.Services.Authentication;
 
 public interface IAuthentication
@@ -11,7 +13,7 @@ public interface IAuthentication
     Task<SessionToken?> Login(string email, string password);
 
     /// <summary>
-    /// Register the user
+    /// Register
     /// </summary>
     /// <param name="data"></param>
     /// <returns></returns>
@@ -20,22 +22,7 @@ public interface IAuthentication
     /// <summary>
     /// Request for password reset
     /// </summary>
-    /// <param name="userId"></param>
+    /// <param name="email"></param>
     /// <returns></returns>
-    Task<bool> RequestForPasswordReset(Guid userId);
-
-    /// <summary>
-    /// Validate password reset token if its valid
-    /// </summary>
-    /// <param name="token"></param>
-    /// <returns></returns>
-    Task<bool> ValidatePasswordResetToken(string token);
-
-    /// <summary>
-    /// Reset user password
-    /// </summary>
-    /// <param name="token"></param>
-    /// <param name="newPassword"></param>
-    /// <returns></returns>
-    Task<bool> ResetPassword(string token, string newPassword);
+    Task<bool> RequestForPasswordReset(string email);
 }

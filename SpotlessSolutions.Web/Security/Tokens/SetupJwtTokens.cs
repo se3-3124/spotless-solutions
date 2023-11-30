@@ -16,7 +16,7 @@ public static class SetupJwtTokens
     public static void InstallJwtConfig(this IServiceCollection services, IConfiguration configuration)
     {
         var jwtSettings = new JwtConfig();
-        configuration.Bind(jwtSettings);
+        configuration.Bind(nameof(jwtSettings), jwtSettings);
 
         services.AddSingleton(jwtSettings);
 

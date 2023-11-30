@@ -1,4 +1,4 @@
-namespace SpotlessSolutions.Web.Services.Authentication;
+namespace SpotlessSolutions.Web.Services.Authentication.Session;
 
 public class SessionToken
 {

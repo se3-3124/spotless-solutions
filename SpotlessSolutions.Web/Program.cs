@@ -1,6 +1,8 @@
 using SpotlessSolutions.Web.Data;
 using SpotlessSolutions.Web.Extensions;
 using SpotlessSolutions.Web.Security.Tokens;
+using SpotlessSolutions.Web.Services;
+using SpotlessSolutions.Web.Services.Mailer;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -8,6 +10,8 @@ builder.Services.AddControllersWithViews();
 builder.Services.InstallDataContexts(builder.Configuration);
 builder.Services.InstallJwtConfig(builder.Configuration);
 builder.Services.InstallSwaggerDocumentation();
+builder.Services.InstallMailerSettings(builder.Configuration);
+builder.Services.InstallServices();
 
 var app = builder.Build();
 
