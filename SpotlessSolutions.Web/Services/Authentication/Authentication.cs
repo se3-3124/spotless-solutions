@@ -2,8 +2,10 @@ using System.Text;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.WebUtilities;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Caching.Distributed;
 using SpotlessSolutions.Web.Data;
 using SpotlessSolutions.Web.Data.Models;
+using SpotlessSolutions.Web.Extensions;
 using SpotlessSolutions.Web.Services.Authentication.Session;
 using SpotlessSolutions.Web.Services.Mailer;
 
@@ -12,16 +14,20 @@ namespace SpotlessSolutions.Web.Services.Authentication;
 public class Authentication : IAuthentication
 {
     private readonly DataContext _context;
-    private readonly UserManager<IdentityUser> _user;
-    private readonly ISessionIssuer _sessionIssuer;
+    private readonly IDistributedCache _cache;
     private readonly IMailer _mailer;
+    private readonly ISessionIssuer _sessionIssuer;
+    private readonly UserManager<IdentityUser> _user;
+    
 
     public Authentication(DataContext context,
-        UserManager<IdentityUser> user,
+        IDistributedCache cache,
+        IMailer mailer,
         ISessionIssuer sessionIssuer,
-        IMailer mailer)
+        UserManager<IdentityUser> user)
     {
         _context = context;
+        _cache = cache;
         _user = user;
         _sessionIssuer = sessionIssuer;
         _mailer = mailer;
@@ -55,12 +61,16 @@ public class Authentication : IAuthentication
         // Register email and password through UserManager
         var user = new IdentityUser
         {
-            Email = data.Email,
-            EmailConfirmed = false
+            UserName = data.Email,
+            Email = data.Email
         };
         var result = await _user.CreateAsync(user, data.Password);
         if (!result.Succeeded)
         {
+            foreach (var e in result.Errors)
+            {
+                Console.WriteLine(e.Description);
+            }
             return false;
         }
         
@@ -77,22 +87,65 @@ public class Authentication : IAuthentication
 
         var emailConfirmationToken = await _user.GenerateEmailConfirmationTokenAsync(user);
         var code = WebEncoders.Base64UrlEncode(Encoding.UTF8.GetBytes(emailConfirmationToken));
-        var hostname = Environment.GetEnvironmentVariable("SITE_HOSTNAME");
-        var emailSettings = new MailSettings
+        
+        // Store cache into the memory for validation purposes.
+        await _cache.SetRecordAsync($"ect_{code}", new UserIdCache
         {
-            Recipient =
+            Id = user.Id
+        }, absoluteExpireTime: TimeSpan.FromMinutes(10));
+        
+        var hostname = Environment.GetEnvironmentVariable("SITE_HOSTNAME") ?? "";
+        try
+        {
+            var emailSettings = new MailSettings
             {
-                Address = user.Email,
-                Name = $"{userInformation.LastName}, {userInformation.FirstName}"
-            },
-            Subject = "Account confirmation",
-            Body = $"""
-                    Confirm your account by clicking <a href="{hostname}/api/auth/confirm?t={code}">here</a>
-                    """
-        };
+                Recipient = new MailSettings.UserData
+                {
+                    Address = user.Email,
+                    Name = $"{userInformation.LastName}, {userInformation.FirstName}"
+                },
+                Subject = "Account confirmation",
+                Body = $"""
+                        Confirm your account by clicking <a href="{hostname}/api/auth/confirm?token={code}">here</a>
+                        """
+            };
 
-        await _mailer.Send(emailSettings);
-        return true;
+            await _mailer.Send(emailSettings);
+            await _context.SaveChangesAsync();
+            return true;
+        }
+        catch
+        {
+            // Remove user when operation fails
+            await _user.DeleteAsync(user);
+            return false;
+        }
+    }
+
+    public async Task<bool> VerifyEmail(string token)
+    {
+        var cache = await _cache.GetRecordAsync<UserIdCache>($"ect_{token}");
+        if (cache == null)
+        {
+            return false;
+        }
+
+        var user = await _user.FindByIdAsync(cache.Id);
+        if (user == null)
+        {
+            return false;
+        }
+
+        var verifyToken = Encoding.UTF8.GetString(WebEncoders.Base64UrlDecode(token));
+        var result = await _user.ConfirmEmailAsync(user, verifyToken);
+
+        if (result.Succeeded)
+        {
+            await _cache.RemoveAsync($"ect_{token}");
+            return true;
+        }
+
+        return false;
     }
 
     public async Task<bool> RequestForPasswordReset(string email)
@@ -109,22 +162,60 @@ public class Authentication : IAuthentication
 
         var passwordResetCode = await _user.GeneratePasswordResetTokenAsync(user);
         var code = WebEncoders.Base64UrlEncode(Encoding.UTF8.GetBytes(passwordResetCode));
+        
+        // Store the information into the cache
+        await _cache.SetRecordAsync($"prt_{code}", new UserIdCache
+        {
+            Id = user.Id
+        }, absoluteExpireTime: TimeSpan.FromMinutes(10));
 
         var hostname = Environment.GetEnvironmentVariable("SITE_HOSTNAME");
-        var emailSettings = new MailSettings
+        try
         {
-            Recipient =
+            var emailSettings = new MailSettings
             {
-                Address = user.Email!,
-                Name = $"{information.LastName}, {information.FirstName}"
-            },
-            Subject = "Account Recovery",
-            Body = $"""
-                    Recover your account by clicking <a href="{hostname}/recovery/change?token={code}">here</a>.
-                    """
-        };
+                Recipient =
+                {
+                    Address = user.Email!,
+                    Name = $"{information.LastName}, {information.FirstName}"
+                },
+                Subject = "Account Recovery",
+                Body = $"""
+                        Recover your account by clicking <a href="{hostname}/recovery/change?token={code}">here</a>.
+                        """
+            };
 
-        await _mailer.Send(emailSettings);
+            await _mailer.Send(emailSettings);
+            return true;
+        }
+        catch
+        {
+            return false;
+        }
+    }
+
+    public async Task<bool> ResetPassword(string token, string newPassword)
+    {
+        var userData = await _cache.GetRecordAsync<UserIdCache>($"prt_{token}");
+        if (userData == null)
+        {
+            return false;
+        }
+
+        var user = await _user.FindByIdAsync(userData.Id);
+        if (user == null)
+        {
+            return false;
+        }
+
+        var resetToken = Encoding.UTF8.GetString(WebEncoders.Base64UrlDecode(token));
+        var result = await _user.ResetPasswordAsync(user, resetToken, newPassword);
+        if (!result.Succeeded)
+        {
+            return false;
+        }
+
+        await _cache.RemoveAsync($"prt_{token}");
         return true;
     }
 }

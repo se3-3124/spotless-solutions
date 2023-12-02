@@ -36,15 +36,15 @@ export default defineConfig({
   server: {
     proxy: {
       '/api': {
-        target: `http${isHttps() ? 's' : ''}://localhost:${isHttps() ? '7297' : '5292'}`,
+        target: `http${isHttps() ? 's' : ''}://localhost:${isHttps() ? '7019' : '5013'}`,
         secure: false,
       },
       '/oauth': {
-        target: `http${isHttps() ? 's' : ''}://localhost:${isHttps() ? '7297' : '5292'}`,
+        target: `http${isHttps() ? 's' : ''}://localhost:${isHttps() ? '7019' : '5013'}`,
         secure: false,
       },
       '/swagger': {
-        target: `http${isHttps() ? 's' : ''}://localhost:${isHttps() ? '7297' : '5292'}`,
+        target: `http${isHttps() ? 's' : ''}://localhost:${isHttps() ? '7019' : '5013'}`,
         secure: false,
       },
     },

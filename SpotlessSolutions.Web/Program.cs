@@ -1,3 +1,5 @@
+using FluentValidation;
+using Microsoft.AspNetCore.Identity;
 using SpotlessSolutions.Web.Data;
 using SpotlessSolutions.Web.Extensions;
 using SpotlessSolutions.Web.Security.Tokens;
@@ -6,7 +8,15 @@ using SpotlessSolutions.Web.Services.Mailer;
 
 var builder = WebApplication.CreateBuilder(args);
 
+builder.Services.AddIdentity<IdentityUser, IdentityRole>(options =>
+    {
+        options.User.RequireUniqueEmail = true;
+    })
+    .AddEntityFrameworkStores<DataContext>()
+    .AddDefaultTokenProviders();
+
 builder.Services.AddControllersWithViews();
+builder.Services.AddValidatorsFromAssemblyContaining<Program>();
 builder.Services.InstallDataContexts(builder.Configuration);
 builder.Services.InstallJwtConfig(builder.Configuration);
 builder.Services.InstallSwaggerDocumentation();

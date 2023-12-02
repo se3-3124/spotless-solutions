@@ -15,11 +15,8 @@
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development",
         "ASPNETCORE_HOSTINGSTARTUPASSEMBLIES": "Microsoft.AspNetCore.SpaProxy",
-        "ConnectionStrings__PrimaryContext": "Host=localhost;Port=5432;Database=testdb;Username=postgres",
-        "ConnectionStrings__Redis": "localhost:6379",
-        "JwtSettings__Secret": "aexamplesecretyoumustnotfollow",
         "JwtSettings__TokenLifetime": "00:30:00",
-        "SITE_HOSTNAME": "https://localhost:7019"
+        "SITE_HOSTNAME": "https://localhost:5173"
       }
     },
     "IIS Express": {
@@ -28,11 +25,8 @@
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development",
         "ASPNETCORE_HOSTINGSTARTUPASSEMBLIES": "Microsoft.AspNetCore.SpaProxy",
-        "ConnectionStrings__PrimaryContext": "Host=localhost;Port=5432;Database=testdb;Username=postgres",
-        "ConnectionStrings__Redis": "localhost:6379",
-        "JwtSettings__Secret": "aexamplesecretyoumustnotfollow",
         "JwtSettings__TokenLifetime": "00:30:00",
-        "SITE_HOSTNAME": "https://localhost:7019"
+        "SITE_HOSTNAME": "https://localhost:5173"
       }
     }
   }

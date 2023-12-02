@@ -20,9 +20,24 @@ public interface IAuthentication
     Task<bool> Register(UserRegistrationData data);
 
     /// <summary>
+    /// Verify email via token
+    /// </summary>
+    /// <param name="token"></param>
+    /// <returns></returns>
+    Task<bool> VerifyEmail(string token);
+
+    /// <summary>
     /// Request for password reset
     /// </summary>
     /// <param name="email"></param>
     /// <returns></returns>
     Task<bool> RequestForPasswordReset(string email);
+
+    /// <summary>
+    /// Reset user password
+    /// </summary>
+    /// <param name="token"></param>
+    /// <param name="newPassword"></param>
+    /// <returns></returns>
+    Task<bool> ResetPassword(string token, string newPassword);
 }
