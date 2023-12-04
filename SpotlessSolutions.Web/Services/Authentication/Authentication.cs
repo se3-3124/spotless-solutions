@@ -1,3 +1,4 @@
+using System.Security.Cryptography;
 using System.Text;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.WebUtilities;
@@ -6,6 +7,7 @@ using Microsoft.Extensions.Caching.Distributed;
 using SpotlessSolutions.Web.Data;
 using SpotlessSolutions.Web.Data.Models;
 using SpotlessSolutions.Web.Extensions;
+using SpotlessSolutions.Web.Services.Authentication.OAuth2;
 using SpotlessSolutions.Web.Services.Authentication.Session;
 using SpotlessSolutions.Web.Services.Mailer;
 
@@ -50,7 +52,7 @@ public class Authentication : IAuthentication
         return await _sessionIssuer.Sign(user);
     }
 
-    public async Task<bool> Register(UserRegistrationData data)
+    public async Task<bool> Register(UserRegistrationData data, bool sendConfirmationEmail = true)
     {
         var findUser = await _user.FindByEmailAsync(data.Email);
         if (findUser != null)
@@ -97,20 +99,23 @@ public class Authentication : IAuthentication
         var hostname = Environment.GetEnvironmentVariable("SITE_HOSTNAME") ?? "";
         try
         {
-            var emailSettings = new MailSettings
+            if (sendConfirmationEmail)
             {
-                Recipient = new MailSettings.UserData
+                var emailSettings = new MailSettings
                 {
-                    Address = user.Email,
-                    Name = $"{userInformation.LastName}, {userInformation.FirstName}"
-                },
-                Subject = "Account confirmation",
-                Body = $"""
-                        Confirm your account by clicking <a href="{hostname}/api/auth/confirm?token={code}">here</a>
-                        """
-            };
+                    Recipient = new MailSettings.UserData
+                    {
+                        Address = user.Email,
+                        Name = $"{userInformation.LastName}, {userInformation.FirstName}"
+                    },
+                    Subject = "Account confirmation",
+                    Body = $"""
+                            Confirm your account by clicking <a href="{hostname}/api/auth/confirm?token={code}">here</a>
+                            """
+                };
 
-            await _mailer.Send(emailSettings);
+                await _mailer.Send(emailSettings);
+            }
             await _context.SaveChangesAsync();
             return true;
         }
@@ -217,5 +222,75 @@ public class Authentication : IAuthentication
 
         await _cache.RemoveAsync($"prt_{token}");
         return true;
+    }
+
+    public async Task<bool> RegisterOAuth2User(AccountBindingType source, ExternalUserAccountInformation data)
+    {
+        var findUser = await _user.FindByEmailAsync(data.Email);
+        if (findUser != null)
+        {
+            return false;
+        }
+
+        // Register email and password through UserManager
+        var user = new IdentityUser
+        {
+            UserName = data.Email,
+            Email = data.Email
+        };
+        
+        var dummyPassword = WebEncoders.Base64UrlEncode(RandomNumberGenerator.GetBytes(64));
+        var result = await _user.CreateAsync(user, dummyPassword);
+        if (!result.Succeeded)
+        {
+            foreach (var e in result.Errors)
+            {
+                Console.WriteLine(e.Description);
+            }
+            return false;
+        }
+
+        // Write the other information into the UserData table
+        var userInformation = new UserData
+        {
+            FirstName = data.FirstName,
+            LastName = data.LastName,
+            PhoneNumber = "unset",
+            Role = UserRoles.User,
+            UserId = user.Id
+        };
+        await _context.UserData.AddAsync(userInformation);
+
+        var credentialBinding = new AccountBinding
+        {
+            AccountId = data.Id,
+            Type = source,
+            UserDataId = userInformation.Id
+        };
+        await _context.Bindings.AddAsync(credentialBinding);
+
+        return true;
+    }
+
+    public async Task<SessionToken?> LoginOAuth2User(AccountBindingType source, string id)
+    {
+        var credentialSource = await _context.Bindings
+            .Include(x => x.User)
+            .FirstOrDefaultAsync(x => x.AccountId == id && x.Type == source);
+
+        // Account cannot be found
+        if (credentialSource == null)
+        {
+            return null;
+        }
+
+        var user = await _user.FindByIdAsync(credentialSource.User.UserId!);
+        if (user == null)
+        {
+            return null;
+        }
+
+        var tokens = await _sessionIssuer.Sign(user);
+        return tokens ?? null;
     }
 }

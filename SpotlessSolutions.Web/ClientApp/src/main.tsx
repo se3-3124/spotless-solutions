@@ -6,13 +6,13 @@ import {
 import Home from './pages/home-page/home-page.tsx';
 import SignUp from './pages/registration-page/registration-page.tsx';
 import LogIn from './pages/login-page/login-page.tsx';
-import OAuthGoogleFailure from './pages/oauth/google/Failure.tsx';
-import OAuthGoogleSuccess from './pages/oauth/google/Success.tsx';
-import OAuthGoogleSuccessSignup from './pages/oauth/google/SignUpSuccess.tsx';
 import Dashboard from './pages/dashboard/Dashboard.tsx';
 import RecoveryPrompt from './pages/password-recovery/recovery-prompt.tsx';
 import RecoveryRecover from './pages/password-recovery/recovery-recover.tsx';
 import './index.css';
+import OAuthSuccess from './pages/oauth/OAuthSuccess.tsx';
+import OAuthFailure from './pages/oauth/OAuthFailure.tsx';
+import OAuthCatcher from './pages/oauth/OAuthCatcher.tsx';
 
 const router = createBrowserRouter([
     {
@@ -32,20 +32,16 @@ const router = createBrowserRouter([
         element: <Dashboard />
     },
     {
-        path: "/auth/google/register/success",
-        element: <OAuthGoogleSuccessSignup />
+        path: "/auth/oauth/success",
+        element: <OAuthSuccess />
     },
     {
-        path: "/auth/google/register/failure",
-        element: <OAuthGoogleFailure />
+        path: "/auth/oauth/failure",
+        element: <OAuthFailure />
     },
     {
-        path: "/auth/google/success",
-        element: <OAuthGoogleSuccess />
-    },
-    {
-        path: "/auth/google/failure",
-        element: <OAuthGoogleFailure />
+        path: "/auth/oauth/catch",
+        element: <OAuthCatcher />
     },
     {
         path: "/recovery",

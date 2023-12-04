@@ -6,6 +6,7 @@ using SpotlessSolutions.Web.Services.Authentication;
 
 namespace SpotlessSolutions.Web.Controllers.V1;
 
+[ApiController]
 [Route("/api/auth")]
 public class AuthenticationController : ControllerBase
 {
