@@ -5,6 +5,9 @@ import {useState} from 'react';
 import './login-page.css';
 import PageContentCommons from '../../Components/PageContentCommons.tsx';
 
+import facebookLogo from '../../assets/facebook.png';
+import googleLogo from '../../assets/google.png';
+
 type LoginState = {
     email: string;
     password: string;
@@ -98,12 +101,12 @@ export default function LogIn() {
                             <div className='grid gap-1 mb-1 md:grid-cols-2 mt-4'>
                                 <a href="/oauth2/google/oauth2request"  className="flex justify-center mt-4 hover:bg-gray-100">
                                     <div className="px-4 py-3">
-                                        <img src='/packages/client/src/assets/google.png' className=" h-8 w-8" />
+                                        <img src={googleLogo} alt="Login via Google" className=" h-8 w-8" />
                                     </div>
                                 </a>
                                 <a href="#" className="flex justify-center mt-4 hover:bg-gray-100">
                                     <div className="px-4 py-3">
-                                        <img src='/packages/client/src/assets/facebook.png' className=" h-8 w-8" />
+                                        <img src={facebookLogo} alt="Login via Facebook" className=" h-8 w-8" />
                                     </div>
                                 </a>
                             </div>

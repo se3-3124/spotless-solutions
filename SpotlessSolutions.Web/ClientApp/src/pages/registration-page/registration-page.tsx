@@ -4,6 +4,9 @@ import axios from 'axios';
 import './registration-page.css'
 import PageContentCommons from '../../Components/PageContentCommons.tsx';
 
+import facebookLogo from '../../assets/facebook.png';
+import googleLogo from '../../assets/google.png';
+
 type UserState = {
     email: string;
     firstName: string;
@@ -30,7 +33,7 @@ export default function SignUp() {
         }
 
         try {
-            await axios.post('/api/auth/registration', {
+            await axios.post('/api/auth/register', {
                 firstName: data.firstName,
                 lastName: data.lastName,
                 password: data.password,
@@ -146,14 +149,14 @@ export default function SignUp() {
                                 <span className="border-b w-1 md:w-1/3"></span>
                             </div>
                             <div className='grid gap-1 mb-1 md:grid-cols-2 mt-4'>
-                                <a href="/oauth2/google/oauth2request?state=registration_state" className="flex justify-center mt-4 hover:bg-gray-100">
+                                <a href="/oauth2/google/request?state=registration_state" className="flex justify-center mt-4 hover:bg-gray-100">
                                     <div className="px-4 py-3">
-                                        <img src='/packages/client/src/assets/google.png' className=" h-8 w-8" />
+                                        <img src={googleLogo} alt="Register via Google" className=" h-8 w-8" />
                                     </div>
                                 </a>
                                 <a href="#" className="flex justify-center mt-4 hover:bg-gray-100">
                                     <div className="px-4 py-3">
-                                        <img src='/packages/client/src/assets/facebook.png' className=" h-8 w-8" />
+                                        <img src={facebookLogo} alt="Register via Facebook" className=" h-8 w-8" />
                                     </div>
                                 </a>
                             </div>

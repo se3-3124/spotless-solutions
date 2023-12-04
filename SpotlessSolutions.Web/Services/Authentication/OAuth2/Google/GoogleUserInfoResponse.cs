@@ -8,7 +8,7 @@ public class GoogleUserInfoResponse
     public string Picture { get; set; }
     
     [JsonPropertyName("verified_email")]
-    public string VerifiedEmail { get; set; }
+    public bool VerifiedEmail { get; set; }
     
     [JsonPropertyName("id")]
     public string Id { get; set; }

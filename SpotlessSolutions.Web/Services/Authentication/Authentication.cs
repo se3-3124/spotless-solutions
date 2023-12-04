@@ -236,7 +236,8 @@ public class Authentication : IAuthentication
         var user = new IdentityUser
         {
             UserName = data.Email,
-            Email = data.Email
+            Email = data.Email,
+            EmailConfirmed = true
         };
         
         var dummyPassword = WebEncoders.Base64UrlEncode(RandomNumberGenerator.GetBytes(64));
@@ -268,6 +269,7 @@ public class Authentication : IAuthentication
             UserDataId = userInformation.Id
         };
         await _context.Bindings.AddAsync(credentialBinding);
+        await _context.SaveChangesAsync();
 
         return true;
     }
