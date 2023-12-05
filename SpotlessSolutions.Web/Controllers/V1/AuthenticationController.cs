@@ -152,14 +152,14 @@ public class AuthenticationController : ControllerBase
 
         var result = await _auth.RequestForPasswordReset(details.Email);
         return result
-            ? BadRequest(new ErrorException
+            ? Ok(new GenericOkResult
+            {
+                Success = true
+            })
+            : BadRequest(new ErrorException
             {
                 Error = true,
                 Messages = new[] { "Unable to request for password reset." }
-            })
-            : Ok(new GenericOkResult
-            {
-                Success = true
             });
     }
 

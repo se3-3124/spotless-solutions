@@ -1,11 +1,12 @@
 import {Link} from 'react-router-dom';
 import {useState} from 'react';
 
-import './login-page.css';
+import './login-page.scss';
 import PageContentCommons from '../../Components/PageContentCommons.tsx';
 
 import facebookLogo from '../../assets/facebook.png';
 import googleLogo from '../../assets/google.png';
+import houseCleaningImage from '../../assets/house-cleaning-service.jpeg';
 import {createInstance, postRequest} from "../../lib/fetch.ts";
 
 type LoginState = {
@@ -29,11 +30,9 @@ export default function LogIn() {
             localStorage.setItem('sst', result.token);
             localStorage.setItem('ssr', result.refreshToken);
 
-            alert('SUCCESS!');
-
             document.location = '/dashboard';
         } catch (e) {
-            alert('LOGIN ERROR!');
+            console.error(e);
         }
     }
 
@@ -55,8 +54,12 @@ export default function LogIn() {
             <section className='signupSize bg-midnightblue'>
                 <div className="py-16">
                     <div className="flex bg-white rounded-lg shadow-lg overflow-x-auto mx-auto max-w-sm lg:max-w-4xl">
-                        <div className="loginBg hidden lg:block lg:w-1/2 bg-cover">
-                        </div>
+                        <div
+                            className="hidden lg:block lg:w-1/2 bg-cover"
+                            style={{
+                               background: `#fff url(${houseCleaningImage}) no-repeat center center`,
+                               backgroundSize: 'cover' 
+                            }} />
                         <div className="w-full p-8 lg:w-1/2">
                             <h2 className="text-2xl font-semibold text-gray-700 text-center">Hello</h2>
                             <h2 className="text-2xl font-semibold text-gray-700 text-center">Welcome Back!</h2>

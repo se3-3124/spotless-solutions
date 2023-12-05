@@ -1,7 +1,8 @@
 import {useState} from 'react';
-import '../login-page/login-page.css';
-import axios from 'axios';
+import '../login-page/login-page.scss';
 import PageContentCommons from '../../Components/PageContentCommons.tsx';
+import houseCleaningImage from "../../assets/house-cleaning-service.jpeg";
+import {createInstance, postRequest} from "../../lib/fetch.ts";
 
 type RecoveryState = {
     email: string;
@@ -14,7 +15,7 @@ export default function RecoveryPrompt() {
 
     const submit = async () => {
         try {
-            await axios.post('/api/recovery/request', {
+            await postRequest(createInstance(), '/api/auth/recovery/request', {
                 email: data.email,
             });
 
@@ -42,8 +43,12 @@ export default function RecoveryPrompt() {
             <section className='signupSize bg-midnightblue' style={{height: '80vh'}}>
                 <div className="py-16">
                     <div className="flex bg-white rounded-lg shadow-lg overflow-x-auto mx-auto max-w-sm lg:max-w-4xl">
-                        <div className="loginBg hidden lg:block lg:w-1/2 bg-cover">
-                        </div>
+                        <div
+                            className="hidden lg:block lg:w-1/2 bg-cover"
+                            style={{
+                                background: `#fff url(${houseCleaningImage}) no-repeat center center`,
+                                backgroundSize: 'cover'
+                            }} />
                         <div className="w-full p-8 lg:w-1/2">
                             <h2 className="text-2xl font-semibold text-gray-700 text-center">Recovery</h2>
                             <div className="mt-4">

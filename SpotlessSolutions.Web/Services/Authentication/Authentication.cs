@@ -20,7 +20,6 @@ public class Authentication : IAuthentication
     private readonly IMailer _mailer;
     private readonly ISessionIssuer _sessionIssuer;
     private readonly UserManager<IdentityUser> _user;
-    
 
     public Authentication(DataContext context,
         IDistributedCache cache,
@@ -34,7 +33,7 @@ public class Authentication : IAuthentication
         _sessionIssuer = sessionIssuer;
         _mailer = mailer;
     }
-    
+
     public async Task<SessionToken?> Login(string email, string password)
     {
         var user = await _user.FindByEmailAsync(email);
@@ -162,8 +161,7 @@ public class Authentication : IAuthentication
         }
 
         var information = await _context.UserData
-            .Include(x => x.User)
-            .FirstAsync(x => x.User!.Id == user.Id);
+            .FirstAsync(x => x.UserId == user.Id);
 
         var passwordResetCode = await _user.GeneratePasswordResetTokenAsync(user);
         var code = WebEncoders.Base64UrlEncode(Encoding.UTF8.GetBytes(passwordResetCode));
@@ -174,12 +172,12 @@ public class Authentication : IAuthentication
             Id = user.Id
         }, absoluteExpireTime: TimeSpan.FromMinutes(10));
 
-        var hostname = Environment.GetEnvironmentVariable("SITE_HOSTNAME");
+        var hostname = Environment.GetEnvironmentVariable("SITE_HOSTNAME") ?? "";
         try
         {
             var emailSettings = new MailSettings
             {
-                Recipient =
+                Recipient = new MailSettings.UserData
                 {
                     Address = user.Email!,
                     Name = $"{information.LastName}, {information.FirstName}"
