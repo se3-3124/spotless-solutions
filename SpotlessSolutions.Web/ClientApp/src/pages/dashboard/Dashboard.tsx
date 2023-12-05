@@ -1,26 +1,19 @@
 import {useEffect} from 'react';
 import './dashboard.css';
-import Navbar from '../home-page/navbar.tsx';
-import axios from 'axios';
+import {authenticationRequest, getRequest} from "../../lib/fetch.ts";
+import PageContentCommons from "../../Components/PageContentCommons.tsx";
 
 export default function Dashboard() {
     useEffect(() => {
         async function check () {
-            try {
-                await axios.get('/api/auth/check', { withCredentials: true });
-                alert('SUCCESS!');
-            } catch (e) {
-                alert('ERROR!');
-                document.location = '/';
-            }
+            await authenticationRequest<{}>(getRequest, '/api/check');
         }
 
         check().catch(console.error);
     }, []);
 
     return (
-        <>
-            <Navbar />
+        <PageContentCommons active={-1}>
             <section className='loginSize bg-midnightblue'>
                 <div className="py-16">
                     <div className="flex bg-white rounded-lg shadow-lg overflow-x-auto mx-auto max-w-sm lg:max-w-4xl">
@@ -35,6 +28,6 @@ export default function Dashboard() {
                     </div>
                 </div>
             </section>
-        </>
+        </PageContentCommons>
     )
 }

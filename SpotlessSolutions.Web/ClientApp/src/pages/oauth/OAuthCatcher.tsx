@@ -11,7 +11,7 @@ export default function OAuthCatcher() {
             localStorage.setItem('ssr', tokenParam.get('r') as string);
             
             setTimeout(() => {
-                document.location = '/api/oauth/success'
+                document.location = '/auth/oauth/success'
             }, 100);
         }
     }, []);

@@ -30,9 +30,9 @@ public static class SetupJwtTokens
             RequireExpirationTime = true,
             ValidateLifetime = true,
             ValidateAudience = true,
-            ValidAudience = "session://dontyouhackmeplease",
+            ValidAudience = $"{hostname}",
             ValidateIssuer = true,
-            ValidIssuer = $"{hostname}/api/auth/login"
+            ValidIssuer = $"{hostname}"
         };
 
         services.AddSingleton(tokenValidationParameter);
@@ -46,8 +46,9 @@ public static class SetupJwtTokens
             })
             .AddJwtBearer(options =>
             {
-                options.SaveToken = true;
                 options.TokenValidationParameters = tokenValidationParameter;
             });
+
+        services.AddAuthorization();
     }
 }

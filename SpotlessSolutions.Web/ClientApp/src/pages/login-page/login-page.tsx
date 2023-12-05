@@ -1,4 +1,3 @@
-import axios from 'axios';
 import {Link} from 'react-router-dom';
 import {useState} from 'react';
 
@@ -7,6 +6,7 @@ import PageContentCommons from '../../Components/PageContentCommons.tsx';
 
 import facebookLogo from '../../assets/facebook.png';
 import googleLogo from '../../assets/google.png';
+import {createInstance, postRequest} from "../../lib/fetch.ts";
 
 type LoginState = {
     email: string;
@@ -21,10 +21,13 @@ export default function LogIn() {
 
     const submit = async () => {
         try {
-            await axios.post('/api/auth/login', {
-                password: data.password,
+            const result = await postRequest<{token: string; refreshToken: string}>(createInstance(), '/api/auth/login', {
                 email: data.email,
+                password: data.password
             });
+            
+            localStorage.setItem('sst', result.token);
+            localStorage.setItem('ssr', result.refreshToken);
 
             alert('SUCCESS!');
 
@@ -99,7 +102,7 @@ export default function LogIn() {
                                 <span className="border-b w-1 md:w-1/3"></span>
                             </div>
                             <div className='grid gap-1 mb-1 md:grid-cols-2 mt-4'>
-                                <a href="/oauth2/google/oauth2request"  className="flex justify-center mt-4 hover:bg-gray-100">
+                                <a href="/oauth2/google/request"  className="flex justify-center mt-4 hover:bg-gray-100">
                                     <div className="px-4 py-3">
                                         <img src={googleLogo} alt="Login via Google" className=" h-8 w-8" />
                                     </div>

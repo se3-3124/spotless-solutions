@@ -59,6 +59,6 @@ public class GoogleOAuth2Controller : ControllerBase
 
         return Redirect(loginData == null
             ? $"{hostname}/auth/oauth/failure"
-            : $"{hostname}/auth/oauth/complete?t={loginData.Token}&r={loginData.RefreshToken}");
+            : $"{hostname}/auth/oauth/catch?t={loginData.Token}&r={loginData.RefreshToken}");
     }
 }

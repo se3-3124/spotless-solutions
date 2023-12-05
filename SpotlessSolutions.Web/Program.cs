@@ -16,14 +16,12 @@ builder.Services.AddIdentity<IdentityUser, IdentityRole>(options =>
     .AddEntityFrameworkStores<DataContext>()
     .AddDefaultTokenProviders();
 
-// Cors-configuration
-// By default this is disabled when it is in production since the SPA will be hosted the same
-// as the server, therefore this will be ignored
-const string corsName = "cors_config";
+builder.Services.InstallJwtConfig(builder.Configuration);
 
+const string corsName = "cors_config";
 builder.Services.AddCors(options =>
 {
-    options.AddPolicy(name: corsName, policy =>
+    options.AddDefaultPolicy(policy =>
     {
         policy.WithOrigins("*")
             .AllowAnyHeader()
@@ -34,7 +32,6 @@ builder.Services.AddCors(options =>
 builder.Services.AddControllersWithViews();
 builder.Services.AddValidatorsFromAssemblyContaining<Program>();
 builder.Services.InstallDataContexts(builder.Configuration);
-builder.Services.InstallJwtConfig(builder.Configuration);
 builder.Services.InstallGoogleConfig(builder.Configuration);
 builder.Services.InstallSwaggerDocumentation();
 builder.Services.InstallMailerSettings(builder.Configuration);
@@ -50,7 +47,6 @@ if (!app.Environment.IsDevelopment())
 }
 else
 {
-    app.UseCors(corsName);
     app.UseSwagger();
     app.UseSwaggerUI();
 }
@@ -58,6 +54,8 @@ else
 app.UseHttpsRedirection();
 app.UseStaticFiles();
 app.UseRouting();
+
+app.UseCors();
 
 // This middleware blocks the request when if its still on the blocking period
 app.UseIpBlockingFilter();

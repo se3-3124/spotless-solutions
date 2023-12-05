@@ -11,7 +11,9 @@ const __dirname = path.dirname(__filename);
 const baseFolder = path.join(__dirname, './generated_certs');
 
 function isHttps() {
-  return process.env.HTTPS_CERT && process.env.HTTPS_KEY
+  const key = path.join(baseFolder, 'spotless-solutions.key');
+  const cert = path.join(baseFolder, 'spotless-solutions.pem');
+  return fs.existsSync(key) && fs.existsSync(cert)
 }
 
 function configureHttps() {
@@ -38,14 +40,12 @@ export default defineConfig({
       '/api': {
         target: `http${isHttps() ? 's' : ''}://localhost:${isHttps() ? '7019' : '5013'}`,
         secure: false,
+        changeOrigin: true,
       },
       '/oauth': {
         target: `http${isHttps() ? 's' : ''}://localhost:${isHttps() ? '7019' : '5013'}`,
         secure: false,
-      },
-      '/swagger': {
-        target: `http${isHttps() ? 's' : ''}://localhost:${isHttps() ? '7019' : '5013'}`,
-        secure: false,
+        changeOrigin: true,
       },
     },
     ...configureHttps()

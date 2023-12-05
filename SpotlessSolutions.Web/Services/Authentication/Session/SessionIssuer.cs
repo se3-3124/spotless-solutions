@@ -3,6 +3,7 @@ using System.Security.Claims;
 using System.Security.Cryptography;
 using System.Text;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.WebUtilities;
 using Microsoft.Extensions.Caching.Distributed;
 using Microsoft.IdentityModel.Tokens;
 using SpotlessSolutions.Web.Extensions;
@@ -43,8 +44,8 @@ public class SessionIssuer : ISessionIssuer
                 new Claim(JwtRegisteredClaimNames.Sub, user.Email!),
                 new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
                 new Claim(JwtRegisteredClaimNames.Email, user.Email!),
-                new Claim(JwtRegisteredClaimNames.Aud, "session://dontyouhackmeplease"),
-                new Claim(JwtRegisteredClaimNames.Iat, $"{hostname}/api/auth/login"),
+                new Claim(JwtRegisteredClaimNames.Aud, $"{hostname}"),
+                new Claim(JwtRegisteredClaimNames.Iss, $"{hostname}"),
                 new Claim("id", user.Id)
             }),
             Expires = DateTime.Now.Add(TimeSpan.Parse(_jwtConfig.TokenLifetime)),
@@ -54,7 +55,7 @@ public class SessionIssuer : ISessionIssuer
 
         var token = tokenHandler.CreateToken(tokenDescriptor);
 
-        var refreshTokenId = Convert.ToBase64String(RandomNumberGenerator.GetBytes(128));
+        var refreshTokenId = WebEncoders.Base64UrlEncode(RandomNumberGenerator.GetBytes(128));
         var refreshTokenInfo = new RefreshTokenInformation
         {
             TokenId = token.Id,
