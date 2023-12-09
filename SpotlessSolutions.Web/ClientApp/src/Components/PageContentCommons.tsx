@@ -1,9 +1,12 @@
 import {Link} from 'react-router-dom';
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import Toolbar from '@mui/material/Toolbar';
 
 import './PageContentCommons.scss';
 import tdLogo from '../assets/td_logo.jpg';
+import * as DOMPurify from "dompurify";
+import {Avatar, IconButton, ListItemIcon, Menu, MenuItem, Tooltip} from "@mui/material";
+import {Logout} from "@mui/icons-material";
 
 export type WrapAroundProps = {
   active: number;
@@ -37,9 +40,45 @@ const menus: MenuObject[] = [
         location: '#',
         pathName: 'FAQs'
     }
-]
+];
+
+type LoginState = {
+    loggedIn: boolean;
+    firstName: string;
+    lastName: string;
+    isAdmin: boolean;
+}
 
 export default function PageContentCommons(props: WrapAroundProps) {
+    const [loginState, setLoginState] = useState<LoginState>({
+        loggedIn: false,
+        firstName: '',
+        lastName: '',
+        isAdmin: false
+    });
+    const [openMenuState, setOpenMenuState] = useState<null | HTMLElement>(null);
+
+    useEffect(() => {
+        if (localStorage.getItem('ssfn') && localStorage.getItem('ssln')) {
+            const firstName = DOMPurify.sanitize(localStorage.getItem('ssfn') ?? '');
+            const lastName = DOMPurify.sanitize(localStorage.getItem('ssln') ?? '');
+            const isAdmin = localStorage.getItem('ssad') == "1";
+            
+            setLoginState({
+                loggedIn: true,
+                firstName,
+                lastName,
+                isAdmin
+            });
+        }
+    }, []);
+    
+    const handleOpenMenu = (e: React.MouseEvent<HTMLElement>) => {
+        setOpenMenuState(e.currentTarget);
+    };
+    
+    const handleClose = () => setOpenMenuState(null);
+
     return (
         <>
             <div className="navbar-main">
@@ -59,10 +98,26 @@ export default function PageContentCommons(props: WrapAroundProps) {
                         }
                     </ul>
                     <div className="navbar-right-side">
-                        <Link to="/login" className="btn login-button">Login</Link>
-                        <Link to="/signup" className="btn signup-button">
-                            Sign-Up
-                        </Link>
+                        {
+                            loginState.loggedIn ? (
+                                <Tooltip title="My account">
+                                    <IconButton
+                                        onClick={handleOpenMenu}
+                                        size="medium">
+                                        <Avatar sx={{ width: 64, height: 64 }}>
+                                            {loginState.firstName[0].toUpperCase()}
+                                        </Avatar>
+                                    </IconButton>
+                                </Tooltip>
+                            ) : (
+                                <>
+                                    <Link to="/login" className="btn login-button">Login</Link>
+                                    <Link to="/signup" className="btn signup-button">
+                                        Sign-Up
+                                    </Link>
+                                </>
+                            )
+                        }
                     </div>
                 </Toolbar>
             </div>
@@ -101,6 +156,30 @@ export default function PageContentCommons(props: WrapAroundProps) {
                 <div className="divider" />
                 Copyright (C) 2023 Topdown Cleaning Services
             </div>
+            <Menu
+                anchorEl={openMenuState}
+                open={Boolean(openMenuState)}
+                onClose={handleClose}
+                onClick={handleClose}
+                transformOrigin={{ horizontal: 'right', vertical: 'top' }}
+                anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}>
+                <MenuItem onClick={handleClose}>
+                    <Avatar /> Profile
+                </MenuItem>
+                {
+                    loginState.isAdmin && (
+                        <MenuItem onClick={handleClose}>
+                            <Avatar /> My account
+                        </MenuItem>
+                    )
+                }
+                <MenuItem onClick={handleClose} component={Link} to="/logout">
+                    <ListItemIcon>
+                        <Logout fontSize="small" />
+                    </ListItemIcon>
+                    Logout
+                </MenuItem>
+            </Menu>
         </>
     )
 }

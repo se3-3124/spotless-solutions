@@ -31,7 +31,7 @@ public class AuthenticationController : ControllerBase
 
     [HttpPost("login")]
     [ProducesResponseType(typeof(ErrorException), 401)]
-    [ProducesResponseType(typeof(SessionTokenResult), 200)]
+    [ProducesResponseType(typeof(SessionResult), 200)]
     public async Task<IActionResult> Login([FromBody] LoginData loginData)
     {
         var validator = await _loginDataValidator.ValidateAsync(loginData);
@@ -57,8 +57,11 @@ public class AuthenticationController : ControllerBase
             });
         }
 
-        return Ok(new SessionTokenResult
+        return Ok(new SessionResult
         {
+            FirstName = result.FirstName,
+            LastName = result.LastName,
+            IsAdmin = result.IsAdmin,
             Token = result.Token,
             RefreshToken = result.RefreshToken
         });

@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using SpotlessSolutions.Web.Contracts.V1.Responses;
 using SpotlessSolutions.Web.Data.Models;
@@ -27,6 +28,54 @@ public class GoogleOAuth2Controller : ControllerBase
         var hostname = Environment.GetEnvironmentVariable("SITE_HOSTNAME")!;
 
         return Redirect(path ?? $"{hostname}/auth/oauth/failure");
+    }
+
+    [HttpGet("user-info")]
+    [Authorize]
+    [ProducesResponseType(typeof(UserInformationResult), 200)]
+    [ProducesResponseType(typeof(ErrorException), 400)]
+    [ProducesResponseType(typeof(ErrorException), 401)]
+    public async Task<IActionResult> GetUserInformation()
+    {
+        try
+        {
+            var userDataId = HttpContext.User.Claims.Single(x => x.Type == "cid").Value;
+            var isIdValid = Guid.TryParse(userDataId, out var id);
+
+            if (!isIdValid)
+            {
+                return BadRequest(new ErrorException
+                {
+                    Error = true,
+                    Messages = new string[] { "Not found" }
+                });
+            }
+
+            var userData = await _authentication.GetUserInformation(id);
+            if (userData == null)
+            {
+                return BadRequest(new ErrorException
+                {
+                    Error = true,
+                    Messages = new string[] { "Not found" }
+                });
+            }
+
+            return Ok(new UserInformationResult
+            {
+                FirstName = userData.FirstName,
+                LastName = userData.LastName,
+                IsAdmin = userData.IsAdmin
+            });
+        }
+        catch
+        {
+            return BadRequest(new ErrorException
+            {
+                Error = true,
+                Messages = new string[] { "Failed to get user information" }
+            });
+        }
     }
 
     [HttpGet("oauth2callback")]

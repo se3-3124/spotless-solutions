@@ -13,6 +13,8 @@ import './index.css';
 import OAuthSuccess from './pages/oauth/OAuthSuccess.tsx';
 import OAuthFailure from './pages/oauth/OAuthFailure.tsx';
 import OAuthCatcher from './pages/oauth/OAuthCatcher.tsx';
+import {createTheme, ThemeProvider} from "@mui/material";
+import LogoutRedirect from "./pages/LogoutRedirect.tsx";
 
 const router = createBrowserRouter([
     {
@@ -50,9 +52,21 @@ const router = createBrowserRouter([
     {
         path: "/recovery/change",
         element: <RecoveryRecover />
+    },
+    {
+        path: "/logout",
+        element: <LogoutRedirect />
     }
 ]);
 
+const theme = createTheme({
+    palette: {
+        mode: 'dark'
+    },
+});
+
 ReactDOM.createRoot(document.getElementById('root')!).render(
-    <RouterProvider router={router} />,
+    <ThemeProvider theme={theme}>
+        <RouterProvider router={router} />
+    </ThemeProvider>
 )

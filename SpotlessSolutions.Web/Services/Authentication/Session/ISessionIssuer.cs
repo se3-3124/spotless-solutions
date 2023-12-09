@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Identity;
+using SpotlessSolutions.Web.Data.Models;
 
 namespace SpotlessSolutions.Web.Services.Authentication.Session;
 
@@ -8,8 +9,9 @@ public interface ISessionIssuer
     /// Sign a token
     /// </summary>
     /// <param name="user"></param>
+    /// <param name="data"></param>
     /// <returns></returns>
-    Task<SessionToken?> Sign(IdentityUser user);
+    Task<SessionToken?> Sign(IdentityUser user, UserData data);
 
     /// <summary>
     /// Refresh the token to a new one

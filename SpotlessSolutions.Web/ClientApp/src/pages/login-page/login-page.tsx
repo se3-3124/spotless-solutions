@@ -14,6 +14,14 @@ type LoginState = {
     password: string;
 }
 
+type AuthenticationResponse = {
+    token: string;
+    refreshToken: string;
+    firstName: string;
+    lastName: string;
+    isAdmin: boolean;
+}
+
 export default function LogIn() {
     const [data, setData] = useState<LoginState>({
         email: '',
@@ -22,13 +30,16 @@ export default function LogIn() {
 
     const submit = async () => {
         try {
-            const result = await postRequest<{token: string; refreshToken: string}>(createInstance(), '/api/auth/login', {
+            const result = await postRequest<AuthenticationResponse>(createInstance(), '/api/auth/login', {
                 email: data.email,
                 password: data.password
             });
             
             localStorage.setItem('sst', result.token);
             localStorage.setItem('ssr', result.refreshToken);
+            localStorage.setItem('ssfn', result.firstName);
+            localStorage.setItem('ssln', result.lastName);
+            localStorage.setItem('ssad', result.isAdmin ? "1" : "0");
 
             document.location = '/dashboard';
         } catch (e) {

@@ -34,10 +34,16 @@ public class Authentication : IAuthentication
         _mailer = mailer;
     }
 
-    public async Task<SessionToken?> Login(string email, string password)
+    public async Task<AuthenticationResult?> Login(string email, string password)
     {
         var user = await _user.FindByEmailAsync(email);
         if (user == null)
+        {
+            return null;
+        }
+
+        var userData = await _context.UserData.FirstOrDefaultAsync(x => x.UserId == user.Id);
+        if (userData == null)
         {
             return null;
         }
@@ -48,7 +54,20 @@ public class Authentication : IAuthentication
             return null;
         }
 
-        return await _sessionIssuer.Sign(user);
+        var sessionTokens = await _sessionIssuer.Sign(user, userData);
+        if (sessionTokens == null)
+        {
+            return null;
+        }
+
+        return new AuthenticationResult
+        {
+            FirstName = userData.FirstName,
+            LastName = userData.LastName,
+            IsAdmin = userData.Role == UserRoles.Administrator,
+            Token = sessionTokens.Token,
+            RefreshToken = sessionTokens.RefreshToken
+        };
     }
 
     public async Task<bool> Register(UserRegistrationData data, bool sendConfirmationEmail = true)
@@ -272,6 +291,22 @@ public class Authentication : IAuthentication
         return true;
     }
 
+    public async Task<UserDataInformation?> GetUserInformation(Guid userDataId)
+    {
+        var data = await _context.UserData.FindAsync(userDataId);
+        if (data == null)
+        {
+            return null;
+        }
+
+        return new UserDataInformation
+        {
+            FirstName = data.FirstName,
+            LastName = data.LastName,
+            IsAdmin = data.Role == UserRoles.Administrator
+        };
+    }
+
     public async Task<SessionToken?> LoginOAuth2User(AccountBindingType source, string id)
     {
         var credentialSource = await _context.Bindings
@@ -289,8 +324,23 @@ public class Authentication : IAuthentication
         {
             return null;
         }
+        
+        var userData = await _context.UserData.FirstOrDefaultAsync(x => x.UserId == user.Id);
+        if (userData == null)
+        {
+            return null;
+        }
 
-        var tokens = await _sessionIssuer.Sign(user);
-        return tokens ?? null;
+        var tokens = await _sessionIssuer.Sign(user, userData);
+        if (tokens == null)
+        {
+            return null;
+        }
+
+        return new SessionToken
+        {
+            RefreshToken = tokens.RefreshToken,
+            Token = tokens.Token
+        };
     }
 }

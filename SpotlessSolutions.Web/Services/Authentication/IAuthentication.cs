@@ -12,7 +12,7 @@ public interface IAuthentication
     /// <param name="email"></param>
     /// <param name="password"></param>
     /// <returns>Authentication token or null</returns>
-    Task<SessionToken?> Login(string email, string password);
+    Task<AuthenticationResult?> Login(string email, string password);
 
     /// <summary>
     /// Register
@@ -51,6 +51,13 @@ public interface IAuthentication
     /// <param name="data"></param>
     /// <returns></returns>
     Task<bool> RegisterOAuth2User(AccountBindingType source, ExternalUserAccountInformation data);
+
+    /// <summary>
+    /// Get user information with user data id.
+    /// </summary>
+    /// <param name="userDataId"></param>
+    /// <returns></returns>
+    Task<UserDataInformation?> GetUserInformation(Guid userDataId);
 
     /// <summary>
     /// Authenticate the user using OAuth2 flow

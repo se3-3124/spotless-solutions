@@ -6,6 +6,8 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.WebUtilities;
 using Microsoft.Extensions.Caching.Distributed;
 using Microsoft.IdentityModel.Tokens;
+using SpotlessSolutions.Web.Data;
+using SpotlessSolutions.Web.Data.Models;
 using SpotlessSolutions.Web.Extensions;
 using SpotlessSolutions.Web.Security.Tokens;
 
@@ -17,19 +19,22 @@ public class SessionIssuer : ISessionIssuer
     private readonly JwtConfig _jwtConfig;
     private readonly TokenValidationParameters _tokenValidationParameters;
     private readonly UserManager<IdentityUser> _userManager;
+    private readonly DataContext _context;
 
     public SessionIssuer(IDistributedCache cache,
         JwtConfig config,
         TokenValidationParameters parameters,
-        UserManager<IdentityUser> userManager)
+        UserManager<IdentityUser> userManager,
+        DataContext context)
     {
         _cache = cache;
         _jwtConfig = config;
         _tokenValidationParameters = parameters;
+        _context = context;
         _userManager = userManager;
     }
 
-    public async Task<SessionToken?> Sign(IdentityUser user)
+    public async Task<SessionToken?> Sign(IdentityUser user, UserData data)
     {
         var tokenHandler = new JwtSecurityTokenHandler();
 
@@ -46,7 +51,8 @@ public class SessionIssuer : ISessionIssuer
                 new Claim(JwtRegisteredClaimNames.Email, user.Email!),
                 new Claim(JwtRegisteredClaimNames.Aud, $"{hostname}"),
                 new Claim(JwtRegisteredClaimNames.Iss, $"{hostname}"),
-                new Claim("id", user.Id)
+                new Claim("id", user.Id),
+                new Claim("cid", data.Id.ToString())
             }),
             Expires = DateTime.Now.Add(TimeSpan.Parse(_jwtConfig.TokenLifetime)),
             SigningCredentials =
@@ -115,15 +121,31 @@ public class SessionIssuer : ISessionIssuer
             return null;
         }
 
-        var id = principal.Claims.Single(x => x.Type == "id").Value;
-        var user = await _userManager.FindByIdAsync(id);
-
-        if (user != null)
+        try
         {
-            return await Sign(user);
-        }
+            var id = principal.Claims.Single(x => x.Type == "id").Value;
+            var dataId = principal.Claims.Single(x => x.Type == "cid").Value;
 
-        return null;
+            var user = await _userManager.FindByIdAsync(id);
+
+            var isValidDataIdGuid = Guid.TryParse(dataId, out var userDataId);
+            if (user == null || !isValidDataIdGuid)
+            {
+                return null;
+            }
+
+            var userData = await _context.UserData.FindAsync(userDataId);
+            if (userData == null)
+            {
+                return null;
+            }
+
+            return await Sign(user, userData);
+        }
+        catch
+        {
+            return null;
+        }
     }
 
     public bool IsTokenValid(string token)
