@@ -281,25 +281,6 @@ namespace SpotlessSolutions.Web.Migrations
                     b.ToTable("Addresses");
                 });
 
-            modelBuilder.Entity("SpotlessSolutions.Web.Data.Models.Services", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uuid");
-
-                    b.Property<string>("Config")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("ServiceDescriptors");
-                });
-
             modelBuilder.Entity("SpotlessSolutions.Web.Data.Models.UserData", b =>
                 {
                     b.Property<Guid>("Id")
