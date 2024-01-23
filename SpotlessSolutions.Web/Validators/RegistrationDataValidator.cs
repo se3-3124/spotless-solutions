@@ -1,5 +1,6 @@
 using System.Text.RegularExpressions;
 using FluentValidation;
+using Microsoft.EntityFrameworkCore.Metadata;
 using SpotlessSolutions.Web.Contracts.V1.Requests;
 
 namespace SpotlessSolutions.Web.Validators;
@@ -13,10 +14,20 @@ public class RegistrationDataValidator : AbstractValidator<RegistrationData>
             .NotEmpty()
             .WithMessage("First Name is required.");
 
+        RuleFor(opts => opts.FirstName)
+            .NotNull()
+            .MaximumLength(100)
+            .WithMessage("First name allows only maximum of 100 characters.");
+
         RuleFor(opts => opts.LastName)
             .NotNull()
             .NotEmpty()
             .WithMessage("Last Name is required.");
+        
+        RuleFor(opts => opts.LastName)
+            .NotNull()
+            .MaximumLength(100)
+            .WithMessage("Last name allows only maximum of 100 characters.");
 
         RuleFor(opts => opts.Email)
             .EmailAddress()

@@ -9,10 +9,14 @@ public class UserData
     [Key]
     public Guid Id { get; set; }
 
-    [Required] public string FirstName { get; set; } = string.Empty;
-    [Required] public string LastName { get; set; } = string.Empty;
-    [Required] public UserRoles Role { get; set; } = UserRoles.User;
-    [Required] public string PhoneNumber { get; set; } = string.Empty;
+    [Required]
+    public required string FirstName { get; set; } = string.Empty;
+    [Required]
+    public required string LastName { get; set; } = string.Empty;
+    [Required]
+    public UserRoles Role { get; set; } = UserRoles.User;
+    [Required]
+    public required string PhoneNumber { get; set; } = string.Empty;
     
     public string? UserId { get; set; }
     

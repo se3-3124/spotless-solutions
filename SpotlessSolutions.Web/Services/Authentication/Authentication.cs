@@ -141,6 +141,8 @@ public class Authentication : IAuthentication
         {
             // Remove user when operation fails
             await _user.DeleteAsync(user);
+            _context.UserData.Remove(userInformation);
+            await _context.SaveChangesAsync();
             return false;
         }
     }
