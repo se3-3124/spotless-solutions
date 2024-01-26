@@ -15,6 +15,8 @@ import OAuthFailure from './pages/oauth/OAuthFailure.tsx';
 import OAuthCatcher from './pages/oauth/OAuthCatcher.tsx';
 import {createTheme, ThemeProvider} from "@mui/material";
 import LogoutRedirect from "./pages/LogoutRedirect.tsx";
+import Bookings from './pages/bookings-page/bookings.tsx';
+import BookingsModal from './pages/bookings-page/bookings-modal.tsx';
 
 const router = createBrowserRouter([
     {
@@ -56,6 +58,14 @@ const router = createBrowserRouter([
     {
         path: "/logout",
         element: <LogoutRedirect />
+    },
+    {
+        path: "/bookings",
+        element: <Bookings />
+    },
+    {
+        path: "/bookings-modal",
+        element: <BookingsModal />
     }
 ]);
 
