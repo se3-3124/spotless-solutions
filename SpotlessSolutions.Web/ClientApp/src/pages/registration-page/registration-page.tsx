@@ -4,6 +4,7 @@ import axios from 'axios';
 import './registration-page.css'
 import PageContentCommons from '../../Components/PageContentCommons.tsx';
 
+import houseCleaningImage from '../../assets/house-cleaning-service.jpeg';
 import facebookLogo from '../../assets/facebook.png';
 import googleLogo from '../../assets/google.png';
 
@@ -68,8 +69,12 @@ export default function SignUp() {
             <section className='signupSize bg-midnightblue'>
                 <div className="py-16">
                     <div className="flex bg-white rounded-lg shadow-lg overflow-x-auto mx-auto max-w-sm lg:max-w-4xl">
-                        <div className="signupBg hidden lg:block lg:w-1/2 bg-cover">
-                        </div>
+                    <div
+                            className="hidden lg:block lg:w-1/2 bg-cover"
+                            style={{
+                               background: `#fff url(${houseCleaningImage}) no-repeat center center`,
+                               backgroundSize: 'cover' 
+                            }} />
                         <div className="w-full p-8 lg:w-1/2">
                             <h2 className="text-2xl font-semibold text-gray-700 text-center">Sign Up</h2>
                             <div className="mt-4">

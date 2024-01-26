@@ -110,9 +110,9 @@ public class AuthenticationController : ControllerBase
     }
 
     [HttpGet("confirm")]
-    public async Task<IActionResult> VerifyEmail([FromQuery] string t)
+    public async Task<IActionResult> VerifyEmail([FromQuery] string token)
     {
-        if (string.IsNullOrEmpty(t))
+        if (string.IsNullOrEmpty(token))
         {
             return BadRequest(new ErrorException
             {
@@ -121,7 +121,7 @@ public class AuthenticationController : ControllerBase
             });
         }
 
-        var result = await _auth.VerifyEmail(t);
+        var result = await _auth.VerifyEmail(token);
         if (!result)
         {
             return BadRequest(new ErrorException

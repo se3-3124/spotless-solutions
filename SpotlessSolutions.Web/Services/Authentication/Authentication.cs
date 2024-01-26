@@ -20,18 +20,21 @@ public class Authentication : IAuthentication
     private readonly IMailer _mailer;
     private readonly ISessionIssuer _sessionIssuer;
     private readonly UserManager<IdentityUser> _user;
+    private readonly ILogger<Authentication> _logger;
 
     public Authentication(DataContext context,
         IDistributedCache cache,
         IMailer mailer,
         ISessionIssuer sessionIssuer,
-        UserManager<IdentityUser> user)
+        UserManager<IdentityUser> user,
+        ILogger<Authentication> logger)
     {
         _context = context;
         _cache = cache;
         _user = user;
         _sessionIssuer = sessionIssuer;
         _mailer = mailer;
+        _logger = logger;
     }
 
     public async Task<AuthenticationResult?> Login(string email, string password)
@@ -137,8 +140,9 @@ public class Authentication : IAuthentication
             await _context.SaveChangesAsync();
             return true;
         }
-        catch
+        catch (Exception e)
         {
+            _logger.LogError("e: {e}", e);
             // Remove user when operation fails
             await _user.DeleteAsync(user);
             return false;
