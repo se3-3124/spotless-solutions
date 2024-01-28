@@ -19,4 +19,8 @@ public class DataContext : IdentityDbContext
     public DbSet<ServiceDescriptor> ServiceDescriptors { get; set; }
     public DbSet<ServiceDescriptorPricingPreset> ServiceDescriptorPricingPresets { get; set; }
     public DbSet<ServiceDescriptorPricingRule> ServiceDescriptorPricingRules { get; set; }
+    public DbSet<UserBooking> UserBookings { get; set; }
+    public DbSet<UserServiceBookDetail> UserServiceBookDetails { get; set; }
+    public DbSet<UserHomeConfigDetail> UserHomeConfigDetails { get; set; }
+    public DbSet<UserAddOnBookDetail> UserAddOnBookDetails { get; set; }
 }

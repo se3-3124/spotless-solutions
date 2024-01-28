@@ -33,6 +33,16 @@ public static class DataContextSeed
         {
             logger.LogCritical("Seeding failed! Exception: {e}", ex);
         }
+        
+        logger.LogInformation("Seeding bogus booking data...");
+        try
+        {
+            await context.SeedBogusBookings(logger);
+        }
+        catch (Exception ex)
+        {
+            logger.LogWarning("Seeding failed for bogus. Exception: {e}", ex);
+        }
 
         await context.SaveChangesAsync();
     }
