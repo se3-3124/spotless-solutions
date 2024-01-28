@@ -37,11 +37,10 @@ public class SessionIssuer : ISessionIssuer
     public async Task<SessionToken?> Sign(IdentityUser user, UserData data)
     {
         var tokenHandler = new JwtSecurityTokenHandler();
-
-        var sha = SHA256.Create();
-        var key = sha.ComputeHash(Encoding.UTF8.GetBytes(_jwtConfig.Secret));
+        var key = SHA256.HashData(Encoding.UTF8.GetBytes(_jwtConfig.Secret));
 
         var hostname = Environment.GetEnvironmentVariable("SITE_HOSTNAME");
+        var securityKey = new SymmetricSecurityKey(key);
         var tokenDescriptor = new SecurityTokenDescriptor
         {
             Subject = new ClaimsIdentity(new[]
@@ -51,12 +50,15 @@ public class SessionIssuer : ISessionIssuer
                 new Claim(JwtRegisteredClaimNames.Email, user.Email!),
                 new Claim(JwtRegisteredClaimNames.Aud, $"{hostname}"),
                 new Claim(JwtRegisteredClaimNames.Iss, $"{hostname}"),
+                new Claim("user_role", data.Role.ToString()),
+                new Claim("first_name", data.FirstName),
+                new Claim("last_name", data.LastName),
                 new Claim("id", user.Id),
                 new Claim("cid", data.Id.ToString())
             }),
             Expires = DateTime.Now.Add(TimeSpan.Parse(_jwtConfig.TokenLifetime)),
             SigningCredentials =
-                new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256)
+                new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256)
         };
 
         var token = tokenHandler.CreateToken(tokenDescriptor);

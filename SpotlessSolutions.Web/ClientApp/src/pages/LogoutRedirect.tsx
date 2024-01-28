@@ -1,15 +1,18 @@
-import {useEffect} from "react";
+import {useContext, useEffect} from "react";
+import {useNavigate} from "react-router-dom";
+
+import AuthContext from "../contexts/AuthContext.ts";
 
 export default function LogoutRedirect() {
+    const context = useContext(AuthContext);
+    const navigate = useNavigate();
+    
     useEffect(() => {
-        localStorage.removeItem('sst');
-        localStorage.removeItem('ssr');
-        localStorage.removeItem('ssad');
-        localStorage.removeItem('ssfn');
-        localStorage.removeItem('ssln');
-        
-        setInterval(() => {
-            document.location = '/';
+        context?.removeAuthenticationTokens();
+        localStorage.clear(); // paranoid
+
+        setTimeout(() => {
+            navigate('/');
         }, 1000);
     }, []);
 

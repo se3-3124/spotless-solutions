@@ -6,6 +6,7 @@ import PageContentCommons from '../../Components/PageContentCommons.tsx';
 
 import facebookLogo from '../../assets/facebook.png';
 import googleLogo from '../../assets/google.png';
+import houseCleaningImage from "../../assets/house-cleaning-service.jpeg";
 
 type UserState = {
     email: string;
@@ -68,8 +69,12 @@ export default function SignUp() {
             <section className='signupSize bg-midnightblue'>
                 <div className="py-16">
                     <div className="flex bg-white rounded-lg shadow-lg overflow-x-auto mx-auto max-w-sm lg:max-w-4xl">
-                        <div className="signupBg hidden lg:block lg:w-1/2 bg-cover">
-                        </div>
+                        <div
+                            className="hidden lg:block lg:w-1/2 bg-cover"
+                            style={{
+                                background: `#fff url(${houseCleaningImage}) no-repeat center center`,
+                                backgroundSize: 'cover'
+                            }}/>
                         <div className="w-full p-8 lg:w-1/2">
                             <h2 className="text-2xl font-semibold text-gray-700 text-center">Sign Up</h2>
                             <div className="mt-4">
@@ -149,14 +154,15 @@ export default function SignUp() {
                                 <span className="border-b w-1 md:w-1/3"></span>
                             </div>
                             <div className='grid gap-1 mb-1 md:grid-cols-2 mt-4'>
-                                <a href="/oauth2/google/request?state=registration_state" className="flex justify-center mt-4 hover:bg-gray-100">
+                                <a href="/oauth2/google/request?state=registration_state"
+                                   className="flex justify-center mt-4 hover:bg-gray-100">
                                     <div className="px-4 py-3">
-                                        <img src={googleLogo} alt="Register via Google" className=" h-8 w-8" />
+                                        <img src={googleLogo} alt="Register via Google" className=" h-8 w-8"/>
                                     </div>
                                 </a>
                                 <a href="#" className="flex justify-center mt-4 hover:bg-gray-100">
                                     <div className="px-4 py-3">
-                                        <img src={facebookLogo} alt="Register via Facebook" className=" h-8 w-8" />
+                                        <img src={facebookLogo} alt="Register via Facebook" className=" h-8 w-8"/>
                                     </div>
                                 </a>
                             </div>

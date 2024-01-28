@@ -1,5 +1,6 @@
 import {Link} from 'react-router-dom';
-import {useState} from 'react';
+import {useContext, useEffect, useState} from 'react';
+import {useNavigate} from 'react-router-dom';
 
 import './login-page.scss';
 import PageContentCommons from '../../Components/PageContentCommons.tsx';
@@ -8,6 +9,7 @@ import facebookLogo from '../../assets/facebook.png';
 import googleLogo from '../../assets/google.png';
 import houseCleaningImage from '../../assets/house-cleaning-service.jpeg';
 import {createInstance, postRequest} from "../../lib/fetch.ts";
+import AuthContext from "../../contexts/AuthContext.ts";
 
 type LoginState = {
     email: string;
@@ -23,10 +25,25 @@ type AuthenticationResponse = {
 }
 
 export default function LogIn() {
+    const context = useContext(AuthContext);
+    const navigate = useNavigate();
     const [data, setData] = useState<LoginState>({
         email: '',
         password: ''
     });
+
+    useEffect(() => {
+        if (context.user === null) {
+            return;
+        }
+
+        // Check if there's currently a token available.
+        if (context.user.token) {
+            console.log('trigger nav');
+            navigate('/');
+            return;
+        }
+    }, []);
 
     const submit = async () => {
         try {
@@ -34,14 +51,10 @@ export default function LogIn() {
                 email: data.email,
                 password: data.password
             });
-            
-            localStorage.setItem('sst', result.token);
-            localStorage.setItem('ssr', result.refreshToken);
-            localStorage.setItem('ssfn', result.firstName);
-            localStorage.setItem('ssln', result.lastName);
-            localStorage.setItem('ssad', result.isAdmin ? "1" : "0");
 
-            document.location = '/dashboard';
+            context.setAuthenticatedUser(result.token, result.refreshToken);
+            console.log('trigger nav 2');
+            navigate('/');
         } catch (e) {
             console.error(e);
         }

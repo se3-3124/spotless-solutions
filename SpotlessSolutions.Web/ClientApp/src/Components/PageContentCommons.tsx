@@ -1,15 +1,16 @@
 import {Link} from 'react-router-dom';
-import React, {useEffect, useState} from 'react';
+import React, {useState} from 'react';
 import Toolbar from '@mui/material/Toolbar';
 
 import './PageContentCommons.scss';
 import tdLogo from '../assets/td_logo.jpg';
-import DOMPurify from "dompurify";
 import {Avatar, IconButton, ListItemIcon, Menu, MenuItem, Tooltip} from "@mui/material";
 import {Logout} from "@mui/icons-material";
+import {UserData, UserRole} from "../types/AuthenticationContextType.tsx";
 
 export type WrapAroundProps = {
   active: number;
+  user?: UserData;
   children: string | React.ReactElement | React.ReactElement[] | (() => React.ReactElement);
 };
 
@@ -42,37 +43,9 @@ const menus: MenuObject[] = [
     }
 ];
 
-type LoginState = {
-    loggedIn: boolean;
-    firstName: string;
-    lastName: string;
-    isAdmin: boolean;
-}
-
 export default function PageContentCommons(props: WrapAroundProps) {
-    const [loginState, setLoginState] = useState<LoginState>({
-        loggedIn: false,
-        firstName: '',
-        lastName: '',
-        isAdmin: false
-    });
     const [openMenuState, setOpenMenuState] = useState<null | HTMLElement>(null);
 
-    useEffect(() => {
-        if (localStorage.getItem('ssfn') && localStorage.getItem('ssln')) {
-            const firstName = DOMPurify.sanitize(localStorage.getItem('ssfn') ?? '');
-            const lastName = DOMPurify.sanitize(localStorage.getItem('ssln') ?? '');
-            const isAdmin = localStorage.getItem('ssad') == "1";
-            
-            setLoginState({
-                loggedIn: true,
-                firstName,
-                lastName,
-                isAdmin
-            });
-        }
-    }, []);
-    
     const handleOpenMenu = (e: React.MouseEvent<HTMLElement>) => {
         setOpenMenuState(e.currentTarget);
     };
@@ -99,13 +72,13 @@ export default function PageContentCommons(props: WrapAroundProps) {
                     </ul>
                     <div className="navbar-right-side">
                         {
-                            loginState.loggedIn ? (
+                            props.user ? (
                                 <Tooltip title="My account">
                                     <IconButton
                                         onClick={handleOpenMenu}
                                         size="medium">
                                         <Avatar sx={{ width: 64, height: 64 }}>
-                                            {loginState.firstName[0].toUpperCase()}
+                                            {props.user.firstName[0].toUpperCase()}
                                         </Avatar>
                                     </IconButton>
                                 </Tooltip>
@@ -190,12 +163,12 @@ export default function PageContentCommons(props: WrapAroundProps) {
                     },
                 }}>
                 <MenuItem onClick={handleClose}>
-                    <Avatar /> {loginState.lastName}, {loginState.firstName}
+                    <Avatar /> {props.user?.firstName ?? ''}, {props.user?.lastName ?? ''}
                 </MenuItem>
                 {
-                    loginState.isAdmin && (
-                        <MenuItem onClick={handleClose}>
-                            <Avatar /> My account
+                    props.user?.role === UserRole.Administrator && (
+                        <MenuItem onClick={handleClose} component={Link} to="/dashboard">
+                            <Avatar /> Dashboard
                         </MenuItem>
                     )
                 }

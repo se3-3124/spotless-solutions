@@ -11,7 +11,5 @@ public class AddOnServiceDescriptor
     public required string Name { get; set; }
 
     public bool AllowStandalone { get; set; } = false;
-    public required List<AddOnServiceFieldObject> Fields { get; set; }
-    public List<AddOnServiceRestrictionRule>? Restrictions { get; set; }
     public bool AssessmentOnly { get; set; }
 }

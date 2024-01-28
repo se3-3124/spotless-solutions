@@ -8,19 +8,43 @@ namespace SpotlessSolutions.Web.Data.Seeding;
 
 public static class UserAccountSeederExtension
 {
-    private static string GenerateString(int length)
+    private static string GeneratePassword()
     {
-        const string dict = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKMNOPQRSTUVWXYZ1234567890";
+        const string uppercase = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+        const string lowercase = "abcdefghijklmnopqrstuvwxyz";
+        const string numbers = "0123456789";
+        const string symbols = "#!@$%^&*";
         var result = "";
 
-        for (var i = 0; i < length; i++)
+        var uppercaseCount = RandomNumberGenerator.GetInt32(1, 5);
+        for (var i = 0; i < uppercaseCount; i++)
         {
-            result += dict[RandomNumberGenerator.GetInt32(0, dict.Length - 1)];
+            result += uppercase[RandomNumberGenerator.GetInt32(0, uppercase.Length - 1)];
         }
 
-        return result;
+        for (var i = 0; i < 10 - uppercaseCount; i++)
+        {
+            result += lowercase[RandomNumberGenerator.GetInt32(0, lowercase.Length - 1)];
+        }
+
+        for (var i = 0; i < 4; i++)
+        {
+            result += numbers[RandomNumberGenerator.GetInt32(0, numbers.Length - 1)];
+        }
+
+        for (var i = 0; i < 2; i++)
+        {
+            result += symbols[RandomNumberGenerator.GetInt32(0, symbols.Length - 1)];
+        }
+        
+        // Finally shuffle the end result
+        var final = result.ToCharArray()
+            .OrderBy(_ => RandomNumberGenerator.GetInt32(100, 999))
+            .ToArray();
+
+        return new string(final);
     }
-    
+
     public static async Task InitializeAdminAccount(this DataContext context, UserManager<IdentityUser> user, ILogger logger)
     {
         var adminAccount = await context.UserData
@@ -35,13 +59,17 @@ public static class UserAccountSeederExtension
         {
             Email = "admin@topdown.com",
             EmailConfirmed = true,
-            UserName = GenerateString(32)
+            UserName = "admin@topdown.com"
         };
-        var password = GenerateString(16);
+        var password = GeneratePassword();
         var userCreationResult = await user.CreateAsync(identityUser, password);
         if (!userCreationResult.Succeeded)
         {
             logger.LogError("An exception occured at creating user admin account. {e}", userCreationResult.Errors);
+            foreach (var ex in userCreationResult.Errors)
+            {
+                logger.LogError("{code}: {description}", ex.Code, ex.Description);
+            }
             return;
         }
         

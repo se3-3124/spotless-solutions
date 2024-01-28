@@ -33,5 +33,7 @@ public static class DataContextSeed
         {
             logger.LogCritical("Seeding failed! Exception: {e}", ex);
         }
+
+        await context.SaveChangesAsync();
     }
 }

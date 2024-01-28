@@ -1,28 +1,33 @@
-import PageContentCommons from '../../Components/PageContentCommons.tsx';
-import {useSearchParams} from 'react-router-dom';
-import {useEffect} from 'react';
+import {useContext, useEffect} from 'react';
+import {useNavigate, useSearchParams} from 'react-router-dom';
+
 import './OAuthGenericDesign.scss';
 
+import PageContentCommons from '../../Components/PageContentCommons.tsx';
+import AuthContext from "../../contexts/AuthContext.ts";
+
 export default function OAuthSuccess() {
+    const context = useContext(AuthContext);
+    const navigate = useNavigate();
     const [searchParams, _] = useSearchParams();
 
     useEffect(() => {
         if (searchParams.get('state') === 'registration_state')
         {
             setInterval(() => {
-                document.location = '/';
+                navigate('/');
             }, 2000);
 
             return;
         }
         
         setInterval(() => {
-            document.location = '/dashboard';
+            navigate('/dashboard');
         }, 2000);
     }, []);
     
     return (
-        <PageContentCommons active={-1}>
+        <PageContentCommons active={-1} user={context.user ?? undefined}>
             <section className="oauth-container">
                 <div className="wrapper">
                     <div className="inner-wrapper">

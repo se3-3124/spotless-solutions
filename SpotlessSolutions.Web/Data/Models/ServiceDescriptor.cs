@@ -10,8 +10,5 @@ public class ServiceDescriptor
     [Required]
     public required string Name { get; set; }
     public string? Description { get; set; }
-
-    public List<ServiceDescriptorPricingPreset>? Presets { get; set; }
-    public required List<ServiceDescriptorPricingRule> Rules { get; set; }
     public required List<ServiceDescriptorPricingFlags> PricingFlags { get; set; }
 }

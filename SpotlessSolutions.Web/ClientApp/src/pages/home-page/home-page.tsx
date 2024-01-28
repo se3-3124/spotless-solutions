@@ -1,10 +1,14 @@
 import './home-page.css';
 import tdLogo from '../../assets/td_logo.jpg';
 import PageContentCommons from '../../Components/PageContentCommons.tsx';
+import {useContext} from "react";
+import AuthContext from "../../contexts/AuthContext.ts";
 
 export default function Home() {
+    const context = useContext(AuthContext);
+    
     return (
-        <PageContentCommons active={0}>
+        <PageContentCommons active={0} user={context.user ?? undefined}>
             <section className="pt-24 md:mt-0 md:h-screen flex flex-col justify-center text-center md:text-left md:flex-row md:justify-between md:items-center lg:px-48 md:px-12 px-4 bg-midnightblue">
                 <div className="md:flex-1 md:mr-10">
                     <h1 className='text-fruityorange text-6xl font-bold mb-7'>TOPDOWN</h1>
@@ -14,7 +18,7 @@ export default function Home() {
                     <a href='#'><button className='bg-white px-6 py-4 rounded-lg border-2 border-black border-solid mr-2 mb-2 text-fruityorange hover:bg-fruityorange hover:text-midnightblue font-bold'>Book a Service</button></a>
                 </div>
                 <div className='flex justify-around md:block mt-8 md:mt-0 md:flex-1'>
-                    <img src={tdLogo} />
+                    <img src={tdLogo} alt="Topdown logo" />
                 </div>
             </section>
             <section className='sectionSize'>
