@@ -16,7 +16,7 @@ import OAuthCatcher from './pages/oauth/OAuthCatcher.tsx';
 import {createTheme, ThemeProvider} from "@mui/material";
 import LogoutRedirect from "./pages/LogoutRedirect.tsx";
 import Bookings from './pages/bookings-page/bookings.tsx';
-import BookingsModal from './pages/bookings-page/bookings-modal.tsx';
+import BookingsModalV2 from './pages/bookings-page/bookings-modal-v2.tsx';
 
 const router = createBrowserRouter([
     {
@@ -65,13 +65,17 @@ const router = createBrowserRouter([
     },
     {
         path: "/bookings-modal",
-        element: <BookingsModal />
+        element: <BookingsModalV2 />
+    },
+    {
+        path: "/history",
+        element: <History />
     }
 ]);
 
 const theme = createTheme({
     palette: {
-        mode: 'dark'
+        mode: 'light'
     },
 });
 
