@@ -135,6 +135,7 @@ public class BookingManager : IBookingManager
             .Include(userBooking => userBooking.Config)
             .Include(userBooking => userBooking.Address)
             .Include(userBooking => userBooking.User)
+            .Include(userBooking => userBooking.User.User)
             .ToListAsync();
 
         var result = bookings

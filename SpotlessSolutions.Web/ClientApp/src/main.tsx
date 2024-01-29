@@ -22,6 +22,7 @@ import OAuthFailure from './pages/oauth/OAuthFailure.tsx';
 import OAuthCatcher from './pages/oauth/OAuthCatcher.tsx';
 
 import './index.css';
+import DashboardBookingsWorkflowView from "./pages/dashboard/DashboardBookingsWorkflowVew.tsx";
 
 const theme = createTheme({
     palette: {
@@ -109,6 +110,7 @@ function Main() {
                         {/* Dashboard */}
                         <Route path="/dashboard" element={<Dashboard />} />
                         <Route path="/dashboard/calendar" element={<DashboardBookingCalendarView />} />
+                        <Route path="/dashboard/calendar-workflow" element={<DashboardBookingsWorkflowView />} />
 
                         <Route path="/" element={<Home />} />
                     </Routes>
