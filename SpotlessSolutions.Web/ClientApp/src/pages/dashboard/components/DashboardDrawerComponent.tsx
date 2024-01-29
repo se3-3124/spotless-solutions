@@ -27,7 +27,7 @@ export default function DashboardDrawerComponent() {
                     <MenuItem component={Link} to="/dashboard/calendar">
                         <ListItemText>Calendar View</ListItemText>
                     </MenuItem>
-                    <MenuItem>
+                    <MenuItem component={Link} to="/dashboard/calendar-workflow">
                         <ListItemText>Workflow</ListItemText>
                     </MenuItem>
                 </MenuList>

@@ -14,6 +14,7 @@ import KeyboardArrowDownRoundedIcon from "@mui/icons-material/KeyboardArrowDownR
 import KeyboardArrowLeftRoundedIcon from "@mui/icons-material/KeyboardArrowLeftRounded";
 import KeyboardArrowRightRoundedIcon from "@mui/icons-material/KeyboardArrowRightRounded";
 
+import BookingsDetailModal from "./components/modals/BookingDetailModal.tsx";
 import CalendarContext from "../../contexts/CalendarContext.ts";
 import DashboardAppBarComponent from "./components/DashboardAppBarComponent.tsx";
 
@@ -22,6 +23,7 @@ import DashboardDrawerComponent from "./components/DashboardDrawerComponent.tsx"
 import WeeklyCalendarComponent from "./components/calendar/WeeklyCalendarComponent.tsx";
 
 import './dashboard.scss';
+import {BookingResponseType} from "../../types/BookingResponseType.tsx";
 
 type CalendarViewState = 'monthly' | 'weekly';
 
@@ -67,6 +69,7 @@ const StyledMenu = styled((props: MenuProps) => (
 }));
 
 export default function DashboardBookingCalendarView() {
+    const [activeDetailView, setActiveDetailView] = useState<BookingResponseType | null>(null);
     const [activeCalendarView, setActiveCalendarView] = useState<Date>(new Date());
     const [calendarViewState, setCalendarViewState] = useState<CalendarViewState>('monthly')
     const [calendarChangeMenuAnchor, setCalendarChangeMenuAnchor] = useState<HTMLElement | null>(null);
@@ -109,6 +112,14 @@ export default function DashboardBookingCalendarView() {
         const days = Math.floor((current - start) / (24 * 60 * 60 * 1000));
         
         return Math.ceil(days / 7);
+    }
+    
+    const handleOpen = (data: BookingResponseType) => {
+        setActiveDetailView(data);
+    }
+    
+    const handleClose = () => {
+        setActiveDetailView(null);
     }
     
     return (
@@ -168,7 +179,7 @@ export default function DashboardBookingCalendarView() {
                             {
                                 calendarViewState === 'monthly'
                                     ? (
-                                        <CalendarComponent />
+                                        <CalendarComponent handleOpen={handleOpen} />
                                     )
                                     : (
                                         <WeeklyCalendarComponent />
@@ -190,6 +201,8 @@ export default function DashboardBookingCalendarView() {
                 <MenuItem onClick={() => changeViewType('monthly')}>Monthly View</MenuItem>
                 <MenuItem onClick={() => changeViewType('weekly')}>Weekly View</MenuItem>
             </StyledMenu>
+            {/* Modal */}
+            <BookingsDetailModal data={activeDetailView} handleClose={handleClose} />
         </>
     )
 }

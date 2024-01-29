@@ -40,7 +40,8 @@ public class BookingManager : IBookingManager
             {
                 Id = booking.User.Id,
                 FirstName = booking.User.FirstName,
-                LastName = booking.User.LastName
+                LastName = booking.User.LastName,
+                Email = booking.User.User == null ? "unknown email" : booking.User.User.Email
             }
         };
 
@@ -106,6 +107,7 @@ public class BookingManager : IBookingManager
             .Include(userBooking => userBooking.Config)
             .Include(userBooking => userBooking.Address)
             .Include(userBooking => userBooking.User)
+            .Include(userBooking => userBooking.User.User)
             .ToListAsync();
 
         var result = bookings
@@ -133,6 +135,7 @@ public class BookingManager : IBookingManager
             .Include(userBooking => userBooking.Config)
             .Include(userBooking => userBooking.Address)
             .Include(userBooking => userBooking.User)
+            .Include(userBooking => userBooking.User.User)
             .ToListAsync();
 
         var result = bookings

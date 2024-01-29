@@ -1,18 +1,40 @@
-import {useContext} from "react";
+import {useContext, useEffect, useState} from "react";
 
 import Grid from "@mui/material/Grid";
 
 import CalendarContext from "../../../../contexts/CalendarContext.ts";
 
 import "./CalendarComponent.style.scss";
+import AuthContext from "../../../../contexts/AuthContext.ts";
+import {BookingResponseType} from "../../../../types/BookingResponseType.tsx";
 
 type CalendarObject = {
     date: Date,
     isToday: boolean
 }
 
-export default function CalendarComponent() {
+type CalendarComponentPropType = {
+    handleOpen: (data: BookingResponseType) => void;
+}
+
+export default function CalendarComponent(prop: CalendarComponentPropType) {
+    const [events, setEvents] = useState<BookingResponseType[]>([]);
     const { active } = useContext(CalendarContext);
+    const { request } = useContext(AuthContext);
+
+    useEffect(() => {
+        async function retrieveEventsOnMonth() {
+            if (request == null) {
+                return;
+            }
+            
+            const data = await request
+                .get<{success: boolean, result: BookingResponseType[]}>(`/api/bookings/admin/monthly?year=${active.getFullYear()}&month=${active.getMonth() + 1}`);
+            setEvents(data.data.result);
+        }
+        
+        retrieveEventsOnMonth().catch(console.error);
+    }, [active]);
     
     const getFirstDayOfMonth = () => {
         return new Date(active.getFullYear(), active.getMonth(), 1)
@@ -88,7 +110,7 @@ export default function CalendarComponent() {
         <Grid container spacing={0}>
             {
                 ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'].map((w, i) => (
-                    <Grid xs={1.7} key={`wkn-${i}`}>
+                    <Grid item xs={1.7} key={`wkn-${i}`}>
                         <div className="calendar-week-field">
                             <p>{w}</p>
                         </div>
@@ -97,27 +119,67 @@ export default function CalendarComponent() {
             }
             {
                 getPreviousMonthDates().map((d, i) => (
-                    <Grid xs={1.7} key={`p-${i}`}>
+                    <Grid item xs={1.7} key={`p-${i}`}>
                         <div className={`calendar-item${d.isToday ? ' today' : ''}`}>
                             <p className="inactive">{d.date.getDate()}</p>
+                            {
+                                events.filter(x => {
+                                    const issued = new Date(x.issuedDate);
+                                    return issued.getFullYear() === d.date.getFullYear()
+                                        && issued.getMonth() === d.date.getMonth()
+                                        && issued.getDate() === d.date.getDate();
+                                }).map((x, ii) => (
+                                    <div key={`d-${ii}`} onClick={() => {
+                                        prop.handleOpen(x)
+                                    }}>
+                                        {x.servicesBooked[0].name}
+                                    </div>
+                                ))
+                            }
                         </div>
                     </Grid>
                 ))
             }
             {
                 getCurrentMonthDates().map((d, i) => (
-                    <Grid xs={1.7} key={`c-${i}`}>
+                    <Grid item xs={1.7} key={`c-${i}`}>
                         <div className={`calendar-item${d.isToday ? ' today' : ''}`}>
-                            {d.date.getDate()}
+                            <p>{d.date.getDate()}</p>
+                            {
+                                events.filter(x => {
+                                    const issued = new Date(x.issuedDate);
+                                    return issued.getFullYear() === d.date.getFullYear()
+                                        && issued.getMonth() === d.date.getMonth()
+                                        && issued.getDate() === d.date.getDate();
+                                }).map((x, ii) => (
+                                    <div key={`d-${ii}`} onClick={() => {
+                                        prop.handleOpen(x)
+                                    }}>
+                                        {x.servicesBooked[0].name}
+                                    </div>
+                                ))
+                            }
                         </div>
                     </Grid>
                 ))
             }
             {
                 getFirstDatesNextMonth().map((d, i) => (
-                    <Grid xs={1.7} key={`n-${i}`}>
+                    <Grid item xs={1.7} key={`n-${i}`}>
                         <div className={`calendar-item${d.isToday ? ' today' : ''}`}>
                             <p className="inactive">{d.date.getDate()}</p>
+                            {
+                                events.filter(x => {
+                                    const issued = new Date(x.issuedDate);
+                                    return issued.getFullYear() === d.date.getFullYear()
+                                        && issued.getMonth() === d.date.getMonth()
+                                        && issued.getDate() === d.date.getDate();
+                                }).map((x, ii) => (
+                                    <div key={`d-${ii}`} onClick={() => {prop.handleOpen(x)}}>
+                                        {x.servicesBooked[0].name}
+                                    </div>
+                                ))
+                            }
                         </div>
                     </Grid>
                 ))

@@ -1,4 +1,5 @@
 import {createTheme, ThemeProvider} from "@mui/material";
+import axios from 'axios';
 import * as jose from 'jose';
 import {useEffect, useState} from "react";
 import ReactDOM from 'react-dom/client'
@@ -22,6 +23,7 @@ import OAuthCatcher from './pages/oauth/OAuthCatcher.tsx';
 import History from "./pages/dashboard/history-page/history.tsx";
 
 import './index.css';
+import DashboardBookingsWorkflowView from "./pages/dashboard/DashboardBookingsWorkflowVew.tsx";
 
 const theme = createTheme({
     palette: {
@@ -78,7 +80,17 @@ function Main() {
 
     return (
         <ThemeProvider theme={theme}>
-            <AuthContext.Provider value={{ user, setAuthenticatedUser, removeAuthenticationTokens }}>
+            <AuthContext.Provider value={{
+                user,
+                setAuthenticatedUser,
+                removeAuthenticationTokens,
+                request: user !== null ? axios.create({
+                    baseURL: window.location.origin,
+                    headers: {
+                        'Authorization': `Bearer ${user.token}`
+                    }
+                }) : null
+            }}>
                 <BrowserRouter>
                     <Routes>
                         <Route path="/signup" element={<SignUp />} />
@@ -100,6 +112,7 @@ function Main() {
                         <Route path="/dashboard" element={<Dashboard />} />
                         <Route path="/dashboard/calendar" element={<DashboardBookingCalendarView />} />
                         <Route path="/dashboard/history" element={<History />} />
+                        <Route path="/dashboard/calendar-workflow" element={<DashboardBookingsWorkflowView />} />
 
                         <Route path="/" element={<Home />} />
                     </Routes>
