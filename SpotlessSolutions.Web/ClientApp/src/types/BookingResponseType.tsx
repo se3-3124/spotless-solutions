@@ -31,7 +31,8 @@ export type BookingResponseType = {
     user: {
         id: string,
         firstName: string,
-        lastName: string
+        lastName: string,
+        email: string
     },
     servicesBooked: {
         id: string,

@@ -13,7 +13,11 @@ type CalendarObject = {
     isToday: boolean
 }
 
-export default function CalendarComponent() {
+type CalendarComponentPropType = {
+    handleOpen: (data: BookingResponseType) => void;
+}
+
+export default function CalendarComponent(prop: CalendarComponentPropType) {
     const [events, setEvents] = useState<BookingResponseType[]>([]);
     const { active } = useContext(CalendarContext);
     const { request } = useContext(AuthContext);
@@ -125,7 +129,11 @@ export default function CalendarComponent() {
                                         && issued.getMonth() === d.date.getMonth()
                                         && issued.getDate() === d.date.getDate();
                                 }).map((x, ii) => (
-                                    <div key={`d-${ii}`}>{x.servicesBooked[0].name}</div>
+                                    <div key={`d-${ii}`} onClick={() => {
+                                        prop.handleOpen(x)
+                                    }}>
+                                        {x.servicesBooked[0].name}
+                                    </div>
                                 ))
                             }
                         </div>
@@ -144,7 +152,11 @@ export default function CalendarComponent() {
                                         && issued.getMonth() === d.date.getMonth()
                                         && issued.getDate() === d.date.getDate();
                                 }).map((x, ii) => (
-                                    <div key={`d-${ii}`}>{x.servicesBooked[0].name}</div>
+                                    <div key={`d-${ii}`} onClick={() => {
+                                        prop.handleOpen(x)
+                                    }}>
+                                        {x.servicesBooked[0].name}
+                                    </div>
                                 ))
                             }
                         </div>
@@ -163,7 +175,9 @@ export default function CalendarComponent() {
                                         && issued.getMonth() === d.date.getMonth()
                                         && issued.getDate() === d.date.getDate();
                                 }).map((x, ii) => (
-                                    <div key={`d-${ii}`}>{x.servicesBooked[0].name}</div>
+                                    <div key={`d-${ii}`} onClick={() => {prop.handleOpen(x)}}>
+                                        {x.servicesBooked[0].name}
+                                    </div>
                                 ))
                             }
                         </div>
