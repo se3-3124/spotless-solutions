@@ -15,6 +15,7 @@ import OAuthFailure from './pages/oauth/OAuthFailure.tsx';
 import OAuthCatcher from './pages/oauth/OAuthCatcher.tsx';
 import {createTheme, ThemeProvider} from "@mui/material";
 import LogoutRedirect from "./pages/LogoutRedirect.tsx";
+import History from "./pages/history-page/history.tsx";
 
 const router = createBrowserRouter([
     {
@@ -56,6 +57,10 @@ const router = createBrowserRouter([
     {
         path: "/logout",
         element: <LogoutRedirect />
+    }, 
+    {
+        path: "/history",
+        element: <History/>
     }
 ]);
 
