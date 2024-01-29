@@ -1,4 +1,5 @@
 import {createTheme, ThemeProvider} from "@mui/material";
+import axios from 'axios';
 import * as jose from 'jose';
 import {useEffect, useState} from "react";
 import ReactDOM from 'react-dom/client'
@@ -77,7 +78,17 @@ function Main() {
 
     return (
         <ThemeProvider theme={theme}>
-            <AuthContext.Provider value={{ user, setAuthenticatedUser, removeAuthenticationTokens }}>
+            <AuthContext.Provider value={{
+                user,
+                setAuthenticatedUser,
+                removeAuthenticationTokens,
+                request: user !== null ? axios.create({
+                    baseURL: window.location.origin,
+                    headers: {
+                        'Authorization': `Bearer ${user.token}`
+                    }
+                }) : null
+            }}>
                 <BrowserRouter>
                     <Routes>
                         <Route path="/signup" element={<SignUp />} />

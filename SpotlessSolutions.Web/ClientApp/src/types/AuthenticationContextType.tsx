@@ -1,4 +1,6 @@
-﻿export enum UserRole {
+﻿import {AxiosInstance} from "axios";
+
+export enum UserRole {
     Administrator,
     User
 }
@@ -25,5 +27,6 @@ export type AuthenticationContextType = {
     /**
      * Clears all authentication details
      */
-    removeAuthenticationTokens(): void
+    removeAuthenticationTokens(): void,
+    request: AxiosInstance | null
 }
