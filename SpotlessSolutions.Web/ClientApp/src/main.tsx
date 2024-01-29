@@ -19,6 +19,7 @@ import SignUp from './pages/registration-page/registration-page.tsx';
 import OAuthSuccess from './pages/oauth/OAuthSuccess.tsx';
 import OAuthFailure from './pages/oauth/OAuthFailure.tsx';
 import OAuthCatcher from './pages/oauth/OAuthCatcher.tsx';
+import History from "./pages/dashboard/history-page/history.tsx";
 
 import './index.css';
 
@@ -98,6 +99,7 @@ function Main() {
                         {/* Dashboard */}
                         <Route path="/dashboard" element={<Dashboard />} />
                         <Route path="/dashboard/calendar" element={<DashboardBookingCalendarView />} />
+                        <Route path="/dashboard/history" element={<History />} />
 
                         <Route path="/" element={<Home />} />
                     </Routes>
