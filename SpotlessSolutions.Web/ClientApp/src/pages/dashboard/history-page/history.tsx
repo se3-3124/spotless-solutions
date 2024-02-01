@@ -37,7 +37,7 @@ export default function History() {
                 </thead>
 
                 <tbody>
-                  <tr className="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
+                  <tr className="bg-white border-b dark:border-gray-700">
                     <td className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
                       <a className="text-blue-500 hover:underline cursor-pointer">
                         <RestoreFromTrashRoundedIcon fontSize='medium' /> Restore
@@ -56,7 +56,7 @@ export default function History() {
                       ₱ 2,000.00
                     </td>
                   </tr>
-                  <tr className="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
+                  <tr className="bg-white border-b dark:border-gray-700">
                     <td className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
                       <a className="text-blue-500 hover:underline cursor-pointer">
                         <RestoreFromTrashRoundedIcon fontSize='medium' /> Restore

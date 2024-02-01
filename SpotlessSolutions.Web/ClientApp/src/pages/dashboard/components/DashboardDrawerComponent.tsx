@@ -30,6 +30,9 @@ export default function DashboardDrawerComponent() {
                     <MenuItem component={Link} to="/dashboard/calendar-workflow">
                         <ListItemText>Workflow</ListItemText>
                     </MenuItem>
+                    <MenuItem component={Link} to="/dashboard/history">
+                        <ListItemText>History</ListItemText>
+                    </MenuItem>
                 </MenuList>
                 <GroupSection>Analytics</GroupSection>
                 <MenuList>
