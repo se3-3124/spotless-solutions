@@ -1,8 +1,10 @@
-import {useContext} from "react";
+import {useContext, useEffect, useState} from "react";
 
 import Grid from "@mui/material/Grid";
 
+import AuthContext from "../../../../contexts/AuthContext.ts";
 import CalendarContext from "../../../../contexts/CalendarContext.ts";
+import {BookingResponseType} from "../../../../types/BookingResponseType.tsx";
 
 import "./WeeklyCalendarComponent.style.scss";
 
@@ -11,8 +13,32 @@ type WeekCalendarType = {
     isToday: boolean;
 }
 
-export default function WeeklyCalendarComponent() {
+type CalendarComponentPropType = {
+    handleOpen: (data: BookingResponseType) => void;
+}
+
+export default function WeeklyCalendarComponent(prop: CalendarComponentPropType) {
+    const [events, setEvents] = useState<BookingResponseType[]>([]);
     const { active } = useContext(CalendarContext);
+    const { request } = useContext(AuthContext);
+
+    useEffect(() => {
+        async function retrieveEventsOnMonth() {
+            if (request == null) {
+                return;
+            }
+
+            const activeCalendar = makeWeekCalendar();
+            const start = activeCalendar[0].date;
+            const end = activeCalendar[activeCalendar.length - 1].date;
+            
+            const data = await request
+                .get<{success: boolean, result: BookingResponseType[]}>(`/api/bookings/admin/range?start=${start.toISOString()}&end=${end.toISOString()}`);
+            setEvents(data.data.result);
+        }
+        
+        retrieveEventsOnMonth().catch(console.error);
+    }, [active]);
 
     const isToday = (date: Date): boolean => {
         const today = new Date();
@@ -66,6 +92,20 @@ export default function WeeklyCalendarComponent() {
                     <Grid xs={1.7} key={`wkc-${i}`}>
                         <div className={`weekly-component${d.isToday ? ' today' : ''}`}>
                             <p>{d.date.getDate()}</p>
+                            {
+                                events.filter(x => {
+                                    const issued = new Date(x.issuedDate);
+                                    return issued.getFullYear() === d.date.getFullYear()
+                                        && issued.getMonth() === d.date.getMonth()
+                                        && issued.getDate() === d.date.getDate();
+                                }).map((x, ii) => (
+                                    <div key={`d-${ii}`} onClick={() => {
+                                        prop.handleOpen(x)
+                                    }}>
+                                        {x.servicesBooked[0].name}
+                                    </div>
+                                ))
+                            }
                         </div>
                     </Grid>
                 ))

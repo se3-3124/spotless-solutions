@@ -182,7 +182,7 @@ export default function DashboardBookingCalendarView() {
                                         <CalendarComponent handleOpen={handleOpen} />
                                     )
                                     : (
-                                        <WeeklyCalendarComponent />
+                                        <WeeklyCalendarComponent handleOpen={handleOpen} />
                                     )
                             }
                         </CalendarContext.Provider>
