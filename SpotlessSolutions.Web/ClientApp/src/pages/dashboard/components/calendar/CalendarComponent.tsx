@@ -98,8 +98,8 @@ export default function CalendarComponent(prop: CalendarComponentPropType) {
         
         for (let i = dayEnd; i < 6; i++) {
             data.push({
-                date: new Date(year, month, i - dayEnd + 1),
-                isToday: isToday(new Date(year, month, i - dayEnd + 1))
+                date: new Date(year, month + 1, i - dayEnd + 1),
+                isToday: isToday(new Date(year, month + 1, i - dayEnd + 1))
             });
         }
         
