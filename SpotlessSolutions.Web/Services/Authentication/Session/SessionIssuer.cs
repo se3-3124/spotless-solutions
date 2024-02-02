@@ -54,7 +54,8 @@ public class SessionIssuer : ISessionIssuer
                 new Claim("first_name", data.FirstName),
                 new Claim("last_name", data.LastName),
                 new Claim("id", user.Id),
-                new Claim("cid", data.Id.ToString())
+                new Claim("cid", data.Id.ToString()),
+                new Claim("is_email_validated", user.EmailConfirmed ? "1" : "0")
             }),
             Expires = DateTime.Now.Add(TimeSpan.Parse(_jwtConfig.TokenLifetime)),
             SigningCredentials =

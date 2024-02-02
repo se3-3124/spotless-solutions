@@ -11,6 +11,7 @@ export type UserData = {
     role: UserRole;
     token: string;
     refreshToken: string;
+    isEmailValidated: boolean;
 }
 
 export type AuthenticationContextType = {

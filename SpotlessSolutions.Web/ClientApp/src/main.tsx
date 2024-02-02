@@ -1,9 +1,11 @@
-import {createTheme, ThemeProvider} from "@mui/material";
-import axios from 'axios';
-import * as jose from 'jose';
+import axios from "axios";
+import * as jose from "jose";
 import {useEffect, useState} from "react";
-import ReactDOM from 'react-dom/client'
-import {BrowserRouter, Route, Routes,} from 'react-router-dom';
+import ReactDOM from "react-dom/client"
+import {BrowserRouter, Route, Routes,} from "react-router-dom";
+
+import Alert from "@mui/material/Alert";
+import {createTheme, ThemeProvider} from "@mui/material/styles";
 
 import AuthContext from "./contexts/AuthContext.ts";
 
@@ -61,7 +63,8 @@ function Main() {
                 lastName: tokenData['last_name'] as string,
                 role: tokenData['user_role'] === "1" ? UserRole.User : UserRole.Administrator,
                 token: token,
-                refreshToken: refreshToken
+                refreshToken: refreshToken,
+                isEmailValidated: tokenData['is_email_validated'] === "1"
             });
 
             localStorage.setItem('sst', token);
@@ -91,6 +94,14 @@ function Main() {
                     }
                 }) : null
             }}>
+                {
+                    !user?.isEmailValidated && (
+                        <Alert severity="warning">
+                            It seems you haven't validated your email. This will impact the response times of
+                            confirming your booking. Please validate your email here.
+                        </Alert>
+                    )
+                }
                 <BrowserRouter>
                     <Routes>
                         <Route path="/signup" element={<SignUp />} />
