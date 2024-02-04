@@ -1,9 +1,9 @@
-import {createContext} from "react";
+import { createContext } from 'react'
 
-export type CalendarContextType = {
-    active: Date;
+export interface CalendarContextType {
+  active: Date
 }
 
 export default createContext<CalendarContextType>({
-    active: new Date()
-});
+  active: new Date()
+})

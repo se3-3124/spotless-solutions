@@ -1,20 +1,20 @@
-import {Link} from "react-router-dom";
+import { Link } from 'react-router-dom'
 
-import Box from "@mui/material/Box";
-import ListItemText from "@mui/material/ListItemText";
-import MenuItem from "@mui/material/MenuItem";
-import MenuList from "@mui/material/MenuList";
-import Stack from "@mui/material/Stack";
+import Box from '@mui/material/Box'
+import ListItemText from '@mui/material/ListItemText'
+import MenuItem from '@mui/material/MenuItem'
+import MenuList from '@mui/material/MenuList'
+import Stack from '@mui/material/Stack'
 
-import "./DashboardDrawerComponent.style.scss";
-import GroupSection from "./typography/GroupSection.tsx";
+import './DashboardDrawerComponent.style.scss'
+import GroupSection from './typography/GroupSection.tsx'
 
-export default function DashboardDrawerComponent() {
-    return (
+export default function DashboardDrawerComponent () {
+  return (
         <div className="dashboard-sidebar-container">
             <Stack direction="column" spacing={1}>
                 <Box sx={{ pt: 1 }} />
-                
+
                 <GroupSection>Pinned</GroupSection>
                 <MenuList>
                     <MenuItem component={Link} to="/dashboard">
@@ -51,5 +51,5 @@ export default function DashboardDrawerComponent() {
                 </MenuList>
             </Stack>
         </div>
-    )
+  )
 }

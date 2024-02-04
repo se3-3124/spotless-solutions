@@ -1,8 +1,8 @@
-import PageContentCommons from "../../Components/PageContentCommons.tsx";
-import './OAuthGenericDesign.scss';
+import PageContentCommons from '../../Components/PageContentCommons.tsx'
+import './OAuthGenericDesign.scss'
 
-export default function OAuthFailure() {
-    return (
+export default function OAuthFailure () {
+  return (
         <PageContentCommons active={-1}>
             <section className="oauth-container">
                 <div className="wrapper">
@@ -18,5 +18,5 @@ export default function OAuthFailure() {
                 </div>
             </section>
         </PageContentCommons>
-    )
+  )
 }

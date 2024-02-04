@@ -1,128 +1,128 @@
-import React, {useState} from "react";
+import React, { useState } from 'react'
 
-import Box from "@mui/material/Box";
-import Button from "@mui/material/Button";
-import IconButton from "@mui/material/IconButton";
-import Menu, {MenuProps} from "@mui/material/Menu";
-import MenuItem from "@mui/material/MenuItem";
-import Stack from "@mui/material/Stack";
-import {styled, alpha} from "@mui/material/styles";
-import Tooltip from "@mui/material/Tooltip"
-import Typography from "@mui/material/Typography";
+import Box from '@mui/material/Box'
+import Button from '@mui/material/Button'
+import IconButton from '@mui/material/IconButton'
+import Menu, { type MenuProps } from '@mui/material/Menu'
+import MenuItem from '@mui/material/MenuItem'
+import Stack from '@mui/material/Stack'
+import { styled, alpha } from '@mui/material/styles'
+import Tooltip from '@mui/material/Tooltip'
+import Typography from '@mui/material/Typography'
 
-import KeyboardArrowDownRoundedIcon from "@mui/icons-material/KeyboardArrowDownRounded";
-import KeyboardArrowLeftRoundedIcon from "@mui/icons-material/KeyboardArrowLeftRounded";
-import KeyboardArrowRightRoundedIcon from "@mui/icons-material/KeyboardArrowRightRounded";
+import KeyboardArrowDownRoundedIcon from '@mui/icons-material/KeyboardArrowDownRounded'
+import KeyboardArrowLeftRoundedIcon from '@mui/icons-material/KeyboardArrowLeftRounded'
+import KeyboardArrowRightRoundedIcon from '@mui/icons-material/KeyboardArrowRightRounded'
 
-import BookingsDetailModal from "./components/modals/BookingDetailModal.tsx";
-import CalendarContext from "../../contexts/CalendarContext.ts";
-import DashboardAppBarComponent from "./components/DashboardAppBarComponent.tsx";
+import BookingsDetailModal from './components/modals/BookingDetailModal.tsx'
+import CalendarContext from '../../contexts/CalendarContext.ts'
+import DashboardAppBarComponent from './components/DashboardAppBarComponent.tsx'
 
-import CalendarComponent from "./components/calendar/CalendarComponent.tsx";
-import DashboardDrawerComponent from "./components/DashboardDrawerComponent.tsx";
-import WeeklyCalendarComponent from "./components/calendar/WeeklyCalendarComponent.tsx";
+import CalendarComponent from './components/calendar/CalendarComponent.tsx'
+import DashboardDrawerComponent from './components/DashboardDrawerComponent.tsx'
+import WeeklyCalendarComponent from './components/calendar/WeeklyCalendarComponent.tsx'
 
-import './dashboard.scss';
-import {BookingResponseType} from "../../types/BookingResponseType.tsx";
+import './dashboard.scss'
+import { type BookingResponseType } from '../../types/BookingResponseType.tsx'
 
-type CalendarViewState = 'monthly' | 'weekly';
+type CalendarViewState = 'monthly' | 'weekly'
 
 const StyledMenu = styled((props: MenuProps) => (
     <Menu
         elevation={0}
         anchorOrigin={{
-            vertical: 'bottom',
-            horizontal: 'right',
+          vertical: 'bottom',
+          horizontal: 'right'
         }}
         transformOrigin={{
-            vertical: 'top',
-            horizontal: 'right',
+          vertical: 'top',
+          horizontal: 'right'
         }}
         {...props}
     />
 ))(({ theme }) => ({
-    '& .MuiPaper-root': {
-        borderRadius: 6,
-        marginTop: theme.spacing(1),
-        minWidth: 180,
-        color:
+  '& .MuiPaper-root': {
+    borderRadius: 6,
+    marginTop: theme.spacing(1),
+    minWidth: 180,
+    color:
             theme.palette.mode === 'light' ? 'rgb(55, 65, 81)' : theme.palette.grey[300],
-        boxShadow:
+    boxShadow:
             'rgb(255, 255, 255) 0px 0px 0px 0px, rgba(0, 0, 0, 0.05) 0px 0px 0px 1px, rgba(0, 0, 0, 0.1) 0px 10px 15px -3px, rgba(0, 0, 0, 0.05) 0px 4px 6px -2px',
-        '& .MuiMenu-list': {
-            padding: '4px 0',
-        },
-        '& .MuiMenuItem-root': {
-            '& .MuiSvgIcon-root': {
-                fontSize: 18,
-                color: theme.palette.text.secondary,
-                marginRight: theme.spacing(1.5),
-            },
-            '&:active': {
-                backgroundColor: alpha(
-                    theme.palette.primary.main,
-                    theme.palette.action.selectedOpacity,
-                ),
-            },
-        },
+    '& .MuiMenu-list': {
+      padding: '4px 0'
     },
-}));
+    '& .MuiMenuItem-root': {
+      '& .MuiSvgIcon-root': {
+        fontSize: 18,
+        color: theme.palette.text.secondary,
+        marginRight: theme.spacing(1.5)
+      },
+      '&:active': {
+        backgroundColor: alpha(
+          theme.palette.primary.main,
+          theme.palette.action.selectedOpacity
+        )
+      }
+    }
+  }
+}))
 
-export default function DashboardBookingCalendarView() {
-    const [activeDetailView, setActiveDetailView] = useState<BookingResponseType | null>(null);
-    const [activeCalendarView, setActiveCalendarView] = useState<Date>(new Date());
-    const [calendarViewState, setCalendarViewState] = useState<CalendarViewState>('monthly')
-    const [calendarChangeMenuAnchor, setCalendarChangeMenuAnchor] = useState<HTMLElement | null>(null);
-    
-    const handleCalendarChangeMenuAnchor = (e: React.MouseEvent<HTMLElement>) => {
-        setCalendarChangeMenuAnchor(e.currentTarget);
-    }
-    
-    const handleCalendarChangeMenuClose = () => setCalendarChangeMenuAnchor(null);
+export default function DashboardBookingCalendarView () {
+  const [activeDetailView, setActiveDetailView] = useState<BookingResponseType | null>(null)
+  const [activeCalendarView, setActiveCalendarView] = useState<Date>(new Date())
+  const [calendarViewState, setCalendarViewState] = useState<CalendarViewState>('monthly')
+  const [calendarChangeMenuAnchor, setCalendarChangeMenuAnchor] = useState<HTMLElement | null>(null)
 
-    const moveToPrevious = () => {
-        if (calendarViewState === 'monthly') {
-            setActiveCalendarView(d => new Date(d.getFullYear(), d.getMonth() - 1, 1));
-            return;
-        }
-        
-        const currentDay = 7 - activeCalendarView.getDay();
-        setActiveCalendarView(d => new Date(d.getFullYear(), d.getMonth(), d.getDate() - currentDay));
-    }
-    
-    const moveToNext = () => {
-        if (calendarViewState === 'monthly') {
-            setActiveCalendarView(d => new Date(d.getFullYear(), d.getMonth() + 1, 1));
-            return;
-        }
+  const handleCalendarChangeMenuAnchor = (e: React.MouseEvent<HTMLElement>) => {
+    setCalendarChangeMenuAnchor(e.currentTarget)
+  }
 
-        const currentDay = 7 - activeCalendarView.getDay();
-        setActiveCalendarView(d => new Date(d.getFullYear(), d.getMonth(), d.getDate() + currentDay));
+  const handleCalendarChangeMenuClose = () => { setCalendarChangeMenuAnchor(null) }
+
+  const moveToPrevious = () => {
+    if (calendarViewState === 'monthly') {
+      setActiveCalendarView(d => new Date(d.getFullYear(), d.getMonth() - 1, 1))
+      return
     }
-    
-    const changeViewType = (viewType: CalendarViewState) => {
-        setCalendarViewState(viewType);
-        handleCalendarChangeMenuClose();
+
+    const currentDay = 7 - activeCalendarView.getDay()
+    setActiveCalendarView(d => new Date(d.getFullYear(), d.getMonth(), d.getDate() - currentDay))
+  }
+
+  const moveToNext = () => {
+    if (calendarViewState === 'monthly') {
+      setActiveCalendarView(d => new Date(d.getFullYear(), d.getMonth() + 1, 1))
+      return
     }
-    
-    const getActiveDateWeekNumber = (): number => {
-        const start = new Date(activeCalendarView.getFullYear(), 0, 1)
-            .getTime();
-        const current = activeCalendarView.getTime();
-        const days = Math.floor((current - start) / (24 * 60 * 60 * 1000));
-        
-        return Math.ceil(days / 7);
-    }
-    
-    const handleOpen = (data: BookingResponseType) => {
-        setActiveDetailView(data);
-    }
-    
-    const handleClose = () => {
-        setActiveDetailView(null);
-    }
-    
-    return (
+
+    const currentDay = 7 - activeCalendarView.getDay()
+    setActiveCalendarView(d => new Date(d.getFullYear(), d.getMonth(), d.getDate() + currentDay))
+  }
+
+  const changeViewType = (viewType: CalendarViewState) => {
+    setCalendarViewState(viewType)
+    handleCalendarChangeMenuClose()
+  }
+
+  const getActiveDateWeekNumber = (): number => {
+    const start = new Date(activeCalendarView.getFullYear(), 0, 1)
+      .getTime()
+    const current = activeCalendarView.getTime()
+    const days = Math.floor((current - start) / (24 * 60 * 60 * 1000))
+
+    return Math.ceil(days / 7)
+  }
+
+  const handleOpen = (data: BookingResponseType) => {
+    setActiveDetailView(data)
+  }
+
+  const handleClose = () => {
+    setActiveDetailView(null)
+  }
+
+  return (
         <>
             <Box sx={{ height: '100%', width: '100%', overflowX: 'hidden' }}>
                 <DashboardAppBarComponent />
@@ -139,16 +139,16 @@ export default function DashboardBookingCalendarView() {
                             <Typography variant="h4" gutterBottom>
                                 {
                                     calendarViewState === 'monthly'
-                                        ? (
-                                            Intl
-                                                .DateTimeFormat('en-US', {
-                                                    formatMatcher: "best fit",
-                                                    month: "long",
-                                                    year: "numeric"
-                                                })
-                                                .format(activeCalendarView)
+                                      ? (
+                                          Intl
+                                            .DateTimeFormat('en-US', {
+                                              formatMatcher: 'best fit',
+                                              month: 'long',
+                                              year: 'numeric'
+                                            })
+                                            .format(activeCalendarView)
                                         )
-                                        : `Week ${getActiveDateWeekNumber()}`
+                                      : `Week ${getActiveDateWeekNumber()}`
                                 }
                             </Typography>
                             <Box sx={{ flexGrow: 1 }} />
@@ -178,10 +178,10 @@ export default function DashboardBookingCalendarView() {
                         <CalendarContext.Provider value={{ active: activeCalendarView }}>
                             {
                                 calendarViewState === 'monthly'
-                                    ? (
+                                  ? (
                                         <CalendarComponent handleOpen={handleOpen} />
                                     )
-                                    : (
+                                  : (
                                         <WeeklyCalendarComponent handleOpen={handleOpen} />
                                     )
                             }
@@ -195,14 +195,14 @@ export default function DashboardBookingCalendarView() {
                 open={Boolean(calendarChangeMenuAnchor)}
                 onClose={handleCalendarChangeMenuClose}
                 MenuListProps={{
-                    'aria-labelledby': 'btn-calendar-view-change'
+                  'aria-labelledby': 'btn-calendar-view-change'
                 }}
             >
-                <MenuItem onClick={() => changeViewType('monthly')}>Monthly View</MenuItem>
-                <MenuItem onClick={() => changeViewType('weekly')}>Weekly View</MenuItem>
+                <MenuItem onClick={() => { changeViewType('monthly') }}>Monthly View</MenuItem>
+                <MenuItem onClick={() => { changeViewType('weekly') }}>Weekly View</MenuItem>
             </StyledMenu>
             {/* Modal */}
             <BookingsDetailModal data={activeDetailView} handleClose={handleClose} />
         </>
-    )
+  )
 }

@@ -1,13 +1,13 @@
-import './home-page.css';
-import tdLogo from '../../assets/td_logo.jpg';
-import PageContentCommons from '../../Components/PageContentCommons.tsx';
-import {useContext} from "react";
-import AuthContext from "../../contexts/AuthContext.ts";
+import './home-page.css'
+import tdLogo from '../../assets/td_logo.jpg'
+import PageContentCommons from '../../Components/PageContentCommons.tsx'
+import { useContext } from 'react'
+import AuthContext from '../../contexts/AuthContext.ts'
 
-export default function Home() {
-    const context = useContext(AuthContext);
-    
-    return (
+export default function Home () {
+  const context = useContext(AuthContext)
+
+  return (
         <PageContentCommons active={0} user={context.user ?? undefined}>
             <section className="pt-24 md:mt-0 md:h-screen flex flex-col justify-center text-center md:text-left md:flex-row md:justify-between md:items-center lg:px-48 md:px-12 px-4 bg-midnightblue">
                 <div className="md:flex-1 md:mr-10">
@@ -88,5 +88,5 @@ export default function Home() {
                 </div>
             </section>
         </PageContentCommons>
-    )
+  )
 }

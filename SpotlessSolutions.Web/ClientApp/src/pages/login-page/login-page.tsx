@@ -1,79 +1,76 @@
-import {Link} from 'react-router-dom';
-import {useContext, useEffect, useState} from 'react';
-import {useNavigate} from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom'
+import { useContext, useEffect, useState } from 'react'
 
-import './login-page.scss';
-import PageContentCommons from '../../Components/PageContentCommons.tsx';
+import './login-page.scss'
+import PageContentCommons from '../../Components/PageContentCommons.tsx'
 
-import facebookLogo from '../../assets/facebook.png';
-import googleLogo from '../../assets/google.png';
-import houseCleaningImage from '../../assets/house-cleaning-service.jpeg';
-import {createInstance, postRequest} from "../../lib/fetch.ts";
-import AuthContext from "../../contexts/AuthContext.ts";
+import facebookLogo from '../../assets/facebook.png'
+import googleLogo from '../../assets/google.png'
+import houseCleaningImage from '../../assets/house-cleaning-service.jpeg'
+import { createInstance, postRequest } from '../../lib/fetch.ts'
+import AuthContext from '../../contexts/AuthContext.ts'
 
-type LoginState = {
-    email: string;
-    password: string;
+interface LoginState {
+  email: string
+  password: string
 }
 
-type AuthenticationResponse = {
-    token: string;
-    refreshToken: string;
-    firstName: string;
-    lastName: string;
-    isAdmin: boolean;
+interface AuthenticationResponse {
+  token: string
+  refreshToken: string
+  firstName: string
+  lastName: string
+  isAdmin: boolean
 }
 
-export default function LogIn() {
-    const context = useContext(AuthContext);
-    const navigate = useNavigate();
-    const [data, setData] = useState<LoginState>({
-        email: '',
-        password: ''
-    });
+export default function LogIn () {
+  const context = useContext(AuthContext)
+  const navigate = useNavigate()
+  const [data, setData] = useState<LoginState>({
+    email: '',
+    password: ''
+  })
 
-    useEffect(() => {
-        if (context.user === null) {
-            return;
-        }
-
-        // Check if there's currently a token available.
-        if (context.user.token) {
-            console.log('trigger nav');
-            navigate('/');
-            return;
-        }
-    }, []);
-
-    const submit = async () => {
-        try {
-            const result = await postRequest<AuthenticationResponse>(createInstance(), '/api/auth/login', {
-                email: data.email,
-                password: data.password
-            });
-
-            context.setAuthenticatedUser(result.token, result.refreshToken);
-            console.log('trigger nav 2');
-            navigate('/');
-        } catch (e) {
-            console.error(e);
-        }
+  useEffect(() => {
+    if (context.user === null) {
+      return
     }
 
-    const submitBtnOnClick = () => {
-        submit().catch(console.error);
+    // Check if there's currently a token available.
+    if (context.user.token !== '') {
+      navigate('/')
     }
+  }, [])
 
-    const updateText = (targetKey: keyof LoginState, value: string) => {
-        setData(l => {
-            return {
-                ...l,
-                [targetKey]: value,
-            }
-        });
+  const submit = async () => {
+    try {
+      const result = await postRequest<AuthenticationResponse>(createInstance(), '/api/auth/login', {
+        email: data.email,
+        password: data.password
+      })
+
+      context.setAuthenticatedUser(result.token, result.refreshToken)
+      console.log('trigger nav 2')
+      navigate('/')
+    } catch (e) {
+      console.error(e)
     }
+  }
 
-    return (
+  const submitBtnOnClick = () => {
+    submit().catch(console.error)
+  }
+
+  const updateText = (targetKey: keyof LoginState, value: string) => {
+    setData(l => {
+      return {
+        ...l,
+        [targetKey]: value
+      }
+    })
+  }
+
+  return (
         <PageContentCommons active={-1}>
             <section className='signupSize bg-midnightblue'>
                 <div className="py-16">
@@ -81,8 +78,8 @@ export default function LogIn() {
                         <div
                             className="hidden lg:block lg:w-1/2 bg-cover"
                             style={{
-                               background: `#fff url(${houseCleaningImage}) no-repeat center center`,
-                               backgroundSize: 'cover' 
+                              background: `#fff url(${houseCleaningImage}) no-repeat center center`,
+                              backgroundSize: 'cover'
                             }} />
                         <div className="w-full p-8 lg:w-1/2">
                             <h2 className="text-2xl font-semibold text-gray-700 text-center">Hello</h2>
@@ -94,7 +91,7 @@ export default function LogIn() {
                                     type="email"
                                     placeholder='Email'
                                     onInput={(e) => {
-                                        updateText('email', e.currentTarget.value);
+                                      updateText('email', e.currentTarget.value)
                                     }}
                                     value={data.email}
                                 />
@@ -105,7 +102,7 @@ export default function LogIn() {
                                     type="password"
                                     placeholder='Password'
                                     onInput={(e) => {
-                                        updateText('password', e.currentTarget.value);
+                                      updateText('password', e.currentTarget.value)
                                     }}
                                     value={data.password}
                                 />
@@ -129,7 +126,7 @@ export default function LogIn() {
                                 <span className="border-b w-1 md:w-1/3"></span>
                             </div>
                             <div className='grid gap-1 mb-1 md:grid-cols-2 mt-4'>
-                                <a href="/oauth2/google/request"  className="flex justify-center mt-4 hover:bg-gray-100">
+                                <a href="/oauth2/google/request" className="flex justify-center mt-4 hover:bg-gray-100">
                                     <div className="px-4 py-3">
                                         <img src={googleLogo} alt="Login via Google" className=" h-8 w-8" />
                                     </div>
@@ -149,5 +146,5 @@ export default function LogIn() {
                 </div>
             </section>
         </PageContentCommons>
-    )
+  )
 }

@@ -1,33 +1,33 @@
-﻿import {AxiosInstance} from "axios";
+import { type AxiosInstance } from 'axios'
 
 export enum UserRole {
-    Administrator,
-    User
+  Administrator,
+  User
 }
 
-export type UserData = {
-    firstName: string;
-    lastName: string;
-    role: UserRole;
-    token: string;
-    refreshToken: string;
-    isEmailValidated: boolean;
+export interface UserData {
+  firstName: string
+  lastName: string
+  role: UserRole
+  token: string
+  refreshToken: string
+  isEmailValidated: boolean
 }
 
-export type AuthenticationContextType = {
-    /**
+export interface AuthenticationContextType {
+  /**
      * Retrieves authenticated user
      */
-    user: UserData | null,
-    /**
+  user: UserData | null
+  /**
      * Sets the authenticated user
      * @param {string} token User session token
      * @param {string} refreshToken User refresh token
      */
-    setAuthenticatedUser(token: string, refreshToken: string): boolean,
-    /**
+  setAuthenticatedUser: (token: string, refreshToken: string) => boolean
+  /**
      * Clears all authentication details
      */
-    removeAuthenticationTokens(): void,
-    request: AxiosInstance | null
+  removeAuthenticationTokens: () => void
+  request: AxiosInstance | null
 }

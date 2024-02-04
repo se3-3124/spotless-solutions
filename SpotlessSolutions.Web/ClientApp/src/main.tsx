@@ -1,103 +1,102 @@
-import axios from "axios";
-import * as jose from "jose";
-import {useEffect, useState} from "react";
-import ReactDOM from "react-dom/client"
-import {BrowserRouter, Route, Routes,} from "react-router-dom";
+import axios from 'axios'
+import * as jose from 'jose'
+import { useEffect, useState } from 'react'
+import ReactDOM from 'react-dom/client'
+import { BrowserRouter, Route, Routes } from 'react-router-dom'
 
-import Alert from "@mui/material/Alert";
-import {createTheme, ThemeProvider} from "@mui/material/styles";
+import Alert from '@mui/material/Alert'
+import { createTheme, ThemeProvider } from '@mui/material/styles'
 
-import AuthContext from "./contexts/AuthContext.ts";
+import AuthContext from './contexts/AuthContext.ts'
 
-import {UserData, UserRole} from "./types/AuthenticationContextType.tsx";
+import { type UserData, UserRole } from './types/AuthenticationContextType.tsx'
 
-import Dashboard from './pages/dashboard/Dashboard.tsx';
-import DashboardBookingCalendarView from "./pages/dashboard/DashboardBookingCalendarView.tsx";
-import Home from './pages/home-page/home-page.tsx';
-import LogIn from './pages/login-page/login-page.tsx';
-import LogoutRedirect from "./pages/LogoutRedirect.tsx";
-import RecoveryPrompt from './pages/password-recovery/recovery-prompt.tsx';
-import RecoveryRecover from './pages/password-recovery/recovery-recover.tsx';
-import SignUp from './pages/registration-page/registration-page.tsx';
-import OAuthSuccess from './pages/oauth/OAuthSuccess.tsx';
-import OAuthFailure from './pages/oauth/OAuthFailure.tsx';
-import OAuthCatcher from './pages/oauth/OAuthCatcher.tsx';
-import History from "./pages/dashboard/history-page/history.tsx";
+import Dashboard from './pages/dashboard/Dashboard.tsx'
+import DashboardBookingCalendarView from './pages/dashboard/DashboardBookingCalendarView.tsx'
+import Home from './pages/home-page/home-page.tsx'
+import LogIn from './pages/login-page/login-page.tsx'
+import LogoutRedirect from './pages/LogoutRedirect.tsx'
+import RecoveryPrompt from './pages/password-recovery/recovery-prompt.tsx'
+import RecoveryRecover from './pages/password-recovery/recovery-recover.tsx'
+import SignUp from './pages/registration-page/registration-page.tsx'
+import OAuthSuccess from './pages/oauth/OAuthSuccess.tsx'
+import OAuthFailure from './pages/oauth/OAuthFailure.tsx'
+import OAuthCatcher from './pages/oauth/OAuthCatcher.tsx'
+import History from './pages/dashboard/history-page/history.tsx'
 
-import './index.css';
-import DashboardBookingsWorkflowView from "./pages/dashboard/DashboardBookingsWorkflowVew.tsx";
+import './index.css'
+import DashboardBookingsWorkflowView from './pages/dashboard/DashboardBookingsWorkflowVew.tsx'
 
 const theme = createTheme({
-    palette: {
-        mode: 'light',
-    },
-    typography: {
-        fontFamily: 'ui-sans-serif, system-ui, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji"',
-    },
-});
+  palette: {
+    mode: 'light'
+  },
+  typography: {
+    fontFamily: 'ui-sans-serif, system-ui, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji"'
+  }
+})
 
-function Main() {
-    const [user, setUser] = useState<UserData | null>(null);
+function Main () {
+  const [user, setUser] = useState<UserData | null>(null)
 
-    useEffect(() => {
-        const token = localStorage.getItem('sst');
-        const refreshToken = localStorage.getItem('ssr');
+  useEffect(() => {
+    const token = localStorage.getItem('sst')
+    const refreshToken = localStorage.getItem('ssr')
 
-        if (!token || !refreshToken) {
-            localStorage.clear();
-            return;
-        }
-        
-        setAuthenticatedUser(token, refreshToken);
-    }, []);
-    
-    const setAuthenticatedUser = (token: string, refreshToken: string): boolean => {
-        try {
-            const tokenData = jose.decodeJwt(token);
-            if (!tokenData) {
-                return false;
-            }
-
-            setUser({
-                firstName: tokenData['first_name'] as string,
-                lastName: tokenData['last_name'] as string,
-                role: tokenData['user_role'] === "1" ? UserRole.User : UserRole.Administrator,
-                token: token,
-                refreshToken: refreshToken,
-                isEmailValidated: tokenData['is_email_validated'] === "1"
-            });
-
-            localStorage.setItem('sst', token);
-            localStorage.setItem('ssr', refreshToken);
-        } catch (e) {
-            return false;
-        }
- 
-        return true;
-    }
-    
-    const removeAuthenticationTokens = (): void => {
-        localStorage.clear();
-        setUser(null);
+    if (token === null || refreshToken === null) {
+      localStorage.clear()
+      return
     }
 
-    return (
+    setAuthenticatedUser(token, refreshToken)
+  }, [])
+
+  const setAuthenticatedUser = (token: string, refreshToken: string): boolean => {
+    try {
+      const tokenData = jose.decodeJwt(token)
+
+      setUser({
+        firstName: tokenData.first_name as string,
+        lastName: tokenData.last_name as string,
+        role: tokenData.user_role === '1' ? UserRole.User : UserRole.Administrator,
+        token,
+        refreshToken,
+        isEmailValidated: tokenData.is_email_validated === '1'
+      })
+
+      localStorage.setItem('sst', token)
+      localStorage.setItem('ssr', refreshToken)
+    } catch (e) {
+      return false
+    }
+
+    return true
+  }
+
+  const removeAuthenticationTokens = (): void => {
+    localStorage.clear()
+    setUser(null)
+  }
+
+  return (
         <ThemeProvider theme={theme}>
             <AuthContext.Provider value={{
-                user,
-                setAuthenticatedUser,
-                removeAuthenticationTokens,
-                request: user !== null ? axios.create({
-                    baseURL: window.location.origin,
-                    headers: {
-                        'Authorization': `Bearer ${user.token}`
-                    }
-                }) : null
+              user,
+              setAuthenticatedUser,
+              removeAuthenticationTokens,
+              request: user !== null
+                ? axios.create({
+                  baseURL: window.location.origin,
+                  headers: {
+                    Authorization: `Bearer ${user.token}`
+                  }
+                })
+                : null
             }}>
                 {
-                    !user?.isEmailValidated && (
+                    ((user?.isEmailValidated) === false) && (
                         <Alert severity="warning">
-                            It seems you haven't validated your email. This will impact the response times of
+                            It seems you haven&apos;t validated your email. This will impact the response times of
                             confirming your booking. Please validate your email here.
                         </Alert>
                     )
@@ -130,9 +129,10 @@ function Main() {
                 </BrowserRouter>
             </AuthContext.Provider>
         </ThemeProvider>
-    );
+  )
 }
 
-ReactDOM.createRoot(document.getElementById('root')!).render(
-    <Main />
-);
+const targetElement = document.querySelector('#root')
+if (targetElement !== null) {
+  ReactDOM.createRoot(targetElement).render(<Main />)
+}

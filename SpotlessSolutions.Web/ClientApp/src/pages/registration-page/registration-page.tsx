@@ -1,70 +1,70 @@
-import {useState} from 'react';
-import {Link} from 'react-router-dom';
-import axios from 'axios';
+import { useState } from 'react'
+import { Link } from 'react-router-dom'
+import axios from 'axios'
 import './registration-page.css'
-import PageContentCommons from '../../Components/PageContentCommons.tsx';
+import PageContentCommons from '../../Components/PageContentCommons.tsx'
 
-import facebookLogo from '../../assets/facebook.png';
-import googleLogo from '../../assets/google.png';
-import houseCleaningImage from "../../assets/house-cleaning-service.jpeg";
+import facebookLogo from '../../assets/facebook.png'
+import googleLogo from '../../assets/google.png'
+import houseCleaningImage from '../../assets/house-cleaning-service.jpeg'
 
-type UserState = {
-    email: string;
-    firstName: string;
-    lastName: string;
-    password: string;
-    confirmPassword: string;
-    phoneNumber: string;
+interface UserState {
+  email: string
+  firstName: string
+  lastName: string
+  password: string
+  confirmPassword: string
+  phoneNumber: string
 }
 
-export default function SignUp() {
-    const [data, setData] = useState<UserState>({
-        email: '',
-        firstName: '',
-        lastName: '',
-        password: '',
-        confirmPassword: '',
-        phoneNumber: ''
-    });
+export default function SignUp () {
+  const [data, setData] = useState<UserState>({
+    email: '',
+    firstName: '',
+    lastName: '',
+    password: '',
+    confirmPassword: '',
+    phoneNumber: ''
+  })
 
-    const submit = async () => {
-        if (data.password !== data.confirmPassword) {
-            alert('Wrong PASSWORD!');
-            return;
-        }
-
-        try {
-            await axios.post('/api/auth/register', {
-                firstName: data.firstName,
-                lastName: data.lastName,
-                password: data.password,
-                email: data.email,
-                phoneNumber: data.phoneNumber,
-                tos: true,
-            });
-
-            alert('SUCCESS!');
-
-            document.location = '/';
-        } catch (e) {
-            alert('REGISTRATION ERROR!');
-        }
+  const submit = async () => {
+    if (data.password !== data.confirmPassword) {
+      alert('Wrong PASSWORD!')
+      return
     }
 
-    const submitBtnOnClick = () => {
-        submit().catch(console.error);
-    }
+    try {
+      await axios.post('/api/auth/register', {
+        firstName: data.firstName,
+        lastName: data.lastName,
+        password: data.password,
+        email: data.email,
+        phoneNumber: data.phoneNumber,
+        tos: true
+      })
 
-    const updateText = (targetKey: keyof UserState, value: string) => {
-        setData(l => {
-           return {
-               ...l,
-               [targetKey]: value,
-           }
-        });
-    }
+      alert('SUCCESS!')
 
-    return (
+      document.location = '/'
+    } catch (e) {
+      alert('REGISTRATION ERROR!')
+    }
+  }
+
+  const submitBtnOnClick = () => {
+    submit().catch(console.error)
+  }
+
+  const updateText = (targetKey: keyof UserState, value: string) => {
+    setData(l => {
+      return {
+        ...l,
+        [targetKey]: value
+      }
+    })
+  }
+
+  return (
         <PageContentCommons active={-1}>
             <section className='signupSize bg-midnightblue'>
                 <div className="py-16">
@@ -72,8 +72,8 @@ export default function SignUp() {
                         <div
                             className="hidden lg:block lg:w-1/2 bg-cover"
                             style={{
-                                background: `#fff url(${houseCleaningImage}) no-repeat center center`,
-                                backgroundSize: 'cover'
+                              background: `#fff url(${houseCleaningImage}) no-repeat center center`,
+                              backgroundSize: 'cover'
                             }}/>
                         <div className="w-full p-8 lg:w-1/2">
                             <h2 className="text-2xl font-semibold text-gray-700 text-center">Sign Up</h2>
@@ -83,7 +83,7 @@ export default function SignUp() {
                                     type="email"
                                     placeholder='Email'
                                     onInput={(e) => {
-                                        updateText('email', e.currentTarget.value);
+                                      updateText('email', e.currentTarget.value)
                                     }}
                                     value={data.email}
                                 />
@@ -94,7 +94,7 @@ export default function SignUp() {
                                     type="text"
                                     placeholder='Phone Number'
                                     onInput={(e) => {
-                                        updateText('phoneNumber', e.currentTarget.value);
+                                      updateText('phoneNumber', e.currentTarget.value)
                                     }}
                                     value={data.phoneNumber}
                                 />
@@ -105,7 +105,7 @@ export default function SignUp() {
                                     type="firstName"
                                     placeholder='First Name'
                                     onInput={(e) => {
-                                        updateText('firstName', e.currentTarget.value);
+                                      updateText('firstName', e.currentTarget.value)
                                     }}
                                     value={data.firstName}
                                 />
@@ -114,7 +114,7 @@ export default function SignUp() {
                                     type="lastName"
                                     placeholder='Last Name'
                                     onInput={(e) => {
-                                        updateText('lastName', e.currentTarget.value);
+                                      updateText('lastName', e.currentTarget.value)
                                     }}
                                     value={data.lastName}
                                 />
@@ -125,7 +125,7 @@ export default function SignUp() {
                                     type="password"
                                     placeholder='Password'
                                     onInput={(e) => {
-                                        updateText('password', e.currentTarget.value);
+                                      updateText('password', e.currentTarget.value)
                                     }}
                                     value={data.password}
                                 />
@@ -136,7 +136,7 @@ export default function SignUp() {
                                     type="password"
                                     placeholder='Confirm Password'
                                     onInput={(e) => {
-                                        updateText('confirmPassword', e.currentTarget.value);
+                                      updateText('confirmPassword', e.currentTarget.value)
                                     }}
                                     value={data.confirmPassword}
                                 />
@@ -175,5 +175,5 @@ export default function SignUp() {
                 </div>
             </section>
         </PageContentCommons>
-    )
+  )
 }

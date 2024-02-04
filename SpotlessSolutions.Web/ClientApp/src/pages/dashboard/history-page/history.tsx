@@ -1,11 +1,10 @@
-import Box from '@mui/material/Box';
-import Stack from '@mui/material/Stack';
-import DashboardAppBarComponent from '../components/DashboardAppBarComponent.tsx';
-import DashboardDrawerComponent from '../components/DashboardDrawerComponent.tsx';
-import RestoreFromTrashRoundedIcon from '@mui/icons-material/RestoreFromTrashRounded';
+import Box from '@mui/material/Box'
+import Stack from '@mui/material/Stack'
+import DashboardAppBarComponent from '../components/DashboardAppBarComponent.tsx'
+import DashboardDrawerComponent from '../components/DashboardDrawerComponent.tsx'
+import RestoreFromTrashRoundedIcon from '@mui/icons-material/RestoreFromTrashRounded'
 
-
-export default function History() {
+export default function History () {
   return (
     <>
       <Box sx={{ height: '100%', width: '100%', overflowX: 'hidden' }}>
@@ -82,5 +81,5 @@ export default function History() {
         </Stack>
       </Box>
     </>
-  );
+  )
 }

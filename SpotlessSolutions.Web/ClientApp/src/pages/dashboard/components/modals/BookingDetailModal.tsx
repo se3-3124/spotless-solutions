@@ -1,13 +1,13 @@
-import Dialog from "@mui/material/Dialog";
-import {TextareaAutosize as BaseTextareaAutosize} from "@mui/base/TextareaAutosize";
-import {blue, grey} from "@mui/material/colors";
+import Dialog from '@mui/material/Dialog'
+import { TextareaAutosize as BaseTextareaAutosize } from '@mui/base/TextareaAutosize'
+import { blue, grey } from '@mui/material/colors'
 
-import "./BookingsDetailModal.style.scss";
-import {styled} from "@mui/material";
-import {BookingResponseType, BookingStatus} from "../../../../types/BookingResponseType.tsx";
+import './BookingsDetailModal.style.scss'
+import { styled } from '@mui/material'
+import { type BookingResponseType, BookingStatus } from '../../../../types/BookingResponseType.tsx'
 
 const TextareaAutosize = styled(BaseTextareaAutosize)(
-    ({ theme }) => `
+  ({ theme }) => `
     box-sizing: border-box;
     margin-top: 15px;
     width: 320px;
@@ -31,32 +31,32 @@ const TextareaAutosize = styled(BaseTextareaAutosize)(
         box-shadow: 0 0 0 3px ${theme.palette.mode === 'dark' ? blue[600] : blue[200]};
     }
     `
-);
+)
 
-export type BookingsDetailPropType = {
-    data: BookingResponseType | null,
-    handleClose: () => void
+export interface BookingsDetailPropType {
+  data: BookingResponseType | null
+  handleClose: () => void
 }
 
-export default function BookingsDetailModal(prop: BookingsDetailPropType) {
-    const formatBookingStatus = (): string => {
-        switch ((prop.data ?? {status: BookingStatus.Pending}).status) {
-            case BookingStatus.Approved:
-                return "Approved";
-            case BookingStatus.Denied:
-                return "Denied";
-            case BookingStatus.Done:
-                return "Done";
-            case BookingStatus.Pending:
-                return "Pending";
-        }
+export default function BookingsDetailModal (prop: BookingsDetailPropType) {
+  const formatBookingStatus = (): string => {
+    switch ((prop.data ?? { status: BookingStatus.Pending }).status) {
+      case BookingStatus.Approved:
+        return 'Approved'
+      case BookingStatus.Denied:
+        return 'Denied'
+      case BookingStatus.Done:
+        return 'Done'
+      case BookingStatus.Pending:
+        return 'Pending'
     }
+  }
 
-    return (
+  return (
         <>
             {
                 prop.data !== null
-                    ? (
+                  ? (
                         <Dialog open={Boolean(prop.data)} onClose={prop.handleClose} maxWidth="md" fullWidth={true}>
                             <div className="modal-container">
                                 <div className="modal-header">
@@ -83,13 +83,13 @@ export default function BookingsDetailModal(prop: BookingsDetailPropType) {
                                             <span className="ml-12">
                                 {
                                     Intl
-                                        .DateTimeFormat('en-US', {
-                                            formatMatcher: "best fit",
-                                            month: "long",
-                                            year: "numeric",
-                                            day: "numeric"
-                                        })
-                                        .format(new Date(prop.data.issuedDate))
+                                      .DateTimeFormat('en-US', {
+                                        formatMatcher: 'best fit',
+                                        month: 'long',
+                                        year: 'numeric',
+                                        day: 'numeric'
+                                      })
+                                      .format(new Date(prop.data.issuedDate))
                                 }
                                 </span>
                                         </p>
@@ -98,12 +98,12 @@ export default function BookingsDetailModal(prop: BookingsDetailPropType) {
                                             <span className="ml-12">
                                 {
                                     Intl
-                                        .DateTimeFormat('en-US', {
-                                            formatMatcher: "best fit",
-                                            hour: "numeric",
-                                            minute: "numeric"
-                                        })
-                                        .format(new Date(prop.data.issuedDate))
+                                      .DateTimeFormat('en-US', {
+                                        formatMatcher: 'best fit',
+                                        hour: 'numeric',
+                                        minute: 'numeric'
+                                      })
+                                      .format(new Date(prop.data.issuedDate))
                                 }
                                 </span>
                                         </p>
@@ -113,7 +113,7 @@ export default function BookingsDetailModal(prop: BookingsDetailPropType) {
                                         <p>
                                             Add-ons:&nbsp;
                                             <span className="ml-5">
-                                    {prop.data?.addOnsBooked.map(x => x.name).join(", ")}
+                                    {prop.data?.addOnsBooked.map(x => x.name).join(', ')}
                                 </span>
                                         </p>
                                         <p className="mt-8">
@@ -132,10 +132,10 @@ export default function BookingsDetailModal(prop: BookingsDetailPropType) {
                             </div>
                         </Dialog>
                     )
-                    : (
+                  : (
                         <div></div>
                     )
             }
         </>
-    )
+  )
 }

@@ -1,67 +1,68 @@
-import {useState} from 'react';
+import { useState } from 'react'
 
-import '../login-page/login-page.scss';
-import PageContentCommons from '../../Components/PageContentCommons.tsx';
-import houseCleaningImage from "../../assets/house-cleaning-service.jpeg";
-import {useSearchParams} from "react-router-dom";
-import {createInstance, postRequest} from "../../lib/fetch.ts";
+import '../login-page/login-page.scss'
+import PageContentCommons from '../../Components/PageContentCommons.tsx'
+import houseCleaningImage from '../../assets/house-cleaning-service.jpeg'
+import { useSearchParams } from 'react-router-dom'
+import { createInstance, postRequest } from '../../lib/fetch.ts'
 
-type RecoveryState = {
-    password: string;
-    confirmPassword: string;
-    ready: boolean;
+interface RecoveryState {
+  password: string
+  confirmPassword: string
+  ready: boolean
 }
 
-export default function RecoveryRecover() {
-    const [qs, _] = useSearchParams();
-    const [data, setData] = useState<RecoveryState>({
-        password: '',
-        confirmPassword: '',
-        ready: false,
-    });
+export default function RecoveryRecover () {
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  const [qs, _] = useSearchParams()
+  const [data, setData] = useState<RecoveryState>({
+    password: '',
+    confirmPassword: '',
+    ready: false
+  })
 
-    const submit = async () => {
-        if (data.password !== data.confirmPassword) {
-            alert('Check password');
-            return;
-        }
-
-        try {
-            await postRequest(createInstance(), '/api/auth/recovery/change', {
-                password: data.password,
-                token: qs.get('token'),
-            });
-
-            alert('Password change success!');
-            document.location = '/login';
-        } catch (e) {
-            alert('Error');
-        }
+  const submit = async () => {
+    if (data.password !== data.confirmPassword) {
+      alert('Check password')
+      return
     }
 
-    const submitBtnOnClick = () => {
-        submit().catch(console.error);
-    }
+    try {
+      await postRequest(createInstance(), '/api/auth/recovery/change', {
+        password: data.password,
+        token: qs.get('token')
+      })
 
-    const updateText = (targetKey: keyof RecoveryState, value: string) => {
-        setData(l => {
-            return {
-                ...l,
-                [targetKey]: value,
-            }
-        });
+      alert('Password change success!')
+      document.location = '/login'
+    } catch (e) {
+      alert('Error')
     }
+  }
 
-    return (
+  const submitBtnOnClick = () => {
+    submit().catch(console.error)
+  }
+
+  const updateText = (targetKey: keyof RecoveryState, value: string) => {
+    setData(l => {
+      return {
+        ...l,
+        [targetKey]: value
+      }
+    })
+  }
+
+  return (
         <PageContentCommons active={-1}>
-            <section className='signupSize bg-midnightblue' style={{height: '80vh'}}>
+            <section className='signupSize bg-midnightblue' style={{ height: '80vh' }}>
                 <div className="py-16">
                     <div className="flex bg-white rounded-lg shadow-lg overflow-x-auto mx-auto max-w-sm lg:max-w-4xl">
                         <div
                             className="hidden lg:block lg:w-1/2 bg-cover"
                             style={{
-                                background: `#fff url(${houseCleaningImage}) no-repeat center center`,
-                                backgroundSize: 'cover'
+                              background: `#fff url(${houseCleaningImage}) no-repeat center center`,
+                              backgroundSize: 'cover'
                             }} />
                         <div className="w-full p-8 lg:w-1/2">
                             <h2 className="text-2xl font-semibold text-gray-700 text-center">Recovery</h2>
@@ -71,7 +72,7 @@ export default function RecoveryRecover() {
                                     type="password"
                                     placeholder='Password'
                                     onInput={(e) => {
-                                        updateText('password', e.currentTarget.value);
+                                      updateText('password', e.currentTarget.value)
                                     }}
                                     value={data.password}
                                 />
@@ -82,7 +83,7 @@ export default function RecoveryRecover() {
                                     type="password"
                                     placeholder='Confirm Password'
                                     onInput={(e) => {
-                                        updateText('confirmPassword', e.currentTarget.value);
+                                      updateText('confirmPassword', e.currentTarget.value)
                                     }}
                                     value={data.confirmPassword}
                                 />
@@ -99,5 +100,5 @@ export default function RecoveryRecover() {
                 </div>
             </section>
         </PageContentCommons>
-    )
+  )
 }
