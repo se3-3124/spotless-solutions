@@ -58,7 +58,7 @@ function Main () {
       setUser({
         firstName: tokenData.first_name as string,
         lastName: tokenData.last_name as string,
-        role: tokenData.user_role === '1' ? UserRole.User : UserRole.Administrator,
+        role: tokenData.user_role === 'Administrator' ? UserRole.Administrator : UserRole.User,
         token,
         refreshToken,
         isEmailValidated: tokenData.is_email_validated === '1'
