@@ -1,3 +1,5 @@
+// ReSharper disable UnusedAutoPropertyAccessor.Global
+
 using SpotlessSolutions.Web.Data.Models;
 
 namespace SpotlessSolutions.Web.Services.Booking;

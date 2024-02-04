@@ -1,6 +1,5 @@
 using System.Text.RegularExpressions;
 using FluentValidation;
-using Microsoft.EntityFrameworkCore.Metadata;
 using SpotlessSolutions.Web.Contracts.V1.Requests;
 
 namespace SpotlessSolutions.Web.Validators;

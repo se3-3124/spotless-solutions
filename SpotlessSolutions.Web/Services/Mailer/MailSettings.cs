@@ -4,11 +4,11 @@ public class MailSettings
 {
     public class UserData
     {
-        public string Name { get; set; }
-        public string Address { get; set; }
+        public required string Name { get; init; }
+        public required string Address { get; init; }
     }
     
-    public UserData Recipient { get; set; }
-    public string Subject { get; set; }
-    public string Body { get; set; }
+    public required UserData Recipient { get; init; }
+    public required string Subject { get; init; }
+    public required string Body { get; init; }
 }

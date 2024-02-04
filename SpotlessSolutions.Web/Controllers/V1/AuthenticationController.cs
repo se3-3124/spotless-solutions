@@ -53,15 +53,12 @@ public class AuthenticationController : ControllerBase
             return Unauthorized(new ErrorException
             {
                 Error = true,
-                Messages = new[] { "Invalid credentials." }
+                Messages = ["Invalid credentials."]
             });
         }
 
         return Ok(new SessionResult
         {
-            FirstName = result.FirstName,
-            LastName = result.LastName,
-            IsAdmin = result.IsAdmin,
             Token = result.Token,
             RefreshToken = result.RefreshToken
         });

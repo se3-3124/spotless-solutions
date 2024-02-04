@@ -1,9 +1,9 @@
-using System.Text.Json.Serialization;
+// ReSharper disable UnusedAutoPropertyAccessor.Global
 
 namespace SpotlessSolutions.Web.Contracts.V1.Requests;
 
 public class LoginData
 {
-    public string Email { get; set; }
-    public string Password { get; set; }
+    public required string Email { get; set; }
+    public required string Password { get; set; }
 }

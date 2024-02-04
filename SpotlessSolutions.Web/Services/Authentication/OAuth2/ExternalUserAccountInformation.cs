@@ -2,8 +2,8 @@ namespace SpotlessSolutions.Web.Services.Authentication.OAuth2;
 
 public class ExternalUserAccountInformation
 {
-    public string Id { get; set; }
-    public string FirstName { get; set; }
-    public string LastName { get; set; }
-    public string Email { get; set; }
+    public required string Id { get; init; }
+    public required string FirstName { get; init; }
+    public required string LastName { get; init; }
+    public required string Email { get; init; }
 }

@@ -62,9 +62,6 @@ public class Authentication : IAuthentication
 
         return new AuthenticationResult
         {
-            FirstName = userData.FirstName,
-            LastName = userData.LastName,
-            IsAdmin = userData.Role == UserRoles.Administrator,
             Token = sessionTokens.Token,
             RefreshToken = sessionTokens.RefreshToken
         };
@@ -291,22 +288,6 @@ public class Authentication : IAuthentication
         await _context.SaveChangesAsync();
 
         return true;
-    }
-
-    public async Task<UserDataInformation?> GetUserInformation(Guid userDataId)
-    {
-        var data = await _context.UserData.FindAsync(userDataId);
-        if (data == null)
-        {
-            return null;
-        }
-
-        return new UserDataInformation
-        {
-            FirstName = data.FirstName,
-            LastName = data.LastName,
-            IsAdmin = data.Role == UserRoles.Administrator
-        };
     }
 
     public async Task<SessionToken?> LoginOAuth2User(AccountBindingType source, string id)

@@ -1,3 +1,5 @@
+#pragma warning disable CS8618
+
 using System.ComponentModel.DataAnnotations;
 
 namespace SpotlessSolutions.Web.Data.Models;
@@ -10,6 +12,6 @@ public class AddOnServiceDescriptor
     [Required]
     public required string Name { get; set; }
 
-    public bool AllowStandalone { get; set; } = false;
+    public bool AllowStandalone { get; set; }
     public bool AssessmentOnly { get; set; }
 }

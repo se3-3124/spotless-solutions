@@ -1,3 +1,5 @@
+#pragma warning disable CS8618
+
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using SpotlessSolutions.Web.Data.Models;
