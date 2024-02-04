@@ -1,13 +1,15 @@
+import axios, { type AxiosError } from 'axios'
 import { useContext, useEffect, useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 
 import AuthContext from '../../contexts/AuthContext.ts'
 import AuthenticationPageTemplate from './template/AuthenticationPageTemplate.tsx'
-import { createInstance, postRequest } from '../../lib/fetch.ts'
 
 import googleLogo from '../../assets/google.png'
 import facebookLogo from '../../assets/facebook.png'
 import './LoginPage.style.scss'
+import NotificationsContext, { NotificationSeverity } from '../../contexts/NotificationsContext.tsx'
+import { type CommonException } from '../../types/AxiosExceptionTypes.tsx'
 
 interface LoginState {
   email: string
@@ -24,6 +26,7 @@ interface AuthenticationResponse {
 
 export default function LoginPage () {
   const context = useContext(AuthContext)
+  const notifyContext = useContext(NotificationsContext)
   const navigate = useNavigate()
   const [data, setData] = useState<LoginState>({
     email: '',
@@ -43,16 +46,21 @@ export default function LoginPage () {
 
   const submit = async () => {
     try {
-      const result = await postRequest<AuthenticationResponse>(createInstance(), '/api/auth/login', {
+      const result = await axios.post<AuthenticationResponse>('/api/auth/login', {
         email: data.email,
         password: data.password
       })
 
-      context.setAuthenticatedUser(result.token, result.refreshToken)
-      console.log('trigger nav 2')
+      context.setAuthenticatedUser(result.data.token, result.data.refreshToken)
       navigate('/')
     } catch (e) {
-      console.error(e)
+      const exception = e as AxiosError<CommonException>
+      if (exception.response !== undefined && exception.response !== null) {
+        notifyContext.notify(NotificationSeverity.Error, 'Error: ' + exception.response.data.messages.join(', '))
+        return
+      }
+
+      notifyContext.notify(NotificationSeverity.Error, (e as Error).message)
     }
   }
 

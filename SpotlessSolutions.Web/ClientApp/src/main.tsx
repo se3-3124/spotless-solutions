@@ -5,11 +5,10 @@ import ReactDOM from 'react-dom/client'
 import { BrowserRouter, Route, Routes } from 'react-router-dom'
 
 import Alert from '@mui/material/Alert'
+import Snackbar from '@mui/material/Snackbar'
 import { createTheme, ThemeProvider } from '@mui/material/styles'
 
-import AuthContext from './contexts/AuthContext.ts'
-
-import { type UserData, UserRole } from './types/AuthenticationContextType.tsx'
+import AuthContext, { type UserData, UserRole } from './contexts/AuthContext.ts'
 
 import EmailVerificationStaticStatusPage from './pages/authentication/EmailVerificationStaticStatusPage.tsx'
 import Dashboard from './pages/dashboard/Dashboard.tsx'
@@ -27,6 +26,8 @@ import History from './pages/dashboard/history-page/history.tsx'
 
 import './index.css'
 import DashboardBookingsWorkflowView from './pages/dashboard/DashboardBookingsWorkflowVew.tsx'
+import NotificationsContext, { NotificationSeverity } from './contexts/NotificationsContext.tsx'
+import { type NotificationStateType } from './types/MainStateTypes.tsx'
 
 const theme = createTheme({
   palette: {
@@ -39,6 +40,7 @@ const theme = createTheme({
 
 function Main () {
   const [user, setUser] = useState<UserData | null>(null)
+  const [notifications, setNotifications] = useState<NotificationStateType | null>()
 
   useEffect(() => {
     const token = localStorage.getItem('sst')
@@ -79,6 +81,30 @@ function Main () {
     setUser(null)
   }
 
+  const openNotifier = (severity: NotificationSeverity, message: string): void => {
+    let notificationSeverity: 'success' | 'info' | 'warning' | 'error'
+
+    switch (severity) {
+      case NotificationSeverity.Warning:
+        notificationSeverity = 'warning'
+        break
+      case NotificationSeverity.Info:
+        notificationSeverity = 'info'
+        break
+      case NotificationSeverity.Success:
+        notificationSeverity = 'success'
+        break
+      default:
+        notificationSeverity = 'error'
+    }
+
+    setNotifications({ severity: notificationSeverity, message })
+  }
+
+  const closeNotifier = () => {
+    setNotifications(null)
+  }
+
   return (
         <ThemeProvider theme={theme}>
             <AuthContext.Provider value={{
@@ -102,35 +128,50 @@ function Main () {
                         </Alert>
                     )
                 }
-                <BrowserRouter>
+                <NotificationsContext.Provider value={{
+                  notify: (severity: NotificationSeverity, message: string) => {
+                    openNotifier(severity, message)
+                  }
+                }}>
+                  <BrowserRouter>
                     <Routes>
-                        {/* Responses */}
-                        <Route path="/verification/done" element={<EmailVerificationStaticStatusPage />} />
+                      {/* Responses */}
+                      <Route path="/verification/done" element={<EmailVerificationStaticStatusPage />} />
 
-                        {/* Account Recovery */}
-                        <Route path="/recovery" element={<PasswordRecoveryWizardPage />} />
-                        <Route path="/recovery/change" element={<PasswordRecoveryPage />} />
+                      {/* Account Recovery */}
+                      <Route path="/recovery" element={<PasswordRecoveryWizardPage />} />
+                      <Route path="/recovery/change" element={<PasswordRecoveryPage />} />
 
-                        {/* Auth related routes */}
-                        <Route path="/signup" element={<RegistrationPage />} />
-                        <Route path="/login" element={<LogInPage />} />
-                        <Route path="/logout" element={<LogoutFlowPage />} />
+                      {/* Auth related routes */}
+                      <Route path="/signup" element={<RegistrationPage />} />
+                      <Route path="/login" element={<LogInPage />} />
+                      <Route path="/logout" element={<LogoutFlowPage />} />
 
-                        {/* OAuth Token stuff */}
-                        <Route path="/auth/oauth/success" element={<OAuthSuccessPage />} />
-                        <Route path="/auth/oauth/failure" element={<OAuthFailingPage />} />
-                        <Route path="/auth/oauth/catch" element={<OAuthCatcherFlowPage />} />
+                      {/* OAuth Token stuff */}
+                      <Route path="/auth/oauth/success" element={<OAuthSuccessPage />} />
+                      <Route path="/auth/oauth/failure" element={<OAuthFailingPage />} />
+                      <Route path="/auth/oauth/catch" element={<OAuthCatcherFlowPage />} />
 
-                        {/* Dashboard */}
-                        <Route path="/dashboard" element={<Dashboard />} />
-                        <Route path="/dashboard/calendar" element={<DashboardBookingCalendarView />} />
-                        <Route path="/dashboard/history" element={<History />} />
-                        <Route path="/dashboard/calendar-workflow" element={<DashboardBookingsWorkflowView />} />
+                      {/* Dashboard */}
+                      <Route path="/dashboard" element={<Dashboard />} />
+                      <Route path="/dashboard/calendar" element={<DashboardBookingCalendarView />} />
+                      <Route path="/dashboard/history" element={<History />} />
+                      <Route path="/dashboard/calendar-workflow" element={<DashboardBookingsWorkflowView />} />
 
-                        <Route path="/" element={<Home />} />
+                      <Route path="/" element={<Home />} />
                     </Routes>
-                </BrowserRouter>
+                  </BrowserRouter>
+                </NotificationsContext.Provider>
             </AuthContext.Provider>
+            <Snackbar open={Boolean(notifications)} autoHideDuration={6000} onClose={closeNotifier}>
+              <Alert
+                severity={notifications?.severity ?? 'error'}
+                onClose={closeNotifier}
+                variant="filled"
+                sx={{ width: '100%' }}>
+                {notifications?.message ?? ''}
+              </Alert>
+            </Snackbar>
         </ThemeProvider>
   )
 }

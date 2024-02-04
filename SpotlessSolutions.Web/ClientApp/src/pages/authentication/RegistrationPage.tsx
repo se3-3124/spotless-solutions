@@ -1,6 +1,9 @@
-import axios from 'axios'
-import { useState } from 'react'
+import axios, { type AxiosError } from 'axios'
+import { useContext, useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
+
+import { type CommonException } from '../../types/AxiosExceptionTypes.tsx'
+import NotificationsContext, { NotificationSeverity } from '../../contexts/NotificationsContext.tsx'
 
 import AuthenticationPageTemplate from './template/AuthenticationPageTemplate.tsx'
 
@@ -18,6 +21,7 @@ interface UserRegistrationState {
 }
 
 export default function RegistrationPage () {
+  const notifyContext = useContext(NotificationsContext)
   const navigator = useNavigate()
   const [data, setData] = useState<UserRegistrationState>({
     email: '',
@@ -30,7 +34,7 @@ export default function RegistrationPage () {
 
   const submit = () => {
     if (data.password !== data.confirmPassword) {
-      // TODO: Alert
+      notifyContext.notify(NotificationSeverity.Error, 'Error: Passwords do not match!')
       return
     }
 
@@ -44,10 +48,16 @@ export default function RegistrationPage () {
           phoneNumber: data.phoneNumber
         })
 
-        // TODO: Success alert
+        notifyContext.notify(NotificationSeverity.Success, 'Registration success! Check your email for confirmation.')
         navigator('/')
       } catch (e) {
-        // TODO: Failing alert
+        const exception = e as AxiosError<CommonException>
+        if (exception.response !== null && exception.response !== undefined) {
+          notifyContext.notify(NotificationSeverity.Error, 'Error: ' + exception.response.data.messages.join(', '))
+          return
+        }
+
+        notifyContext.notify(NotificationSeverity.Error, (e as Error).message)
       }
     }
 

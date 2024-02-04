@@ -5,8 +5,7 @@ import Toolbar from '@mui/material/Toolbar'
 import { Avatar, IconButton, ListItemIcon, Menu, MenuItem, Tooltip } from '@mui/material'
 import LogoutRoundedIcon from '@mui/icons-material/LogoutRounded'
 
-import AuthContext from '../contexts/AuthContext.ts'
-import { UserRole } from '../types/AuthenticationContextType.tsx'
+import AuthContext, { UserRole } from '../contexts/AuthContext.ts'
 
 import tdLogo from '../assets/td_logo.jpg'
 
