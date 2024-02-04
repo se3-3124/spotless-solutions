@@ -27,8 +27,14 @@ jobs:
             - name: Restore tools
               run: dotnet tool restore
 
+            - name: Restore dependencies
+              run: dotnet restore
+
             - name: InspectCode
               run: dotnet jb inspectcode $(pwd)/SpotlessSolutions.sln --no-build --output="codeinspections.xml" --verbosity=WARN
 
             - name: NVika
               run: dotnet nvika parsereport codeinspections.xml --treatwarningsaserrors
+
+            - name: Run build
+              run: dotnet build -c Release
