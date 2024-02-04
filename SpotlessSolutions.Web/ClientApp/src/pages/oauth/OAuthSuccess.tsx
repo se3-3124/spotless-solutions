@@ -1,5 +1,5 @@
 import { useEffect } from 'react'
-import { useNavigate, useSearchParams } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 
 import './OAuthGenericDesign.scss'
 
@@ -7,20 +7,10 @@ import PageContentCommons from '../../Components/PageContentCommons.tsx'
 
 export default function OAuthSuccess () {
   const navigate = useNavigate()
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const [searchParams, _] = useSearchParams()
 
   useEffect(() => {
-    if (searchParams.get('state') === 'registration_state') {
-      setInterval(() => {
-        navigate('/')
-      }, 2000)
-
-      return
-    }
-
-    setInterval(() => {
-      navigate('/dashboard')
+    setTimeout(() => {
+      navigate('/')
     }, 2000)
   }, [])
 
