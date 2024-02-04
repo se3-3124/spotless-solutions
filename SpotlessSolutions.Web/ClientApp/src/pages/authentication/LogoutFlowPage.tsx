@@ -1,9 +1,9 @@
 import { useContext, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 
-import AuthContext from '../contexts/AuthContext.ts'
+import AuthContext from '../../contexts/AuthContext.ts'
 
-export default function LogoutRedirect () {
+export default function LogoutFlowPage () {
   const context = useContext(AuthContext)
   const navigate = useNavigate()
 
@@ -17,6 +17,6 @@ export default function LogoutRedirect () {
   }, [])
 
   return (
-        <p>Please wait...</p>
+    <p>Please wait...</p>
   )
 }

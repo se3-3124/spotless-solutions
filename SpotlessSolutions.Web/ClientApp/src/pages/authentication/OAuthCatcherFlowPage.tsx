@@ -2,7 +2,7 @@ import { useContext, useEffect } from 'react'
 import { useNavigate, useSearchParams } from 'react-router-dom'
 import AuthContext from '../../contexts/AuthContext.ts'
 
-export default function OAuthCatcher () {
+export default function OAuthCatcherFlowPage () {
   const navigate = useNavigate()
   const context = useContext(AuthContext)
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -25,8 +25,8 @@ export default function OAuthCatcher () {
   }, [])
 
   return (
-        <>
-            Please wait...
-        </>
+    <>
+      Please wait...
+    </>
   )
 }

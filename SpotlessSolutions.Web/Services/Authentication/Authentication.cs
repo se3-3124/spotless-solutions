@@ -125,7 +125,7 @@ public class Authentication : IAuthentication
                     },
                     Subject = "Account confirmation",
                     Body = $"""
-                            Confirm your account by clicking <a href="{hostname}/api/auth/confirm?token={code}">here</a>
+                            Confirm your account by clicking <a href="{hostname}/api/auth/confirm?t={code}">here</a>
                             """
                 };
 

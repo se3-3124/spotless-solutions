@@ -11,17 +11,18 @@ import AuthContext from './contexts/AuthContext.ts'
 
 import { type UserData, UserRole } from './types/AuthenticationContextType.tsx'
 
+import EmailVerificationStaticStatusPage from './pages/authentication/EmailVerificationStaticStatusPage.tsx'
 import Dashboard from './pages/dashboard/Dashboard.tsx'
 import DashboardBookingCalendarView from './pages/dashboard/DashboardBookingCalendarView.tsx'
 import Home from './pages/home-page/home-page.tsx'
-import LogIn from './pages/login-page/login-page.tsx'
-import LogoutRedirect from './pages/LogoutRedirect.tsx'
-import RecoveryPrompt from './pages/password-recovery/recovery-prompt.tsx'
-import RecoveryRecover from './pages/password-recovery/recovery-recover.tsx'
-import SignUp from './pages/registration-page/registration-page.tsx'
-import OAuthSuccess from './pages/oauth/OAuthSuccess.tsx'
-import OAuthFailure from './pages/oauth/OAuthFailure.tsx'
-import OAuthCatcher from './pages/oauth/OAuthCatcher.tsx'
+import LogInPage from './pages/authentication/LoginPage.tsx'
+import LogoutFlowPage from './pages/authentication/LogoutFlowPage.tsx'
+import RegistrationPage from './pages/authentication/RegistrationPage.tsx'
+import OAuthCatcherFlowPage from './pages/authentication/OAuthCatcherFlowPage.tsx'
+import OAuthFailingPage from './pages/authentication/OAuthFailingPage.tsx'
+import OAuthSuccessPage from './pages/authentication/OAuthSuccessPage.tsx'
+import PasswordRecoveryPage from './pages/authentication/PasswordRecoveryPage.tsx'
+import PasswordRecoveryWizardPage from './pages/authentication/PasswordRecoveryWizardPage.tsx'
 import History from './pages/dashboard/history-page/history.tsx'
 
 import './index.css'
@@ -103,20 +104,22 @@ function Main () {
                 }
                 <BrowserRouter>
                     <Routes>
-                        <Route path="/signup" element={<SignUp />} />
+                        {/* Responses */}
+                        <Route path="/verification/done" element={<EmailVerificationStaticStatusPage />} />
 
                         {/* Account Recovery */}
-                        <Route path="/recovery" element={<RecoveryPrompt />} />
-                        <Route path="/recovery/change" element={<RecoveryRecover />} />
+                        <Route path="/recovery" element={<PasswordRecoveryWizardPage />} />
+                        <Route path="/recovery/change" element={<PasswordRecoveryPage />} />
 
                         {/* Auth related routes */}
-                        <Route path="/login" element={<LogIn />} />
-                        <Route path="/logout" element={<LogoutRedirect />} />
+                        <Route path="/signup" element={<RegistrationPage />} />
+                        <Route path="/login" element={<LogInPage />} />
+                        <Route path="/logout" element={<LogoutFlowPage />} />
 
                         {/* OAuth Token stuff */}
-                        <Route path="/auth/oauth/success" element={<OAuthSuccess />} />
-                        <Route path="/auth/oauth/failure" element={<OAuthFailure />} />
-                        <Route path="/auth/oauth/catch" element={<OAuthCatcher />} />
+                        <Route path="/auth/oauth/success" element={<OAuthSuccessPage />} />
+                        <Route path="/auth/oauth/failure" element={<OAuthFailingPage />} />
+                        <Route path="/auth/oauth/catch" element={<OAuthCatcherFlowPage />} />
 
                         {/* Dashboard */}
                         <Route path="/dashboard" element={<Dashboard />} />
