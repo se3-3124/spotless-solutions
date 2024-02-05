@@ -75,7 +75,7 @@ export default function WeeklyCalendarComponent (prop: CalendarComponentPropType
         <Grid container>
             {
                 ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'].map((w, i) => (
-                    <Grid xs={1.7} key={`wkn-${i}`}>
+                    <Grid item xs={1.7} key={`wkn-${i}`}>
                         <div className="weekly-calendar-week-field">
                             <p>{w}</p>
                         </div>
@@ -84,7 +84,7 @@ export default function WeeklyCalendarComponent (prop: CalendarComponentPropType
             }
             {
                 makeWeekCalendar().map((d, i) => (
-                    <Grid xs={1.7} key={`wkc-${i}`}>
+                    <Grid item xs={1.7} key={`wkc-${i}`}>
                         <div className={`weekly-component${d.isToday ? ' today' : ''}`}>
                             <p>{d.date.getDate()}</p>
                             {
