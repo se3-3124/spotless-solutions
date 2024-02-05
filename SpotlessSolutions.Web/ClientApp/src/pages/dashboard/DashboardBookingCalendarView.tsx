@@ -1,3 +1,4 @@
+import { DateTime } from 'luxon'
 import React, { useState } from 'react'
 
 import Box from '@mui/material/Box'
@@ -82,22 +83,35 @@ export default function DashboardBookingCalendarView () {
 
   const moveToPrevious = () => {
     if (calendarViewState === 'monthly') {
-      setActiveCalendarView(d => new Date(d.getFullYear(), d.getMonth() - 1, 1))
+      setActiveCalendarView(d => {
+        const current = DateTime.fromJSDate(d)
+        return current.minus({ months: 1 }).toJSDate()
+      })
       return
     }
 
-    const currentDay = 7 - activeCalendarView.getDay()
-    setActiveCalendarView(d => new Date(d.getFullYear(), d.getMonth(), d.getDate() - currentDay))
+    setActiveCalendarView(d => {
+      const current = DateTime.fromJSDate(d)
+      return DateTime.fromObject({ weekYear: current.year, weekNumber: current.weekNumber })
+        .minus({ weeks: 1 }).toJSDate()
+    })
   }
 
   const moveToNext = () => {
     if (calendarViewState === 'monthly') {
-      setActiveCalendarView(d => new Date(d.getFullYear(), d.getMonth() + 1, 1))
+      setActiveCalendarView(d => {
+        const current = DateTime.fromJSDate(d)
+        return current.plus({ months: 1 }).toJSDate()
+      })
+
       return
     }
 
-    const currentDay = 7 - activeCalendarView.getDay()
-    setActiveCalendarView(d => new Date(d.getFullYear(), d.getMonth(), d.getDate() + currentDay))
+    setActiveCalendarView(d => {
+      const current = DateTime.fromJSDate(d)
+      return DateTime.fromObject({ weekYear: current.year, weekNumber: current.weekNumber })
+        .plus({ weeks: 1 }).toJSDate()
+    })
   }
 
   const changeViewType = (viewType: CalendarViewState) => {
@@ -106,12 +120,7 @@ export default function DashboardBookingCalendarView () {
   }
 
   const getActiveDateWeekNumber = (): number => {
-    const start = new Date(activeCalendarView.getFullYear(), 0, 1)
-      .getTime()
-    const current = activeCalendarView.getTime()
-    const days = Math.floor((current - start) / (24 * 60 * 60 * 1000))
-
-    return Math.ceil(days / 7)
+    return DateTime.fromJSDate(activeCalendarView).weekNumber
   }
 
   const handleOpen = (data: BookingResponseType) => {

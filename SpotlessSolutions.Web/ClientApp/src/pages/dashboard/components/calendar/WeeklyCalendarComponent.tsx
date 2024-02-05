@@ -1,3 +1,4 @@
+import { DateTime } from 'luxon'
 import { useContext, useEffect, useState } from 'react'
 
 import Grid from '@mui/material/Grid'
@@ -50,23 +51,17 @@ export default function WeeklyCalendarComponent (prop: CalendarComponentPropType
   const makeWeekCalendar = (): WeekCalendarType[] => {
     const calendar: WeekCalendarType[] = []
 
-    const currentDay = active.getDay()
+    const time = DateTime.fromJSDate(active)
+    const week = time.weekNumber
 
-    for (let i = currentDay; i > 0; i--) {
-      const current = new Date(active.getFullYear(), active.getMonth(), active.getDate() - 1)
-      calendar.push({
-        date: current,
-        isToday: isToday(current)
-      })
-    }
-
-    calendar.push({
-      date: active,
-      isToday: isToday(active)
+    const weekCalendar = DateTime.fromObject({
+      weekYear: time.year,
+      weekNumber: week
     })
 
-    for (let i = (currentDay + 1); i < 7; i++) {
-      const current = new Date(active.getFullYear(), active.getMonth(), active.getDate() + i)
+    const start = weekCalendar.startOf('week')
+    for (let i = 0; i < 7; i++) {
+      const current = start.plus({ days: i }).toJSDate()
       calendar.push({
         date: current,
         isToday: isToday(current)
