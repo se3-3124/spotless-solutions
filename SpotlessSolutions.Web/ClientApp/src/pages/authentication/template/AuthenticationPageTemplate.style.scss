@@ -1,0 +1,28 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+.auth-common-wrapper {
+  display: flex;
+  flex-direction: column;
+  padding-top: 90px;
+  padding-bottom: 14px;
+  
+  @apply bg-midnightblue;
+  
+  & .wrapper {
+    @apply py-16;
+    
+    & .wrapper-contents {
+      @apply flex bg-white rounded-lg shadow-lg overflow-x-auto mx-auto max-w-sm lg:max-w-4xl;
+      
+      & .left-image {
+        @apply hidden lg:block lg:w-1/2 bg-cover;
+      }
+      
+      & .right-side {
+        @apply w-full p-8 lg:w-1/2;
+      }
+    }
+  }
+}

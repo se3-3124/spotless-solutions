@@ -1,3 +1,5 @@
+// ReSharper disable UnusedAutoPropertyAccessor.Global
+
 namespace SpotlessSolutions.Web.Security.Policies.IpBlocking;
 
 public class IpRecordData

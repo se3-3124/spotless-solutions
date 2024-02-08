@@ -53,15 +53,12 @@ public class AuthenticationController : ControllerBase
             return Unauthorized(new ErrorException
             {
                 Error = true,
-                Messages = new[] { "Invalid credentials." }
+                Messages = ["Invalid credentials."]
             });
         }
 
         return Ok(new SessionResult
         {
-            FirstName = result.FirstName,
-            LastName = result.LastName,
-            IsAdmin = result.IsAdmin,
             Token = result.Token,
             RefreshToken = result.RefreshToken
         });
@@ -99,7 +96,7 @@ public class AuthenticationController : ControllerBase
             return BadRequest(new ErrorException
             {
                 Error = true,
-                Messages = new[] { "Invalid registration data. Check your submission and try again." }
+                Messages = ["Invalid registration data. Check your submission and try again."]
             });
         }
 
@@ -112,30 +109,25 @@ public class AuthenticationController : ControllerBase
     [HttpGet("confirm")]
     public async Task<IActionResult> VerifyEmail([FromQuery] string t)
     {
+        var hostname = Environment.GetEnvironmentVariable("SITE_HOSTNAME")!;
+        
         if (string.IsNullOrEmpty(t))
         {
-            return BadRequest(new ErrorException
-            {
-                Error = true,
-                Messages = new[] { "Invalid verification token. It may be expired." }
-            });
+            return Redirect($"{hostname}/verification/done?status=3");
         }
 
         var result = await _auth.VerifyEmail(t);
         if (!result)
         {
-            return BadRequest(new ErrorException
-            {
-                Error = true,
-                Messages = new[] { "Invalid verification token. It may be expired." }
-            });
+            // return BadRequest(new ErrorException
+            // {
+            //    Error = true,
+            //    Messages = ["Invalid verification token. It may be expired."]
+            // });
+            return Redirect($"{hostname}/verification/done?status=2");
         }
 
-        // TODO: Redirect user on success
-        return Ok(new GenericOkResult
-        {
-            Success = true
-        });
+        return Redirect($"{hostname}/verification/done?status=1");
     }
 
     [HttpPost("recovery/request")]
@@ -162,7 +154,7 @@ public class AuthenticationController : ControllerBase
             : BadRequest(new ErrorException
             {
                 Error = true,
-                Messages = new[] { "Unable to request for password reset." }
+                Messages = ["Unable to request for password reset."]
             });
     }
 
@@ -187,7 +179,7 @@ public class AuthenticationController : ControllerBase
             return BadRequest(new ErrorException
             {
                 Error = true,
-                Messages = new[] { "Password reset failed. Request another password recovery and try again." }
+                Messages = ["Password reset failed. Request another password recovery and try again."]
             });
         }
 

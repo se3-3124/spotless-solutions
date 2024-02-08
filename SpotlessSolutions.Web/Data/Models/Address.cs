@@ -1,3 +1,5 @@
+#pragma warning disable CS8618
+
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
@@ -8,12 +10,12 @@ public class Address
     [Key]
     public Guid Id { get; set; }
 
-    public string Street { get; set; } = string.Empty;
-    public string District { get; set; } = string.Empty;
-    public string Barangay { get; set; } = string.Empty;
-    public string PostalCode { get; set; } = string.Empty;
-    public string City { get; set; } = string.Empty;
-    public string Province { get; set; } = string.Empty;
+    public required string Street { get; set; }
+    public required string District { get; set; }
+    public required string Barangay { get; set; }
+    public required string PostalCode { get; set; }
+    public required string City { get; set; }
+    public required string Province { get; set; }
     
     public Guid UserDataId { get; set; }
 

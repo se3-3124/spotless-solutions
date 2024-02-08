@@ -53,13 +53,6 @@ public interface IAuthentication
     Task<bool> RegisterOAuth2User(AccountBindingType source, ExternalUserAccountInformation data);
 
     /// <summary>
-    /// Get user information with user data id.
-    /// </summary>
-    /// <param name="userDataId"></param>
-    /// <returns></returns>
-    Task<UserDataInformation?> GetUserInformation(Guid userDataId);
-
-    /// <summary>
     /// Authenticate the user using OAuth2 flow
     /// </summary>
     /// <param name="source"></param>

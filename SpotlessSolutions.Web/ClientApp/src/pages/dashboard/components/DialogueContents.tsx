@@ -1,7 +1,7 @@
-export default function DialogueContents() {
-    return (
+export default function DialogueContents () {
+  return (
         <>
             Hello world
         </>
-    )
+  )
 }

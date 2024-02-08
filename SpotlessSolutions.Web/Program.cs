@@ -1,6 +1,7 @@
 using FluentValidation;
 using Microsoft.AspNetCore.Identity;
 using SpotlessSolutions.Web.Data;
+using SpotlessSolutions.Web.Data.Seeding;
 using SpotlessSolutions.Web.Extensions;
 using SpotlessSolutions.Web.Security.Tokens;
 using SpotlessSolutions.Web.Services;
@@ -17,8 +18,6 @@ builder.Services.AddIdentity<IdentityUser, IdentityRole>(options =>
     .AddDefaultTokenProviders();
 
 builder.Services.InstallJwtConfig(builder.Configuration);
-
-const string corsName = "cors_config";
 builder.Services.AddCors(options =>
 {
     options.AddDefaultPolicy(policy =>
@@ -38,6 +37,9 @@ builder.Services.InstallMailerSettings(builder.Configuration);
 builder.Services.InstallServices();
 
 var app = builder.Build();
+
+// Prepare database
+await app.ApplySeed();
 
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())

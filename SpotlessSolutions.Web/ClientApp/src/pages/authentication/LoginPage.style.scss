@@ -1,0 +1,55 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+.login-heading {
+  @apply font-semibold text-gray-700 text-center;
+}
+
+.login-field-wrapper {
+  @apply mt-4;
+  
+  & .input-field {
+    @apply bg-gray-200 text-gray-700 focus:outline-none border border-gray-300 rounded py-2 px-4 block w-full appearance-none;
+  }
+  
+  & .submit-btn {
+    @apply bg-midnightblue text-fruityorange font-bold py-2 px-4 w-full rounded hover:bg-fruityorange hover:text-midnightblue;
+  }
+  
+  & p {
+    @apply text-center;
+    
+    & b {
+      @apply text-fruityorange;
+    }
+  }
+}
+
+.oauth-field-options {
+  @apply mt-4 flex items-center justify-between;
+
+  & .divider {
+    @apply border-b w-1 md:w-1/3;
+  }
+
+  & p {
+    @apply text-xs text-gray-500 uppercase;
+  }
+}
+
+.oauth-field {
+  @apply grid gap-1 mb-1 md:grid-cols-2 mt-4;
+
+  & a {
+    @apply flex justify-center mt-4 hover:bg-gray-100;
+  }
+}
+
+.forgot-password-field {
+  @apply text-center mt-4 text-sm;
+  
+  & b {
+    @apply text-fruityorange;
+  }
+}
