@@ -101,7 +101,10 @@ export default function DashboardBookingCalendarView () {
       const endOfWeek = date.endOf('week')
 
       async function fetchWeeklyCalendarEvents (request: AxiosInstance) {
-        const requestPath = `/api/bookings/admin/range?start=${startOfWeek.toISO()}&end=${endOfWeek.toISO()}`
+        const startISOString = startOfWeek.toJSDate().toISOString()
+        const endISOString = endOfWeek.toJSDate().toISOString()
+
+        const requestPath = `/api/bookings/admin/range?start=${startISOString}&end=${endISOString}`
         const response = await request
           .get<{ success: boolean, result: BookingResponseType[] }>(requestPath)
 
