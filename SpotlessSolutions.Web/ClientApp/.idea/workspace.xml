@@ -5,43 +5,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="28939386-8850-4574-80ac-21125b8806f6" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/.storybook/main.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.storybook/preview.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/components/calendars/MonthCalendarComponent.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/components/calendars/WeeklyCalendarComponent.style.scss" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/components/calendars/WeeklyCalendarComponent.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/components/footer/FooterComponent.style.scss" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/components/footer/FooterComponent.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/components/navigation/NavigationBar.style.scss" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/components/navigation/NavigationBar.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/pages/home-page/home-page.scss" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/stories/FooterComponent.stories.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/stories/MonthCalendarComponent.stories.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/stories/NavigationBar.stories.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/stories/WeeklyCalendarComponent.stories.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/stories/commons/data.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/stories/routingParameters.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/types/UserData.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/utils/date-utils.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.eslintrc.cjs" beforeDir="false" afterPath="$PROJECT_DIR$/.eslintrc.cjs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/package-lock.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Components/PageContentCommons.scss" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Components/PageContentCommons.tsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/contexts/AuthContext.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/contexts/AuthContext.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/lib/fetch.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/main.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/pages/authentication/OAuthFailingPage.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/authentication/OAuthFailingPage.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/pages/authentication/template/AuthenticationPageTemplate.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/authentication/template/AuthenticationPageTemplate.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/pages/dashboard/DashboardBookingCalendarView.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/dashboard/DashboardBookingCalendarView.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/pages/dashboard/components/calendar/CalendarComponent.style.scss" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/calendars/MonthCalendarComponent.style.scss" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/pages/dashboard/components/calendar/CalendarComponent.tsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/pages/dashboard/components/calendar/WeeklyCalendarComponent.style.scss" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/pages/dashboard/components/calendar/WeeklyCalendarComponent.tsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/pages/home-page/home-page.css" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/pages/home-page/home-page.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/home-page/home-page.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../SpotlessSolutions.Web.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/../SpotlessSolutions.Web.csproj" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -66,24 +30,24 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "RunOnceActivity.OpenProjectViewOnStart": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "git-widget-placeholder": "dev-storybook",
-    "node.js.detected.package.eslint": "true",
-    "node.js.detected.package.standard": "true",
-    "node.js.detected.package.tslint": "true",
-    "node.js.selected.package.eslint": "(autodetect)",
-    "node.js.selected.package.standard": "",
-    "node.js.selected.package.tslint": "(autodetect)",
-    "nodejs_package_manager_path": "npm",
-    "npm.storybook.executor": "Run",
-    "settings.editor.selected.configurable": "editor.preferences.fonts.default",
-    "ts.external.directory.path": "/Volumes/Work/Code/Education/SpotlessSolutions/SpotlessSolutions.Web/ClientApp/node_modules/typescript/lib",
-    "vue.rearranger.settings.migration": "true"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;dev-storybook&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.standard&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.standard&quot;: &quot;&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;npm.storybook.executor&quot;: &quot;Run&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;editor.preferences.fonts.default&quot;,
+    &quot;ts.external.directory.path&quot;: &quot;/Volumes/Work/Code/Education/SpotlessSolutions/SpotlessSolutions.Web/ClientApp/node_modules/typescript/lib&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
-}]]></component>
+}</component>
   <component name="RunManager">
     <configuration name="storybook" type="js.build_tools.npm" nameIsGenerated="true">
       <package-json value="$PROJECT_DIR$/package.json" />
@@ -106,7 +70,8 @@
       <updated>1707042959270</updated>
       <workItem from="1707042960587" duration="1447000" />
       <workItem from="1707044412051" duration="1224000" />
-      <workItem from="1707799800073" duration="13908000" />
+      <workItem from="1707799800073" duration="14130000" />
+      <workItem from="1707822799312" duration="59000" />
     </task>
     <servers />
   </component>
