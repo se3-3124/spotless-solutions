@@ -15,11 +15,11 @@
   @apply border-gray-100;
   @apply p-2;
   height: 128px;
-  
+
   &.today {
     @apply bg-amber-100;
   }
-  
+
   & .inactive {
     @apply text-gray-300;
   }

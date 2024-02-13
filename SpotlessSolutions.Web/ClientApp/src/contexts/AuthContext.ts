@@ -1,19 +1,7 @@
 import { type AxiosInstance } from 'axios'
 import { createContext } from 'react'
 
-export enum UserRole {
-  Administrator,
-  User
-}
-
-export interface UserData {
-  firstName: string
-  lastName: string
-  role: UserRole
-  token: string
-  refreshToken: string
-  isEmailValidated: boolean
-}
+import { type UserData } from '../types/UserData.ts'
 
 export interface AuthenticationContextType {
   /**

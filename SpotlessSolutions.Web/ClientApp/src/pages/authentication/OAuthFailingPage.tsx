@@ -9,7 +9,7 @@ export default function OAuthFailingPage () {
     <AuthenticationPageTemplate>
       <h2 className="login-heading">An unexpected error occurred.</h2>
       <Typography variant="body1" sx={{ textAlign: 'center' }}>
-        An error occured while trying to fetch your credentials from Google. Please try again later.
+        An error occurred while trying to fetch your credentials from Google. Please try again later.
       </Typography>
     </AuthenticationPageTemplate>
   )

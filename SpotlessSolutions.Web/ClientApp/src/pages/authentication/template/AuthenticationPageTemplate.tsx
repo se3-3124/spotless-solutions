@@ -1,6 +1,8 @@
-import { type ReactNode } from 'react'
+import { type ReactNode, useContext } from 'react'
 
-import PageContentCommons from '../../../Components/PageContentCommons.tsx'
+import AuthContext from '../../../contexts/AuthContext.ts'
+import FooterComponent from '../../../components/footer/FooterComponent.tsx'
+import NavigationBar from '../../../components/navigation/NavigationBar.tsx'
 
 import houseCleaningImage from '../../../assets/house-cleaning-service.jpeg'
 import './AuthenticationPageTemplate.style.scss'
@@ -10,8 +12,11 @@ export interface AuthenticationPageTemplatePropType {
 }
 
 export default function AuthenticationPageTemplate (props: AuthenticationPageTemplatePropType) {
+  const authContext = useContext(AuthContext)
+
   return (
-    <PageContentCommons active={-1}>
+    <>
+      <NavigationBar user={authContext.user} />
       <div className="auth-common-wrapper">
         <div className="wrapper">
           <div className="wrapper-contents">
@@ -27,6 +32,7 @@ export default function AuthenticationPageTemplate (props: AuthenticationPageTem
           </div>
         </div>
       </div>
-    </PageContentCommons>
+      <FooterComponent />
+    </>
   )
 }
