@@ -21,7 +21,7 @@
     @apply flex flex-grow flex-row font-medium items-center justify-center text-center;
 
     & a {
-      @apply sm:hidden md:block py-2 px-3 text-white;
+      @apply sm:hidden md:block py-2 px-3 text-white font-sans font-bold;
 
       &.selected {
         @apply font-bold text-fruityorange;
