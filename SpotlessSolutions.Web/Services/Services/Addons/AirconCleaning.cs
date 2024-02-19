@@ -1,6 +1,4 @@
-﻿using SpotlessSolutions.Web.Services.Services.Builtin;
-
-namespace SpotlessSolutions.Web.Services.Services.Addons;
+﻿namespace SpotlessSolutions.Web.Services.Services.Addons;
 
 public class AirconCleaning : AddOnStandalone, IAddon
 {
