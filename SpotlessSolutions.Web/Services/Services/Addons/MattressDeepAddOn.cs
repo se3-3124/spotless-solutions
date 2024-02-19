@@ -18,7 +18,8 @@ public class MattressDeepAddOn : AddOnStandalone, IAddon
             MattressDeepSize.SemiDouble => 1500 * count,
             MattressDeepSize.Double => 2000 * count,
             MattressDeepSize.Queen => 2000 * count,
-            MattressDeepSize.KingSize => 2500 * count
+            MattressDeepSize.KingSize => 2500 * count,
+            _ => throw new ArgumentOutOfRangeException(nameof(values))
         };
     }
 
