@@ -1,0 +1,28 @@
+@use 'tailwindcss/base.css';
+@use 'tailwindcss/components.css';
+@use 'tailwindcss/utilities.css';
+
+.footer {
+  @apply w-full;
+  @apply bg-midnightblue;
+  @apply p-12;
+  @apply text-white;
+
+  & .contents {
+    @apply flex;
+    @apply flex-row;
+
+    & .contact-field {
+      @apply ml-40;
+      @apply flex-grow;
+    }
+  }
+
+  & .divider {
+    @apply mt-12;
+    @apply mb-12;
+    @apply h-1;
+    @apply w-full;
+    @apply bg-white;
+  }
+}

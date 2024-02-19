@@ -1,0 +1,52 @@
+@use 'tailwindcss/base.css';
+@use 'tailwindcss/components.css';
+@use 'tailwindcss/utilities.css';
+
+.navbar-main {
+  @apply fixed w-full bg-midnightblue block p-4;
+  
+  img {
+    @apply h-16;
+  }
+
+  & .navbar-menu-wrapper {
+    @apply flex flex-grow flex-row font-medium items-center justify-center;
+
+    & a {
+      @apply sm:hidden md:block py-2 px-3 text-white;
+
+      &.selected {
+        @apply font-bold text-fruityorange;
+      }
+
+      &:hover {
+        @apply text-fruityorange;
+        cursor: pointer;
+      }
+    }
+  }
+
+  & .navbar-right-side {
+    @apply flex flex-row;
+
+    & .btn {
+      @apply py-2 px-3;
+
+      &.login-button {
+        @apply text-white;
+      }
+
+      &.signup-button {
+        @apply bg-fruityorange text-white font-medium rounded-lg text-sm text-center;
+
+        &:hover {
+          @apply bg-white text-midnightblue;
+        }
+
+        &:focus {
+          @apply ring-4 outline-none ring-blue-300;
+        }
+      }
+    }
+  }
+}

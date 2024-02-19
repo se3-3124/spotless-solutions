@@ -8,7 +8,8 @@ import Alert from '@mui/material/Alert'
 import Snackbar from '@mui/material/Snackbar'
 import { createTheme, ThemeProvider } from '@mui/material/styles'
 
-import AuthContext, { type UserData, UserRole } from './contexts/AuthContext.ts'
+import AuthContext from './contexts/AuthContext.ts'
+import { type UserData, UserRole } from './types/UserData.ts'
 
 import EmailVerificationStaticStatusPage from './pages/authentication/EmailVerificationStaticStatusPage.tsx'
 import Dashboard from './pages/dashboard/Dashboard.tsx'
