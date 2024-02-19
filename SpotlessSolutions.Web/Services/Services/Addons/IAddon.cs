@@ -14,4 +14,16 @@ public interface IAddon
     /// </summary>
     /// <returns></returns>
     string GetId();
+
+    /// <summary>
+    /// Flag for checking whether the item is standalone or not
+    /// </summary>
+    /// <returns></returns>
+    bool IsStandalone();
+
+    /// <summary>
+    /// Gets the description of the service
+    /// </summary>
+    /// <returns></returns>
+    string GetDescription();
 }

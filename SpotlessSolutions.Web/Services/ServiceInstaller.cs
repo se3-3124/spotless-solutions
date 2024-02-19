@@ -4,6 +4,7 @@ using SpotlessSolutions.Web.Services.Authentication.OAuth2.Google;
 using SpotlessSolutions.Web.Services.Authentication.Session;
 using SpotlessSolutions.Web.Services.Booking;
 using SpotlessSolutions.Web.Services.Mailer;
+using SpotlessSolutions.Web.Services.Services;
 
 namespace SpotlessSolutions.Web.Services;
 
@@ -17,5 +18,6 @@ public static class ServiceInstaller
         serviceCollection.AddKeyedSingleton<IOAuth2Provider, GoogleOAuth2Provider>("GoogleOAuth2Provider");
 
         serviceCollection.AddScoped<IBookingManager, BookingManager>();
+        serviceCollection.AddSingleton<IServiceRegistry, ServiceRegistry>();
     }
 }

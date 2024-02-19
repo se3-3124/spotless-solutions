@@ -20,4 +20,10 @@ public interface IService
     /// </summary>
     /// <returns></returns>
     string GetId();
+
+    /// <summary>
+    /// Gets the description of the service
+    /// </summary>
+    /// <returns></returns>
+    string GetDescription();
 }

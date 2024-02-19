@@ -2,7 +2,7 @@
 
 namespace SpotlessSolutions.Web.Services.Services.Addons;
 
-public class AirconCleaning : AddOnStandalone, IService
+public class AirconCleaning : AddOnStandalone, IAddon
 {
     public bool RequireTransportFee()
     {

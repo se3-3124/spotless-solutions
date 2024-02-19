@@ -9,6 +9,16 @@ public abstract class RequireAssessmentAddOn : IAddon
         return Id;
     }
 
+    public bool IsStandalone()
+    {
+        return false;
+    }
+
+    public string GetDescription()
+    {
+        return "";
+    }
+
     public float Calculate(float[] values)
     {
         return 0;

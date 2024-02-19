@@ -11,4 +11,8 @@ public abstract class ServiceTransportable : IService
 
     public abstract float Calculate(float[] values);
     public abstract string GetId();
+    public string GetDescription()
+    {
+        return "";
+    }
 }
