@@ -28,6 +28,8 @@ import History from './pages/dashboard/history-page/history.tsx'
 // Added Services Page
 import Services from './pages/services-page/services-page.tsx'
 
+import Services2 from './pages/services-page/services2-page.tsx'
+
 import './index.css'
 import DashboardBookingsWorkflowView from './pages/dashboard/DashboardBookingsWorkflowVew.tsx'
 import NotificationsContext, { NotificationSeverity } from './contexts/NotificationsContext.tsx'
@@ -164,6 +166,7 @@ function Main () {
 
                       <Route path="/" element={<Home />} />
                       <Route path="/services" element={<Services />} />
+                      <Route path="/services2" element={<Services2 />} />
 
                     </Routes>
                   </BrowserRouter>
