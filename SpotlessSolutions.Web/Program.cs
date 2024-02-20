@@ -40,6 +40,7 @@ var app = builder.Build();
 
 // Prepare database
 await app.ApplySeed();
+await app.FinalizeSeed();
 
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())

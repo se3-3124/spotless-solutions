@@ -11,8 +11,7 @@ public abstract class ServiceTransportable : IService
 
     public abstract float Calculate(float[] values);
     public abstract string GetId();
-    public string GetDescription()
-    {
-        return "";
-    }
+    public abstract void UpdateConfig(string name, string description, string config);
+    public abstract string GetName();
+    public abstract string GetDescription();
 }

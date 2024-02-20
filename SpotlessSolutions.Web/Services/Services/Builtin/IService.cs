@@ -26,4 +26,14 @@ public interface IService
     /// </summary>
     /// <returns></returns>
     string GetDescription();
+
+    /// <summary>
+    /// Update configuration of the service
+    /// </summary>
+    /// <param name="name"></param>
+    /// <param name="description"></param>
+    /// <param name="config"></param>
+    void UpdateConfig(string name, string description, string config);
+
+    string GetName();
 }

@@ -14,4 +14,6 @@ public class DataContext : IdentityDbContext
     public DbSet<UserData> UserData { get; set; }
     public DbSet<AccountBinding> Bindings { get; set; }
     public DbSet<Address> Addresses { get; set; }
+    
+    public DbSet<ServiceConfig> ServiceConfigs { get; set; }
 }
