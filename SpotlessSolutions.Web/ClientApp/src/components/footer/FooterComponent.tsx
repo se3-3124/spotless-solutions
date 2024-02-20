@@ -44,6 +44,7 @@ export default function FooterComponent () {
             <p>DAVE</p>
         </div>
       </div>
+
       <div className="divider"/>
       <div className="footer-bottom">
       <h1>Copyright (C) 2023 Topdown Cleaning Services</h1>
