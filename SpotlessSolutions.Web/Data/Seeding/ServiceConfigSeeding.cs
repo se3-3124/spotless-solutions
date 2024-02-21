@@ -1,4 +1,5 @@
-﻿using SpotlessSolutions.Web.Data.Models;
+﻿using Microsoft.EntityFrameworkCore;
+using SpotlessSolutions.Web.Data.Models;
 
 namespace SpotlessSolutions.Web.Data.Seeding;
 
@@ -6,6 +7,11 @@ public static class ServiceConfigSeeding
 {
     public static async Task SeedServiceConfigurations(this DataContext context)
     {
+        if (await context.ServiceConfigs.AnyAsync())
+        {
+            return;
+        }
+
         var configs = new List<ServiceConfig>
         {
             new()
@@ -62,7 +68,7 @@ public static class ServiceConfigSeeding
                 TargetingServiceId = "addon.sofa-deep-cleaning",
                 Name = "Sofa Deep Cleaning",
                 Description = "",
-                ServiceConfiguration = "base:float:299"
+                ServiceConfiguration = "base:float:299,restriction:float:4"
             }
         };
 

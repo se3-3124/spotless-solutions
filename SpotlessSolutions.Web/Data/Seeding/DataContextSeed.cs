@@ -1,4 +1,3 @@
-using System.Reflection;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using SpotlessSolutions.Web.Services.Services;
@@ -12,6 +11,7 @@ public static class DataContextSeed
         var scope = application.Services.CreateScope();
 
         var context = scope.ServiceProvider.GetRequiredService<DataContext>();
+        var registry = scope.ServiceProvider.GetRequiredService<IServiceRegistry>();
         var userAccount = scope.ServiceProvider.GetRequiredService<UserManager<IdentityUser>>();
         var logger = scope.ServiceProvider.GetRequiredService<ILogger<Program>>();
         
@@ -34,6 +34,16 @@ public static class DataContextSeed
         catch (Exception ex)
         {
             logger.LogCritical("Seeding failed for services config! Exception: {e}", ex);
+        }
+        
+        logger.LogInformation("Seeding booking details");
+        try
+        {
+            await context.PopulateScheduleWithMock(userAccount, registry);
+        }
+        catch (Exception ex)
+        {
+            logger.LogCritical("Seeding failed for booking! Exception: {ex}", ex);
         }
 
         await context.SaveChangesAsync();
@@ -65,6 +75,26 @@ public static class DataContextSeed
             }
 
             instance.UpdateConfig(config.Name, config.Description, config.ServiceConfiguration);
+        }
+
+        foreach (var addon in registry.GetAllAddons())
+        {
+            var instance = registry.GetActivatedAddonInstance(addon.Id);
+            if (instance == null)
+            {
+                logger.LogWarning("No addon found from id: {id}", addon.Id);
+                continue;
+            }
+
+            var config = await context.ServiceConfigs
+                .FirstOrDefaultAsync(x => x.TargetingServiceId == addon.Id);
+            if (config == null)
+            {
+                logger.LogWarning("No addon configuration found for {id}. This is harmless.", addon.Id);
+                continue;
+            }
+            
+            instance.UpdateConfiguration(config.Name, config.Description, config.ServiceConfiguration);
         }
     }
 }

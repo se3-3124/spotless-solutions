@@ -2,6 +2,24 @@
 
 public class CarInteriorDeepCleaning : AddOnStandalone, IAddon
 {
+    private readonly Dictionary<string, (float, float)> _pricingConfig;
+    
+    public CarInteriorDeepCleaning()
+    {
+        Id = "addon.car-interior-deep-cleaning";
+        Name = "Car Interior Deep Cleaning";
+
+        _pricingConfig = new Dictionary<string, (float, float)>
+        {
+            { "hatchback", (250, 2500) },
+            { "sedan", (250, 2500) },
+            { "mpv", (250, 3000) },
+            { "suv", (400, 3500) },
+            { "pickup", (400, 3500) },
+            { "van", (500, 4000) }
+        };
+    }
+    
     public override float Calculate(float[] values)
     {
         var type = ParseCarType(values[0]);
@@ -10,24 +28,66 @@ public class CarInteriorDeepCleaning : AddOnStandalone, IAddon
 
         var basePrice = type switch
         {
-            CarType.Hatchback => GetBasePrice((250, 2500), serviceType),
-            CarType.Sedan => GetBasePrice((250, 2500), serviceType),
-            CarType.Mpv => GetBasePrice((250, 3000), serviceType),
-            CarType.Suv => GetBasePrice((400, 3500), serviceType),
-            CarType.PickUp => GetBasePrice((400, 3500), serviceType),
-            CarType.Van => GetBasePrice((500, 4000), serviceType),
+            CarType.Hatchback => GetBasePrice("hatchback", serviceType),
+            CarType.Sedan => GetBasePrice("sedan", serviceType),
+            CarType.Mpv => GetBasePrice("mpv", serviceType),
+            CarType.Suv => GetBasePrice("suv", serviceType),
+            CarType.PickUp => GetBasePrice("pickup", serviceType),
+            CarType.Van => GetBasePrice("van", serviceType),
             _ => throw new ArgumentOutOfRangeException(nameof(values))
         };
 
         return basePrice * count;
     }
-
-    private static float GetBasePrice((float, float) priceTiers, CarServiceType type)
+    
+    public override void UpdateConfiguration(string name, string description, string serviceConfig)
     {
+        Name = name;
+        Description = description;
+        
+        var configs = serviceConfig.Split(",");
+        foreach (var config in configs)
+        {
+            var configDetails = config.Split(":");
+            var key = configDetails[0];
+            var type = configDetails[1];
+            var value = configDetails[2];
+
+            if (!_pricingConfig.ContainsKey(key))
+            {
+                continue;
+            }
+
+            if (type != "(float|float)")
+            {
+                continue;
+            }
+
+            var values = value.Substring(1, value.Length - 1)
+                .Split("|");
+            if (values.Length != 2)
+            {
+                continue;
+            }
+
+            var float1 = float.TryParse(values[0], out var value1);
+            var float2 = float.TryParse(values[1], out var value2);
+
+            if (float1 && float2)
+            {
+                _pricingConfig[key] = (value1, value2);
+            }
+        }
+    }
+
+    private float GetBasePrice(string key, CarServiceType type)
+    {
+        var tier = _pricingConfig[key];
+        
         return type switch
         {
-            CarServiceType.WashShampoo => priceTiers.Item1,
-            CarServiceType.WashDeep => priceTiers.Item2,
+            CarServiceType.WashShampoo => tier.Item1,
+            CarServiceType.WashDeep => tier.Item2,
             _ => throw new ArgumentOutOfRangeException(nameof(type))
         };
     }
@@ -54,10 +114,5 @@ public class CarInteriorDeepCleaning : AddOnStandalone, IAddon
             >= 2.0f and 3f => CarServiceType.WashDeep,
             _ => throw new ArgumentOutOfRangeException(nameof(value))
         };
-    }
-
-    public override string GetId()
-    {
-        return "addon.car-interior-deep-cleaning";
     }
 }

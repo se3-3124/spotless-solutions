@@ -26,4 +26,18 @@ public interface IAddon
     /// </summary>
     /// <returns></returns>
     string GetDescription();
+
+    /// <summary>
+    /// Gets the name of the service
+    /// </summary>
+    /// <returns></returns>
+    string GetName();
+
+    /// <summary>
+    /// Update Service configuration for this instance
+    /// </summary>
+    /// <param name="name"></param>
+    /// <param name="description"></param>
+    /// <param name="serviceConfig"></param>
+    void UpdateConfiguration(string name, string description, string serviceConfig);
 }

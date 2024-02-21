@@ -21,7 +21,8 @@ public class ServiceRegistry : IServiceRegistry
             .Select(x => new ServiceDetails
             {
                 Id = x.GetId(),
-                Description = x.GetDescription()
+                Description = x.GetDescription(),
+                Name = x.GetName()
             })
             .ToArray();
     }
@@ -32,7 +33,8 @@ public class ServiceRegistry : IServiceRegistry
             .Select(x => new ServiceDetails
             {
                 Id = x.GetId(),
-                Description = x.GetDescription()
+                Description = x.GetDescription(),
+                Name = x.GetName()
             })
             .ToArray();
     }
@@ -55,7 +57,7 @@ public class ServiceRegistry : IServiceRegistry
         return _addOns.GetValueOrDefault(id);
     }
 
-    private Dictionary<string, IService> GetAllServices()
+    private static Dictionary<string, IService> GetAllServices()
     {
         var assemblies = Assembly.GetExecutingAssembly().GetExportedTypes()
             .Where(x => !x.IsAbstract && x is { IsInterface: false, IsClass: true } &&
@@ -67,7 +69,7 @@ public class ServiceRegistry : IServiceRegistry
         return assemblies.ToDictionary(service => service.GetId());
     }
 
-    private Dictionary<string, IAddon> GetAllAddOns()
+    private static Dictionary<string, IAddon> GetAllAddOns()
     {
         var assemblies = Assembly.GetExecutingAssembly().GetExportedTypes()
             .Where(x => !x.IsAbstract && x is { IsClass: true, IsInterface: false } &&

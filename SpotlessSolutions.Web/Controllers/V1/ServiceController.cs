@@ -26,7 +26,8 @@ public class ServiceController : ControllerBase
             Data = services.Select(x => new ServiceDetails
             {
                 Id = x.Id,
-                Description = x.Description
+                Description = x.Description,
+                Name = x.Name
             }).ToArray()
         });
     }
@@ -42,7 +43,8 @@ public class ServiceController : ControllerBase
             Data = addons.Select(x => new ServiceDetails
             {
                 Id = x.Id,
-                Description = x.Description
+                Description = x.Description,
+                Name = x.Name
             }).ToArray()
         });
     }

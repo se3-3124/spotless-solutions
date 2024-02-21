@@ -2,7 +2,9 @@
 
 public abstract class RequireAssessmentAddOn : IAddon
 {
-    protected string Id = "";
+    protected string Id = string.Empty;
+    protected string Name = string.Empty;
+    protected string Description = string.Empty;
     
     public string GetId()
     {
@@ -16,11 +18,18 @@ public abstract class RequireAssessmentAddOn : IAddon
 
     public string GetDescription()
     {
-        return "";
+        return Description;
+    }
+
+    public string GetName()
+    {
+        return Name;
     }
 
     public float Calculate(float[] values)
     {
         return 0;
     }
+    
+    public abstract void UpdateConfiguration(string name, string description, string serviceConfig);
 }

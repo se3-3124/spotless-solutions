@@ -16,4 +16,5 @@ public class DataContext : IdentityDbContext
     public DbSet<Address> Addresses { get; set; }
     
     public DbSet<ServiceConfig> ServiceConfigs { get; set; }
+    public DbSet<Booking> Bookings { get; set; }
 }

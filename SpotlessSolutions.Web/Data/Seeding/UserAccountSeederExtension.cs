@@ -8,43 +8,6 @@ namespace SpotlessSolutions.Web.Data.Seeding;
 
 public static class UserAccountSeederExtension
 {
-    private static string GeneratePassword()
-    {
-        const string uppercase = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
-        const string lowercase = "abcdefghijklmnopqrstuvwxyz";
-        const string numbers = "0123456789";
-        const string symbols = "#!@$%^&*";
-        var result = "";
-
-        var uppercaseCount = RandomNumberGenerator.GetInt32(1, 5);
-        for (var i = 0; i < uppercaseCount; i++)
-        {
-            result += uppercase[RandomNumberGenerator.GetInt32(0, uppercase.Length - 1)];
-        }
-
-        for (var i = 0; i < 10 - uppercaseCount; i++)
-        {
-            result += lowercase[RandomNumberGenerator.GetInt32(0, lowercase.Length - 1)];
-        }
-
-        for (var i = 0; i < 4; i++)
-        {
-            result += numbers[RandomNumberGenerator.GetInt32(0, numbers.Length - 1)];
-        }
-
-        for (var i = 0; i < 2; i++)
-        {
-            result += symbols[RandomNumberGenerator.GetInt32(0, symbols.Length - 1)];
-        }
-        
-        // Finally shuffle the end result
-        var final = result.ToCharArray()
-            .OrderBy(_ => RandomNumberGenerator.GetInt32(100, 999))
-            .ToArray();
-
-        return new string(final);
-    }
-
     public static async Task InitializeAdminAccount(this DataContext context, UserManager<IdentityUser> user, ILogger logger)
     {
         var adminAccount = await context.UserData
@@ -93,5 +56,42 @@ public static class UserAccountSeederExtension
         accountPrompt.AppendLine("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
 
         logger.LogInformation(accountPrompt.ToString());
+    }
+    
+    public static string GeneratePassword()
+    {
+        const string uppercase = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+        const string lowercase = "abcdefghijklmnopqrstuvwxyz";
+        const string numbers = "0123456789";
+        const string symbols = "#!@$%^&*";
+        var result = "";
+
+        var uppercaseCount = RandomNumberGenerator.GetInt32(1, 5);
+        for (var i = 0; i < uppercaseCount; i++)
+        {
+            result += uppercase[RandomNumberGenerator.GetInt32(0, uppercase.Length - 1)];
+        }
+
+        for (var i = 0; i < 10 - uppercaseCount; i++)
+        {
+            result += lowercase[RandomNumberGenerator.GetInt32(0, lowercase.Length - 1)];
+        }
+
+        for (var i = 0; i < 4; i++)
+        {
+            result += numbers[RandomNumberGenerator.GetInt32(0, numbers.Length - 1)];
+        }
+
+        for (var i = 0; i < 2; i++)
+        {
+            result += symbols[RandomNumberGenerator.GetInt32(0, symbols.Length - 1)];
+        }
+        
+        // Finally shuffle the end result
+        var final = result.ToCharArray()
+            .OrderBy(_ => RandomNumberGenerator.GetInt32(100, 999))
+            .ToArray();
+
+        return new string(final);
     }
 }

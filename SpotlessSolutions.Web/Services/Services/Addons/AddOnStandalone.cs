@@ -2,17 +2,30 @@
 
 public abstract class AddOnStandalone : IAddon
 {
-    public abstract string GetId();
-    
+    protected string Id = string.Empty;
+    protected string Name = string.Empty;
+    protected string Description = string.Empty;
+
+    public string GetId()
+    {
+        return Id;
+    }
+
     public bool IsStandalone()
     {
         return true;
     }
     
     public abstract float Calculate(float[] values);
+    public abstract void UpdateConfiguration(string name, string description, string serviceConfig);
 
     public string GetDescription()
     {
-        return "";
+        return Description;
+    }
+
+    public string GetName()
+    {
+        return Name;
     }
 }

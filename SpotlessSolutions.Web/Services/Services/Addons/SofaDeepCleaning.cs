@@ -2,21 +2,63 @@
 
 public class SofaDeepCleaning : AddOnStandalone, IAddon
 {
+    private float _restrictionValue = 4;
+    private float _base = 299;
+    
+    public SofaDeepCleaning()
+    {
+        Id = "addon.sofa-deep-cleaning";
+        Name = "Sofa Deep Cleaning";
+    }
+
     public override float Calculate(float[] values)
     {
         var restriction = values[0] > 0;
         var count = values[1];
 
-        if (restriction && count < 4)
+        if (restriction && count < _restrictionValue)
         {
             throw new ArgumentOutOfRangeException(nameof(values));
         }
 
-        return 299 * count;
+        return _base * count;
     }
-
-    public override string GetId()
+    
+    public override void UpdateConfiguration(string name, string description, string serviceConfig)
     {
-        return "addon.sofa-deep-cleaning";
+        Name = name;
+        Description = description;
+        
+        var configs = serviceConfig.Split(",");
+        foreach (var config in configs)
+        {
+            var configDetails = config.Split(":");
+            var key = configDetails[0];
+            var type = configDetails[1];
+            var value = configDetails[2];
+
+            if (type != "float")
+            {
+                continue;
+            }
+
+            var float1 = float.TryParse(value, out var value1);
+            if (!float1)
+            {
+                continue;
+            }
+            
+            switch (key)
+            {
+                case "restriction":
+                    _restrictionValue = value1;
+                    break;
+                case "base":
+                    _base = value1;
+                    break;
+                default:
+                    continue;
+            }
+        }
     }
 }
