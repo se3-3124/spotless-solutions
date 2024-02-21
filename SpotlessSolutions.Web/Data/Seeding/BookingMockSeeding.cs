@@ -81,6 +81,7 @@ public static class BookingMockSeeding
                 },
                 FinalPrice = mainServicePrice + addon1Price,
                 Schedule = DateTime.Now.AddDays(i)
+                    .ToUniversalTime()
             };
             await context.Bookings.AddAsync(booking);
         }

@@ -107,7 +107,7 @@ export default function MonthCalendarComponent ({ date, handleOpen, events }: Ca
               <p className={d.inactive ? 'inactive' : ''}>{d.date.getDate()}</p>
               {
                 events.filter(x => {
-                  const issued = new Date(x.issuedDate)
+                  const issued = new Date(x.schedule)
                   return issued.getFullYear() === d.date.getFullYear() &&
                     issued.getMonth() === d.date.getMonth() &&
                     issued.getDate() === d.date.getDate()
@@ -115,7 +115,7 @@ export default function MonthCalendarComponent ({ date, handleOpen, events }: Ca
                   <div key={`d-${ii}`} onClick={() => {
                     handleOpen(x)
                   }}>
-                    {x.servicesBooked[0].name}
+                    {x.mainService.service.name}
                   </div>
                 ))
               }

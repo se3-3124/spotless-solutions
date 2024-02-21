@@ -70,7 +70,7 @@ export default function WeeklyCalendarComponent ({ date, handleOpen, events }: W
               <p>{d.date.getDate()}</p>
               {
                 events.filter(x => {
-                  const issued = new Date(x.issuedDate)
+                  const issued = new Date(x.schedule)
                   return issued.getFullYear() === d.date.getFullYear() &&
                     issued.getMonth() === d.date.getMonth() &&
                     issued.getDate() === d.date.getDate()
@@ -78,7 +78,7 @@ export default function WeeklyCalendarComponent ({ date, handleOpen, events }: W
                   <div key={`d-${ii}`} onClick={() => {
                     handleOpen(x)
                   }}>
-                    {x.servicesBooked[0].name}
+                    {x.mainService.service.name}
                   </div>
                 ))
               }

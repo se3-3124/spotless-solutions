@@ -35,5 +35,9 @@ public interface IService
     /// <param name="config"></param>
     void UpdateConfig(string name, string description, string config);
 
+    /// <summary>
+    /// Gets the name of the service
+    /// </summary>
+    /// <returns></returns>
     string GetName();
 }

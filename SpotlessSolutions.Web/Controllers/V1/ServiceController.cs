@@ -5,7 +5,7 @@ using ServiceDetails = SpotlessSolutions.Web.Contracts.V1.Responses.ServiceDetai
 
 namespace SpotlessSolutions.Web.Controllers.V1;
 
-[Route("/api/services")]
+[Route("/api/v1/services")]
 public class ServiceController : ControllerBase
 {
     private readonly IServiceRegistry _registry;
