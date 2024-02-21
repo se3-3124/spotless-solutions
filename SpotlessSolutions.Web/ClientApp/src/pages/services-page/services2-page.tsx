@@ -8,37 +8,37 @@ const Services2 = () => {
 
   const cardsData = [
     {
-      title: "Deep Cleaning",
-      description: "Here are the biggest enterprise technology acquisitions of 2021 so far, in reverse chronological order.",
+      title: 'Deep Cleaning',
+      description: 'Here are the biggest enterprise technology acquisitions of 2021 so far, in reverse chronological order.',
       image: tdLogo
     },
     {
-      title: "Deep Cleaning",
-      description: "Here are the biggest enterprise technology acquisitions of 2021 so far, in reverse chronological order.",
+      title: 'Deep Cleaning',
+      description: 'Here are the biggest enterprise technology acquisitions of 2021 so far, in reverse chronological order.',
       image: tdLogo
     },
     {
-      title: "Deep Cleaning",
-      description: "Here are the biggest enterprise technology acquisitions of 2021 so far, in reverse chronological order.",
+      title: 'Deep Cleaning',
+      description: 'Here are the biggest enterprise technology acquisitions of 2021 so far, in reverse chronological order.',
       image: tdLogo
     },
     {
-      title: "Deep Cleaning",
-      description: "Here are the biggest enterprise technology acquisitions of 2021 so far, in reverse chronological order.",
+      title: 'Deep Cleaning',
+      description: 'Here are the biggest enterprise technology acquisitions of 2021 so far, in reverse chronological order.',
       image: tdLogo
     }
   ]
 
   const additionalServices = [
-    { title: "Mattress Cleaning", description: "Go to this step by step guideline process on how to certify for your weekly benefits." },
-    { title: "Mattress Cleaning", description: "Go to this step by step guideline process on how to certify for your weekly benefits." },
-    { title: "Mattress Cleaning", description: "Go to this step by step guideline process on how to certify for your weekly benefits." },
-    { title: "Mattress Cleaning", description: "Go to this step by step guideline process on how to certify for your weekly benefits." },
-    { title: "Mattress Cleaning", description: "Go to this step by step guideline process on how to certify for your weekly benefits." },
-    { title: "Mattress Cleaning", description: "Go to this step by step guideline process on how to certify for your weekly benefits." }
+    { title: 'Mattress Cleaning', description: 'Go to this step by step guideline process on how to certify for your weekly benefits.' },
+    { title: 'Mattress Cleaning', description: 'Go to this step by step guideline process on how to certify for your weekly benefits.' },
+    { title: 'Mattress Cleaning', description: 'Go to this step by step guideline process on how to certify for your weekly benefits.' },
+    { title: 'Mattress Cleaning', description: 'Go to this step by step guideline process on how to certify for your weekly benefits.' },
+    { title: 'Mattress Cleaning', description: 'Go to this step by step guideline process on how to certify for your weekly benefits.' },
+    { title: 'Mattress Cleaning', description: 'Go to this step by step guideline process on how to certify for your weekly benefits.' }
   ]
 
-  const Card = ({ title, description, image }) => {
+  const Card = ({ title, description, image }: { title: string, description: string, image: string }) => {
     return (
       <div className="max-w-sm bg-white border border-gray-200 rounded-lg shadow">
         <a href="#">

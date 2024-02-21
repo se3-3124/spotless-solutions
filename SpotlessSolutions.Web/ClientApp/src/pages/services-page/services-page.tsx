@@ -223,7 +223,7 @@ export default function Services () {
             </Grid>
             {/* <Grid item xs={1}/> */}
 
-            {/* A8 */}  
+            {/* A8 */}
             <Grid item xs={2}>
               <div className="max-w-sm rounded overflow-hidden shadow-lg">
                 <img src={tdLogo} alt="Topdown logo" />
