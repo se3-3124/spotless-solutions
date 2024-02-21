@@ -1,0 +1,22 @@
+@use 'tailwindcss/base.css';
+@use 'tailwindcss/components.css';
+@use 'tailwindcss/utilities.css';
+
+.main {
+  @apply w-full p-4;
+
+  & .main-container {
+    @apply w-full;
+
+    & h1 {
+      @apply text-midnightblue text-4xl text-center font-bold mr-0 mb-4;
+    }
+  }
+  .divider {
+    @apply mt-8;
+    @apply mb-8;
+    @apply h-1;
+    @apply w-full;
+    @apply bg-midnightblue;
+  }
+}
