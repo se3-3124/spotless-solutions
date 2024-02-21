@@ -36,6 +36,11 @@ const Services2 = () => {
     { title: 'Mattress Cleaning', description: 'Go to this step by step guideline process on how to certify for your weekly benefits.' },
     { title: 'Mattress Cleaning', description: 'Go to this step by step guideline process on how to certify for your weekly benefits.' },
     { title: 'Mattress Cleaning', description: 'Go to this step by step guideline process on how to certify for your weekly benefits.' },
+    { title: 'Mattress Cleaning', description: 'Go to this step by step guideline process on how to certify for your weekly benefits.' },
+    { title: 'Mattress Cleaning', description: 'Go to this step by step guideline process on how to certify for your weekly benefits.' },
+    { title: 'Mattress Cleaning', description: 'Go to this step by step guideline process on how to certify for your weekly benefits.' },
+    { title: 'Mattress Cleaning', description: 'Go to this step by step guideline process on how to certify for your weekly benefits.' },
+    { title: 'Mattress Cleaning', description: 'Go to this step by step guideline process on how to certify for your weekly benefits.' },
     { title: 'Mattress Cleaning', description: 'Go to this step by step guideline process on how to certify for your weekly benefits.' }
   ]
 
@@ -75,7 +80,7 @@ const Services2 = () => {
       <div>
         <h1 className='text-5xl font-bold font-mono p-8 flex justify-center'>ADD ONS SERVICES</h1>
       </div>
-      <div className='px-10 grid grid-cols-6 gap-4'>
+      <div className='px-10 grid grid-cols-3 md:grid-cols-6 gap-4'>
         {additionalServices.map((service, index) => (
           <div key={index} className="max-w-sm p-6 bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
             <svg className="w-7 h-7 text-gray-500 dark:text-gray-400 mb-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
