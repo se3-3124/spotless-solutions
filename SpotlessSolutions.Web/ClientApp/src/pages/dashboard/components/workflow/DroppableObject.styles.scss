@@ -1,0 +1,11 @@
+@use 'tailwindcss/base.css';
+@use 'tailwindcss/components.css';
+@use 'tailwindcss/utilities.css';
+
+.droppable-object {
+  @apply block p-5 bg-white rounded-md shadow mb-2;
+  
+  & .service-detail {
+    @apply text-sm font-medium leading-snug text-gray-900 font-sans;
+  }
+}
