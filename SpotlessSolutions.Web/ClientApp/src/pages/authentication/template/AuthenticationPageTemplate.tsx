@@ -1,7 +1,7 @@
 import { type ReactNode, useContext } from 'react'
 
 import AuthContext from '../../../contexts/AuthContext.ts'
-import FooterComponent from '../../../components/footer/FooterComponent.tsx'
+import FooterV2 from '../../../components/footerv2/FooterV2.tsx'
 import NavigationBar from '../../../components/navigation/NavigationBar.tsx'
 
 import houseCleaningImage from '../../../assets/house-cleaning-service.jpeg'
@@ -32,7 +32,7 @@ export default function AuthenticationPageTemplate (props: AuthenticationPageTem
           </div>
         </div>
       </div>
-      <FooterComponent />
+      <FooterV2 />
     </>
   )
 }

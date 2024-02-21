@@ -2,21 +2,18 @@
 @use 'tailwindcss/components.css';
 @use 'tailwindcss/utilities.css';
 
-.main {
-  @apply w-full p-4;
-
-  & .main-container {
-    @apply w-full;
-
-    & h1 {
-      @apply text-midnightblue text-4xl text-center font-bold mr-0 mb-4;
-    }
+.services-container {
+  @apply w-full mb-8;
+  
+  & .heading-text {
+    @apply text-5xl font-bold p-8 flex justify-center;
   }
-  .divider {
-    @apply mt-8;
-    @apply mb-8;
-    @apply h-1;
-    @apply w-full;
-    @apply bg-midnightblue;
+  
+  & .services-grid-container {
+    @apply px-10 grid grid-cols-4 gap-4;
+  }
+  
+  & .services-grid-container.cols-6-only {
+    @apply px-10 grid grid-cols-6 gap-4;
   }
 }
