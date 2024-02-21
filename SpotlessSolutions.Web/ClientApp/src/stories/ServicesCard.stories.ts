@@ -5,7 +5,7 @@ import tdLogo from '../assets/td_logo.jpg'
 
 const meta = {
   title: 'Services Card Component',
-  component: CardServices, 
+  component: CardServices,
   tags: ['autodocs']
 } satisfies Meta<typeof CardServices>
 

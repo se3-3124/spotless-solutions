@@ -5,7 +5,7 @@ interface AddOnServicesCardProps {
   description: string
 }
 
-export default function AddOnServicesCard({ title, description }: AddOnServicesCardProps) {
+export default function AddOnServicesCard ({ title, description }: AddOnServicesCardProps) {
   return (
     <div className="addon-card">
       <svg className="w-7 h-7 text-gray-500 dark:text-gray-400 mb-3" aria-hidden="true"

@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/react'
 
-import FooterV2 from '../components/footerv2/FooterV2.tsx';
+import FooterV2 from '../components/footerv2/FooterV2.tsx'
 
 const meta = {
   title: 'Footer V2',

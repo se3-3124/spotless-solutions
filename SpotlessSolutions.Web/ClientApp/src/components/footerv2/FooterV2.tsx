@@ -1,13 +1,13 @@
-import { FiPhone } from 'react-icons/fi';
-import { GrLocation } from 'react-icons/gr';
-import { FaFacebookSquare } from 'react-icons/fa';
+import { FiPhone } from 'react-icons/fi'
+import { GrLocation } from 'react-icons/gr'
+import { FaFacebookSquare } from 'react-icons/fa'
 
 import './FooterV2.style.scss'
 
 /**
  * Second iteraion of the footer
  */
-export default function FooterV2() {
+export default function FooterV2 () {
   return (
     <footer className="footerv2">
       <div className="footer-container">
