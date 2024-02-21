@@ -2,6 +2,7 @@ import { useContext } from 'react'
 import NavigationBar from '../../components/navigation/NavigationBar'
 import AuthContext from '../../contexts/AuthContext'
 import tdLogo from '../../assets/td_logo.jpg'
+import FooterComponent from '../../components/footer/FooterComponent'
 
 const Services2 = () => {
   const context = useContext(AuthContext)
@@ -87,6 +88,7 @@ const Services2 = () => {
           </div>
         ))}
       </div>
+      <FooterComponent />
     </>
   )
 }
