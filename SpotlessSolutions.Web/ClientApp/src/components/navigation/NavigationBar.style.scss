@@ -3,17 +3,25 @@
 @use 'tailwindcss/utilities.css';
 
 .navbar-main {
-  @apply fixed w-full bg-midnightblue block p-4;
-  
+  @apply w-full bg-midnightblue block p-4;
+
   img {
     @apply h-16;
   }
 
+  @media (max-width: 768px) {
+    @apply p-2; // Adjust padding for smaller screens
+  }
+
+  @media (max-width: 480px) {
+    @apply p-1; // Further adjust padding for even smaller screens
+  }
+
   & .navbar-menu-wrapper {
-    @apply flex flex-grow flex-row font-medium items-center justify-center;
+    @apply flex flex-grow flex-row font-medium items-center justify-center text-center;
 
     & a {
-      @apply sm:hidden md:block py-2 px-3 text-white;
+      @apply sm:hidden md:block py-2 px-3 text-white font-sans font-bold;
 
       &.selected {
         @apply font-bold text-fruityorange;
@@ -27,7 +35,7 @@
   }
 
   & .navbar-right-side {
-    @apply flex flex-row;
+    @apply flex flex-row justify-center text-center items-center;
 
     & .btn {
       @apply py-2 px-3;

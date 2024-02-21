@@ -23,7 +23,7 @@ export default function FooterComponent () {
               },
               {
                 label: 'Phone',
-                value: '09124234324324'
+                value: '09171292231'
               }
             ].map((item, index) => (
               <p key={index} className={index <= 0 ? '' : 'mt-8'}>
@@ -33,15 +33,22 @@ export default function FooterComponent () {
             ))
           }
         </div>
+
         <div className="contact-field">
           <p className="font-bold">Socials</p>
+            <p></p>
         </div>
+
         <div className="contact-field">
           <p className="font-bold">Site Map</p>
+            <p>DAVE</p>
         </div>
       </div>
+
       <div className="divider"/>
-      Copyright (C) 2023 Topdown Cleaning Services
+      <div className="footer-bottom">
+      <h1>Copyright (C) 2023 Topdown Cleaning Services</h1>
+      </div>
     </div>
   )
 }
