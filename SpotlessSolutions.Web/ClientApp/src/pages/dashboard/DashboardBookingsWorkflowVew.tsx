@@ -66,7 +66,7 @@ export default function DashboardBookingsWorkflowView () {
                                                     onClick={() => { handleOpen(x) }}
                                                 >
                                                     <div className="text-sm font-medium leading-snug text-gray-900">
-                                                        {x.servicesBooked[0].name}
+                                                        {x.mainService.service.name}
                                                         <br />
                                                         {
                                                             Intl
@@ -76,7 +76,7 @@ export default function DashboardBookingsWorkflowView () {
                                                                 year: 'numeric',
                                                                 day: 'numeric'
                                                               })
-                                                              .format(new Date(x.issuedDate))
+                                                              .format(new Date(x.schedule))
                                                         }
                                                         <br />
                                                         {
@@ -86,10 +86,10 @@ export default function DashboardBookingsWorkflowView () {
                                                                 hour: 'numeric',
                                                                 minute: 'numeric'
                                                               })
-                                                              .format(new Date(x.issuedDate))
+                                                              .format(new Date(x.schedule))
                                                         }
                                                         <br />
-                                                        Total: ₱ {x.totalComputed}
+                                                        Total: ₱ {x.totalPrice}
                                                     </div>
                                                 </li>
                                           ))
@@ -117,7 +117,7 @@ export default function DashboardBookingsWorkflowView () {
                                                     onClick={() => { handleOpen(x) }}
                                                 >
                                                     <div className="text-sm font-medium leading-snug text-gray-900">
-                                                        {x.servicesBooked[0].name}
+                                                        {x.mainService.service.name}
                                                         <br/>
                                                         {
                                                             Intl
@@ -127,7 +127,7 @@ export default function DashboardBookingsWorkflowView () {
                                                                 year: 'numeric',
                                                                 day: 'numeric'
                                                               })
-                                                              .format(new Date(x.issuedDate))
+                                                              .format(new Date(x.schedule))
                                                         }
                                                         <br/>
                                                         {
@@ -137,10 +137,10 @@ export default function DashboardBookingsWorkflowView () {
                                                                 hour: 'numeric',
                                                                 minute: 'numeric'
                                                               })
-                                                              .format(new Date(x.issuedDate))
+                                                              .format(new Date(x.schedule))
                                                         }
                                                         <br/>
-                                                        Total: ₱ {x.totalComputed}
+                                                        Total: ₱ {x.totalPrice}
                                                     </div>
                                                 </li>
                                           ))
@@ -154,7 +154,7 @@ export default function DashboardBookingsWorkflowView () {
                                 <ul className='mt-2'>
                                     {
                                         bookings
-                                          .filter(x => x.status === BookingStatus.Denied)
+                                          .filter(x => x.status === BookingStatus.Rejected)
                                           .map((x, i) => (
                                                 <li
                                                     key={`tba-${i}`}
@@ -162,7 +162,7 @@ export default function DashboardBookingsWorkflowView () {
                                                     onClick={() => { handleOpen(x) }}
                                                 >
                                                     <div className="text-sm font-medium leading-snug text-gray-900">
-                                                        {x.servicesBooked[0].name}
+                                                        {x.mainService.service.name}
                                                         <br/>
                                                         {
                                                             Intl
@@ -172,7 +172,7 @@ export default function DashboardBookingsWorkflowView () {
                                                                 year: 'numeric',
                                                                 day: 'numeric'
                                                               })
-                                                              .format(new Date(x.issuedDate))
+                                                              .format(new Date(x.schedule))
                                                         }
                                                         <br/>
                                                         {
@@ -182,10 +182,10 @@ export default function DashboardBookingsWorkflowView () {
                                                                 hour: 'numeric',
                                                                 minute: 'numeric'
                                                               })
-                                                              .format(new Date(x.issuedDate))
+                                                              .format(new Date(x.schedule))
                                                         }
                                                         <br/>
-                                                        Total: ₱ {x.totalComputed}
+                                                        Total: ₱ {x.totalPrice}
                                                     </div>
                                                 </li>
                                           ))

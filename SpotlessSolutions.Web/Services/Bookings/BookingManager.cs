@@ -1,5 +1,7 @@
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Caching.Distributed;
 using SpotlessSolutions.Web.Data;
+using SpotlessSolutions.Web.Extensions;
 using SpotlessSolutions.Web.Services.Services;
 
 namespace SpotlessSolutions.Web.Services.Bookings;
@@ -8,11 +10,13 @@ public class BookingManager : IBookingManager
 {
     private readonly DataContext _context;
     private readonly IServiceRegistry _registry;
+    private readonly IDistributedCache _cache;
 
-    public BookingManager(DataContext context, IServiceRegistry registry)
+    public BookingManager(DataContext context, IServiceRegistry registry, IDistributedCache cache)
     {
         _context = context;
         _registry = registry;
+        _cache = cache;
     }
 
     public async Task<IEnumerable<BookingObject>> GetBooking(int year, int month)
@@ -21,7 +25,16 @@ public class BookingManager : IBookingManager
         var end = new DateTime(year, month, DateTime.DaysInMonth(year, month))
             .ToUniversalTime();
 
-        return await GetBooking(start, end);
+        var cache = await _cache.GetRecordAsync<List<BookingObject>>($"bookings_admin_cache-y{year}m{month}");
+        if (cache != null)
+        {
+            return cache;
+        }
+
+        var result = (await GetBooking(start, end)).ToList();
+
+        await _cache.SetRecordAsync($"bookings_admin_cache-y{year}m{month}", result, TimeSpan.FromMinutes(5));
+        return result;
     }
 
     public async Task<IEnumerable<BookingObject>> GetBooking(DateTime start, DateTime end)

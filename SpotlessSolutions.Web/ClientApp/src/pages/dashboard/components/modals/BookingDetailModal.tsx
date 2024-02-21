@@ -81,7 +81,7 @@ export default function BookingsDetailModal (prop: BookingsDetailPropType) {
                     <p>
                       Date:&nbsp;
                       <span className="ml-12">
-                                {
+                        {
                                   Intl
                                     .DateTimeFormat('en-US', {
                                       formatMatcher: 'best fit',
@@ -131,10 +131,10 @@ export default function BookingsDetailModal (prop: BookingsDetailPropType) {
                 </div>
               </div>
             </Dialog>
-          )
+            )
           : (
             <div></div>
-          )
+            )
       }
     </>
   )

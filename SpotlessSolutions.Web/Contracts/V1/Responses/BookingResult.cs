@@ -43,5 +43,5 @@ public class BookingDetails
 public class BookingResult
 {
     public bool Success { get; init; }
-    public IEnumerable<BookingDetails> Data { get; init; }
+    public required IEnumerable<BookingDetails> Data { get; init; }
 }

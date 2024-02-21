@@ -21,5 +21,6 @@ public static class ServiceInstaller
 
         serviceCollection.AddSingleton<IServiceRegistry, ServiceRegistry>();
         serviceCollection.AddScoped<IBookingManager, BookingManager>();
+        serviceCollection.AddScoped<IServiceManager, ServiceManager>();
     }
 }
