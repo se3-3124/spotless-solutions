@@ -4,7 +4,7 @@ import { FaFacebookSquare } from "react-icons/fa";
 
 function Footer() {
   return (
-    <footer className="fixed bottom-0 w-screen font-sans">
+    <footer className="bottom-0 w-screen font-sans">
       <div className="bg-[#05132F] text-white p-10 flex flex-col md:flex-row justify-between">
         <div className="flex items-center mb-4 md:mb-0">
           <FiPhone size={35} className="mr-4" />
