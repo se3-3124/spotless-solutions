@@ -5,23 +5,15 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="28939386-8850-4574-80ac-21125b8806f6" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/src/components/cards/AddOnServicesCard.style.scss" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/components/cards/AddOnServicesCard.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/components/cards/CardServices.style.scss" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/components/cards/CardServices.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/components/footerv2/FooterV2.style.scss" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/components/footerv2/FooterV2.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/stories/AddonCard.stories.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/stories/FooterV2.stories.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/stories/ServicesCard.stories.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/package-lock.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/main.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/pages/authentication/template/AuthenticationPageTemplate.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/authentication/template/AuthenticationPageTemplate.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/pages/home-page/home-page.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/home-page/home-page.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/pages/services-page/services-page.scss" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/services-page/services-page.scss" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/pages/services-page/services-page.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/services-page/services-page.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/pages/services-page/services2-page.tsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/stories/commons/data.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/stories/commons/data.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/pages/dashboard/components/forms/ServiceEditor.styles.scss" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/pages/dashboard/components/forms/ServiceEditor.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/pages/dashboard/components/forms/TextAreaAutoSize.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/stories/ServicesEditing.stories.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/types/ServiceConfigType.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/pages/dashboard/DashboardServiceManagementView.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/dashboard/DashboardServiceManagementView.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/pages/services-management-page/sm-edit.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/services-management-page/sm-edit.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/stories/SidebarServiceItem.stories.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/stories/SidebarServiceItem.stories.tsx" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -46,24 +38,29 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "RunOnceActivity.OpenProjectViewOnStart": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "git-widget-placeholder": "feat-service-management",
-    "node.js.detected.package.eslint": "true",
-    "node.js.detected.package.standard": "true",
-    "node.js.detected.package.tslint": "true",
-    "node.js.selected.package.eslint": "(autodetect)",
-    "node.js.selected.package.standard": "",
-    "node.js.selected.package.tslint": "(autodetect)",
-    "nodejs_package_manager_path": "npm",
-    "npm.storybook.executor": "Run",
-    "settings.editor.selected.configurable": "editor.preferences.fonts.default",
-    "ts.external.directory.path": "/Volumes/Work/Code/Education/SpotlessSolutions/SpotlessSolutions.Web/ClientApp/node_modules/typescript/lib",
-    "vue.rearranger.settings.migration": "true"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;feat-service-management&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.standard&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.standard&quot;: &quot;&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;npm.storybook.executor&quot;: &quot;Run&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;editor.preferences.fonts.default&quot;,
+    &quot;ts.external.directory.path&quot;: &quot;/Volumes/Work/Code/Education/SpotlessSolutions/SpotlessSolutions.Web/ClientApp/node_modules/typescript/lib&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
-}]]></component>
+}</component>
+  <component name="RecentsManager">
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/src/pages/dashboard/components" />
+    </key>
+  </component>
   <component name="RunManager">
     <configuration name="storybook" type="js.build_tools.npm" nameIsGenerated="true">
       <package-json value="$PROJECT_DIR$/package.json" />
@@ -89,6 +86,9 @@
       <workItem from="1707799800073" duration="14130000" />
       <workItem from="1707822799312" duration="59000" />
       <workItem from="1708525861419" duration="266000" />
+      <workItem from="1708607941072" duration="82000" />
+      <workItem from="1708608233521" duration="7122000" />
+      <workItem from="1708616244224" duration="1539000" />
     </task>
     <servers />
   </component>

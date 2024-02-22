@@ -11,10 +11,12 @@ import AuthContext from '../../contexts/AuthContext.ts'
 import DashboardAppBarComponent from './components/DashboardAppBarComponent.tsx'
 import DashboardDrawerComponent from './components/DashboardDrawerComponent.tsx'
 import NotificationsContext, { NotificationSeverity } from '../../contexts/NotificationsContext.tsx'
+import ServiceEditor from './components/forms/ServiceEditor.tsx'
 import { type ServicesDataObject, ServiceType } from '../../types/ServicesDataObject.tsx'
 import ServicesEditingContext from './contexts/ServicesEditingContext.tsx'
 import SidebarServiceList from './components/sidebar/SidebarServiceList.tsx'
 import { type ServiceDefinitionObject } from '../../types/ServiceDefinitionObject.ts'
+import { type ServiceConfigType } from '../../types/ServiceConfigType.ts'
 
 interface ActiveViewState {
   id: string
@@ -31,7 +33,7 @@ export default function DashboardServiceManagementView () {
   const notificationsContext = useContext(NotificationsContext)
   const navigator = useNavigate()
 
-  useEffect(() => {
+  const runServiceListUpdate = () => {
     if (authContext.user === null || authContext.request === null) {
       notificationsContext.notify(NotificationSeverity.Error, 'Unauthorized')
       navigator('/')
@@ -50,6 +52,10 @@ export default function DashboardServiceManagementView () {
       .catch(() => {
         notificationsContext.notify(NotificationSeverity.Error, 'Failed to fetch servicess list')
       })
+  }
+
+  useEffect(() => {
+    runServiceListUpdate()
   }, [])
 
   useEffect(() => {
@@ -97,6 +103,25 @@ export default function DashboardServiceManagementView () {
     })
   }
 
+  const updateService = (config: ServiceConfigType) => {
+    if (authContext.request === null) {
+      return
+    }
+
+    async function patchService (req: AxiosInstance, config: ServiceConfigType) {
+      await req.patch<{ success: boolean }>('/api/v1/services/edit', config)
+    }
+
+    patchService(authContext.request, config)
+      .then(() => {
+        runServiceListUpdate()
+        notificationsContext.notify(NotificationSeverity.Success, 'Service Updated!')
+      })
+      .catch(() => {
+        notificationsContext.notify(NotificationSeverity.Error, 'Unable to update service')
+      })
+  }
+
   return (
     <Box sx={{ height: '100%', width: '100%', overflowX: 'hidden' }}>
       <DashboardAppBarComponent />
@@ -114,7 +139,12 @@ export default function DashboardServiceManagementView () {
               <Grid item xs={8}>
                 {
                   viewReady && activeServiceDefinitionObject !== null
-                    ? (<p>{activeServiceDefinitionObject.name}</p>)
+                    ? (
+                      <ServiceEditor
+                        data={activeServiceDefinitionObject}
+                        onSubmit={(e) => { updateService(e) }}
+                      />
+                      )
                     : (
                       <>
                         {

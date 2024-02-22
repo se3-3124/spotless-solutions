@@ -1,0 +1,31 @@
+@use 'tailwindcss/base.css';
+@use 'tailwindcss/components.css';
+@use 'tailwindcss/utilities.css';
+
+.editor-head {
+  @apply flex p-3 -mb-6;
+
+  & .editor-container {
+    @apply flex-grow;
+
+    & .editor-text-field {
+      @apply mt-7 mx-5;
+    }
+  }
+
+  & .photo-section {
+    @apply flex-col mx-5 p-8;
+  }
+}
+
+.editor-bottom {
+  @apply flex mx-8 p-3 pb-32 justify-end;
+
+  & .form-control-checkbox {
+    @apply flex-1;
+  }
+
+  & .button-group {
+    @apply flex mx-4;
+  }
+}

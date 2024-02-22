@@ -67,8 +67,8 @@ public class RoutineCleaning : ServiceTransportable, IService
         config.Append($"bi_monthly_base:float:{_biMonthlyBase},");
         config.Append($"monthly_base:float:{_monthlyBase},");
         config.Append($"weekly_tick:float:{_weeklyTick},");
-        config.Append($"bi_monthly_tick:float:{_biMonthlyTick}");
-        config.Append($"monthly_tick:float:{_monthlyTick}");
+        config.Append($"bi_monthly_tick:float:{_biMonthlyTick},");
+        config.Append($"monthly_tick:float:{_monthlyTick},");
         config.Append($"min:float:{_min}");
 
         return new ServiceExportObject

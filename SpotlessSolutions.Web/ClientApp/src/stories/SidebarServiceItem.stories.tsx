@@ -10,7 +10,7 @@ const meta = {
   component: SidebarServiceItem,
   decorators: [
     (Story) => (
-      <ServicesEditingContext.Provider value={{ services: [] }}>
+      <ServicesEditingContext.Provider value={{ services: [], onItemSelect: (i, t) => { console.log(i, t) } }}>
         <Grid container spacing={2}>
           <Grid item xs={4}>
             <Story />

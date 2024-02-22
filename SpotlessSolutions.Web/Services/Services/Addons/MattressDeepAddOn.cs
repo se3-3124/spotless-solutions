@@ -76,7 +76,7 @@ public class MattressDeepAddOn : AddOnStandalone, IAddon
         var config = new List<string>();
         foreach (var (key, value) in _pricingConfig)
         {
-            config.Add($"{key}:float:({value})");
+            config.Add($"{key}:float:{value}");
         }
 
         return new ServiceExportObject
