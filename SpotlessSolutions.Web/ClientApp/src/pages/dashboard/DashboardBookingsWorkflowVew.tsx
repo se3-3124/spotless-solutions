@@ -1,23 +1,23 @@
-import type {AxiosInstance} from "axios";
-import {useContext, useEffect, useState} from 'react'
+import type { AxiosInstance } from 'axios'
+import { useContext, useEffect, useState } from 'react'
 
 import Box from '@mui/material/Box'
 import Stack from '@mui/material/Stack'
 
 import AuthContext from '../../contexts/AuthContext.ts'
 import BookingsDetailModal from './components/modals/BookingDetailModal.tsx'
-import {type BookingResponseType, BookingStatus} from '../../types/BookingResponseType.tsx'
+import { type BookingResponseType, type BookingStatus } from '../../types/BookingResponseType.tsx'
 import DashboardAppBarComponent from './components/DashboardAppBarComponent.tsx'
 import DashboardDrawerComponent from './components/DashboardDrawerComponent.tsx'
-import DashboardWorkflowDragAndDropComponent from './components/workflow/DashboardWorkflowDragAndDropComponent.tsx';
+import DashboardWorkflowDragAndDropComponent from './components/workflow/DashboardWorkflowDragAndDropComponent.tsx'
 
 import './dashboard.scss'
-import NotificationsContext, {NotificationSeverity} from "../../contexts/NotificationsContext.tsx";
+import NotificationsContext, { NotificationSeverity } from '../../contexts/NotificationsContext.tsx'
 
 export default function DashboardBookingsWorkflowView () {
   const { request } = useContext(AuthContext)
   const context = useContext(NotificationsContext)
-  
+
   const [activeDetailView, setActiveDetailView] = useState<BookingResponseType | null>(null)
   const [bookings, setBookings] = useState<BookingResponseType[]>([])
 
@@ -44,16 +44,16 @@ export default function DashboardBookingsWorkflowView () {
     setActiveDetailView(data)
   }
 
-  async function doUpdate(req: AxiosInstance, to: BookingStatus, id: string) {
+  async function doUpdate (req: AxiosInstance, to: BookingStatus, id: string) {
     await req.patch<{ success: true }>('/api/v1/bookings/administrative/state', {
       id,
       state: to
     })
   }
-  
+
   const onStateChange = (to: BookingStatus, id: string) => {
     if (request == null) {
-      return;
+      return
     }
 
     doUpdate(request, to, id)

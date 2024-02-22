@@ -2,7 +2,7 @@ import { DateTime } from 'luxon'
 import { useContext } from 'react'
 import { useDrag } from 'react-dnd'
 
-import {type BookingResponseType, BookingStatus} from '../../../../types/BookingResponseType.tsx'
+import { type BookingResponseType, BookingStatus } from '../../../../types/BookingResponseType.tsx'
 import DashboardWorkflowContext from './DashboardWorkflowContext.ts'
 
 import './DroppableObject.styles.scss'
@@ -15,7 +15,7 @@ interface DroppableObjectProps {
 
 export default function DroppableObject (props: DroppableObjectProps) {
   const { openBucket } = useContext(DashboardWorkflowContext)
-  
+
   const [{ isDragging }, drag] = useDrag(() => ({
     type: 'object-data',
     item: { source: props.containerId, data: props.object },
@@ -39,7 +39,7 @@ export default function DroppableObject (props: DroppableObjectProps) {
 
   return (
     <div ref={drag} style={{ opacity: isDragging ? 0.5 : 1 }}>
-      <div className={`droppable-object ${getState()}`} onClick={() => openBucket(props.object)}>
+      <div className={`droppable-object ${getState()}`} onClick={() => { openBucket(props.object) }}>
         <div className="service-detail">
           {props.object.mainService.service.name}
           <br/>
