@@ -19,7 +19,7 @@ import Bookings from './pages/bookings-page/bookings.tsx';
 import BookingsModalV2 from './pages/bookings-page/bookings-modal-v2.tsx';
 import ServicesManagementMain from './pages/services-management-page/sm-deep-cleaning.tsx'
 import ServicesManagementAddons from './pages/services-management-page/sm-lawntrimming.tsx';
-import ServicesManagementSnackbar from './pages/services-management-page/sm-dialog.tsx';
+import ServicesManagementSnackbar from './pages/services-management-page/sm-sidebar.tsx';
 
 
 const router = createBrowserRouter([
