@@ -14,6 +14,7 @@ import { type UserData, UserRole } from './types/UserData.ts'
 import EmailVerificationStaticStatusPage from './pages/authentication/EmailVerificationStaticStatusPage.tsx'
 import Dashboard from './pages/dashboard/Dashboard.tsx'
 import DashboardBookingCalendarView from './pages/dashboard/DashboardBookingCalendarView.tsx'
+import History from './pages/dashboard/history-page/history.tsx'
 import Home from './pages/home-page/home-page.tsx'
 import LogInPage from './pages/authentication/LoginPage.tsx'
 import LogoutFlowPage from './pages/authentication/LogoutFlowPage.tsx'
@@ -23,12 +24,7 @@ import OAuthFailingPage from './pages/authentication/OAuthFailingPage.tsx'
 import OAuthSuccessPage from './pages/authentication/OAuthSuccessPage.tsx'
 import PasswordRecoveryPage from './pages/authentication/PasswordRecoveryPage.tsx'
 import PasswordRecoveryWizardPage from './pages/authentication/PasswordRecoveryWizardPage.tsx'
-import History from './pages/dashboard/history-page/history.tsx'
-
-// Added Services Page
-import Services from './pages/services-page/services-page.tsx'
-
-import Services2 from './pages/services-page/services2-page.tsx'
+import ServicesPage from './pages/services-page/services-page.tsx'
 
 import './index.css'
 import DashboardBookingsWorkflowView from './pages/dashboard/DashboardBookingsWorkflowVew.tsx'
@@ -165,8 +161,7 @@ function Main () {
                       <Route path="/dashboard/calendar-workflow" element={<DashboardBookingsWorkflowView />} />
 
                       <Route path="/" element={<Home />} />
-                      <Route path="/services" element={<Services />} />
-                      <Route path="/services2" element={<Services2 />} />
+                      <Route path="/services" element={<ServicesPage />} />
 
                     </Routes>
                   </BrowserRouter>
