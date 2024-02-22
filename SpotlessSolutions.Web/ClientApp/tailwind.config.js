@@ -12,5 +12,9 @@ export default {
       }
     },
   },
+  spacing: {
+    '7': '1.75rem',
+    '9': '2.25rem'
+  },
   plugins: [],
 }
