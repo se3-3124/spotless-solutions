@@ -1,9 +1,9 @@
-import { TextField } from "@mui/material"
-import ServicesManagementEdit from "./sm-edit";
-import ServicesManagementCheckbox from "./sm-checkbox";
+import { TextField } from '@mui/material'
+import ServicesManagementEdit from './sm-edit'
+import ServicesManagementCheckbox from './sm-checkbox'
 
-export default function PostConCleaning() {
-    return (
+export default function PostConCleaning () {
+  return (
     <section>
         <div className="h-screen flex">
             <div className="flex-1 min-w-0 bg-white">
@@ -13,7 +13,7 @@ export default function PostConCleaning() {
                         <div className='flex items-center jusitfy-between py-2'>
                             <div className='flex-1'>
                                 <h2 className='text-2xl font-semibold text-grey-900 leading-tight'>Post Contruction Cleaning</h2>
-                            </div>                       
+                            </div>
                         </div>
                     </header>
                 </div>
@@ -21,9 +21,9 @@ export default function PostConCleaning() {
                 {/* Services Management Side Bar */}
 
                 {/* Services Management */}
-                
+
                 <ServicesManagementEdit />
-                
+
                 <div className="flex p-3">
                     <div>
                         <div className="mt-7 mx-5">
@@ -42,11 +42,11 @@ export default function PostConCleaning() {
                         </div>
                     </div>
                 </div>
-                
+
                 <ServicesManagementCheckbox />
 
-            </div>    
+            </div>
         </div>
     </section>
-    )
+  )
 }

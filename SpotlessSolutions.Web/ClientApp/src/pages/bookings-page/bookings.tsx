@@ -1,12 +1,12 @@
 import './bookings.css'
-import tdLogo from '../../assets/td_logo.jpg';
+import tdLogo from '../../assets/td_logo.jpg'
 
-export default function Bookings() {
-    return (
+export default function Bookings () {
+  return (
     <section>
         <div className="h-screen flex">
             <div className="w-64 px-8 py-3 bg-gray-100 border-r">
-                <img src={tdLogo} className='h-9 w-9'/> 
+                <img src={tdLogo} className='h-9 w-9'/>
                 <nav className='mt-8'>
                     <h2 className='text-xs font-semibold text-gray-600 uppercase tracking-wide'>Bookings</h2>
                     <div className='mt-2 -mx-3'>
@@ -29,7 +29,7 @@ export default function Bookings() {
                         <a href="#" className='flex justify-between items-center px-3 py-2 text-gray-900 rounded-lg'>
                             <span className='text-sm font-medium text-gray-700'>Rejected</span>
                             <span className='text-xs font-semibold text-gray-700'>3</span>
-                        </a>    
+                        </a>
                     </div>
                     <h2 className='mt-8 text-xs font-semibold text-gray-600 uppercase tracking-wide'>Tags</h2>
                     <div className='mt-2 -mx-3'>
@@ -60,7 +60,7 @@ export default function Bookings() {
                         <div className='flex items-center jusitfy-between py-2'>
                             <div className='flex-1'>
                                 <h2 className='text-2xl font-semibold text-grey-900 leading-tight'>Bookings</h2>
-                            </div>                       
+                            </div>
                         </div>
                     </header>
                 </div>
@@ -94,8 +94,8 @@ export default function Bookings() {
                                             </p>
                                             <p className='text-sm font-medium leading-snug text-gray-900'>
                                                 Total: ₱ 2,000.00
-                                            </p>                                           
-                                        </div>                                       
+                                            </p>
+                                        </div>
                                     </a>
                                 </li>
 
@@ -114,8 +114,8 @@ export default function Bookings() {
                                             </p>
                                             <p className='text-sm font-medium leading-snug text-gray-900'>
                                                 Total: ₱ 2,000.00
-                                            </p>                                           
-                                        </div>                                       
+                                            </p>
+                                        </div>
                                     </a>
                                 </li>
 
@@ -134,8 +134,8 @@ export default function Bookings() {
                                             </p>
                                             <p className='text-sm font-medium leading-snug text-gray-900'>
                                                 Total: ₱ 2,000.00
-                                            </p>                                           
-                                        </div>                                       
+                                            </p>
+                                        </div>
                                     </a>
                                 </li>
 
@@ -154,8 +154,8 @@ export default function Bookings() {
                                             </p>
                                             <p className='text-sm font-medium leading-snug text-gray-900'>
                                                 Total: ₱ 2,000.00
-                                            </p>                                           
-                                        </div>                                       
+                                            </p>
+                                        </div>
                                     </a>
                                 </li>
                             </ul>
@@ -180,8 +180,8 @@ export default function Bookings() {
                                             </p>
                                             <p className='text-sm font-medium leading-snug text-gray-900'>
                                                 Total: ₱ 2,000.00
-                                            </p>                                           
-                                        </div>                                       
+                                            </p>
+                                        </div>
                                     </a>
                                 </li>
 
@@ -200,8 +200,8 @@ export default function Bookings() {
                                             </p>
                                             <p className='text-sm font-medium leading-snug text-gray-900'>
                                                 Total: ₱ 2,000.00
-                                            </p>                                           
-                                        </div>                                       
+                                            </p>
+                                        </div>
                                     </a>
                                 </li>
 
@@ -220,8 +220,8 @@ export default function Bookings() {
                                             </p>
                                             <p className='text-sm font-medium leading-snug text-gray-900'>
                                                 Total: ₱ 2,000.00
-                                            </p>                                           
-                                        </div>                                       
+                                            </p>
+                                        </div>
                                     </a>
                                 </li>
 
@@ -240,8 +240,8 @@ export default function Bookings() {
                                             </p>
                                             <p className='text-sm font-medium leading-snug text-gray-900'>
                                                 Total: ₱ 2,000.00
-                                            </p>                                           
-                                        </div>                                       
+                                            </p>
+                                        </div>
                                     </a>
                                 </li>
                             </ul>
@@ -266,8 +266,8 @@ export default function Bookings() {
                                             </p>
                                             <p className='text-sm font-medium leading-snug text-gray-900'>
                                                 Total: ₱ 2,000.00
-                                            </p>                                           
-                                        </div>                                       
+                                            </p>
+                                        </div>
                                     </a>
                                 </li>
 
@@ -286,8 +286,8 @@ export default function Bookings() {
                                             </p>
                                             <p className='text-sm font-medium leading-snug text-gray-900'>
                                                 Total: ₱ 2,000.00
-                                            </p>                                           
-                                        </div>                                       
+                                            </p>
+                                        </div>
                                     </a>
                                 </li>
 
@@ -306,8 +306,8 @@ export default function Bookings() {
                                             </p>
                                             <p className='text-sm font-medium leading-snug text-gray-900'>
                                                 Total: ₱ 2,000.00
-                                            </p>                                           
-                                        </div>                                       
+                                            </p>
+                                        </div>
                                     </a>
                                 </li>
 
@@ -326,8 +326,8 @@ export default function Bookings() {
                                             </p>
                                             <p className='text-sm font-medium leading-snug text-gray-900'>
                                                 Total: ₱ 2,000.00
-                                            </p>                                           
-                                        </div>                                       
+                                            </p>
+                                        </div>
                                     </a>
                                 </li>
                             </ul>
@@ -352,8 +352,8 @@ export default function Bookings() {
                                             </p>
                                             <p className='text-sm font-medium leading-snug text-gray-900'>
                                                 Total: ₱ 2,000.00
-                                            </p>                                           
-                                        </div>                                       
+                                            </p>
+                                        </div>
                                     </a>
                                 </li>
 
@@ -372,8 +372,8 @@ export default function Bookings() {
                                             </p>
                                             <p className='text-sm font-medium leading-snug text-gray-900'>
                                                 Total: ₱ 2,000.00
-                                            </p>                                           
-                                        </div>                                       
+                                            </p>
+                                        </div>
                                     </a>
                                 </li>
 
@@ -392,8 +392,8 @@ export default function Bookings() {
                                             </p>
                                             <p className='text-sm font-medium leading-snug text-gray-900'>
                                                 Total: ₱ 2,000.00
-                                            </p>                                           
-                                        </div>                                       
+                                            </p>
+                                        </div>
                                     </a>
                                 </li>
 
@@ -412,16 +412,16 @@ export default function Bookings() {
                                             </p>
                                             <p className='text-sm font-medium leading-snug text-gray-900'>
                                                 Total: ₱ 2,000.00
-                                            </p>                                           
-                                        </div>                                       
+                                            </p>
+                                        </div>
                                     </a>
                                 </li>
                             </ul>
                         </div>
                     </main>
                 </div>
-            </div>    
+            </div>
         </div>
     </section>
-    )
+  )
 }

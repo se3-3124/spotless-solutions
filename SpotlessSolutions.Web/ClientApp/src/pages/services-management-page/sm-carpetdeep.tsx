@@ -1,9 +1,8 @@
-import { TextField } from "@mui/material"
-import ServicesManagementEdit from "./sm-edit";
-import ServicesManagementCheckbox from "./sm-checkbox";
+import ServicesManagementEdit from './sm-edit'
+import ServicesManagementCheckbox from './sm-checkbox'
 
-export default function CarpetDeep() {
-    return (
+export default function CarpetDeep () {
+  return (
     <section>
         <div className="h-screen flex">
             <div className="flex-1 min-w-0 bg-white">
@@ -13,7 +12,7 @@ export default function CarpetDeep() {
                         <div className='flex items-center jusitfy-between py-2'>
                             <div className='flex-1'>
                                 <h2 className='text-2xl font-semibold text-grey-900 leading-tight'>Carpet Deep Cleaning</h2>
-                            </div>                       
+                            </div>
                         </div>
                     </header>
                 </div>
@@ -21,13 +20,13 @@ export default function CarpetDeep() {
                 {/* Services Management Side Bar */}
 
                 {/* Services Management */}
-                
+
                 <ServicesManagementEdit />
-                
+
                 <ServicesManagementCheckbox />
 
-            </div>    
+            </div>
         </div>
     </section>
-    )
+  )
 }

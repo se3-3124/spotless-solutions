@@ -1,9 +1,9 @@
-import { TextField } from "@mui/material"
-import ServicesManagementEdit from "./sm-edit";
-import ServicesManagementCheckbox from "./sm-checkbox";
+import { TextField } from '@mui/material'
+import ServicesManagementEdit from './sm-edit'
+import ServicesManagementCheckbox from './sm-checkbox'
 
-export default function Aircon() {
-    return (
+export default function Aircon () {
+  return (
     <section>
         <div className="h-screen flex">
             <div className="flex-1 min-w-0 bg-white">
@@ -13,7 +13,7 @@ export default function Aircon() {
                         <div className='flex items-center jusitfy-between py-2'>
                             <div className='flex-1'>
                                 <h2 className='text-2xl font-semibold text-grey-900 leading-tight'>Aircon Cleaning</h2>
-                            </div>                       
+                            </div>
                         </div>
                     </header>
                 </div>
@@ -21,9 +21,9 @@ export default function Aircon() {
                 {/* Services Management Side Bar */}
 
                 {/* Services Management */}
-                
+
                 <ServicesManagementEdit />
-                
+
                 <h5 className="ml-8 -mb-6 font-semibold text-midnightblue">0.75 and Below</h5>
                 <div className="flex p-3">
                     <div className="flex">
@@ -94,11 +94,11 @@ export default function Aircon() {
                         </div>
                     </div>
                 </div>
-                
+
                 <ServicesManagementCheckbox />
 
-            </div>    
+            </div>
         </div>
     </section>
-    )
+  )
 }

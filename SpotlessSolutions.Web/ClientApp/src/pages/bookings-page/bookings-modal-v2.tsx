@@ -1,17 +1,17 @@
-import { useState } from "react";
-import Button from "@mui/material/Button";
-import Dialog from "@mui/material/Dialog";
-import { TextareaAutosize as BaseTextareaAutosize } from '@mui/base/TextareaAutosize';
+import { useState } from 'react'
+import Button from '@mui/material/Button'
+import Dialog from '@mui/material/Dialog'
+import { TextareaAutosize as BaseTextareaAutosize } from '@mui/base/TextareaAutosize'
 
-import "./bookings-modal-v2.scss";
-import { styled } from "@mui/material";
+import './bookings-modal-v2.scss'
+import { styled } from '@mui/material'
 
-export default function BookingsModalV2() {
-    const [open, setOpen] = useState(false);
+export default function BookingsModalV2 () {
+  const [open, setOpen] = useState(false)
 
-    const toggle = () => setOpen(l => !l);
+  const toggle = () => { setOpen(l => !l) }
 
-    return (
+  return (
         <>
             <Button onClick={toggle}>open</Button>
             <Dialog open={open} onClose={toggle} maxWidth="md" fullWidth={true}>
@@ -45,7 +45,7 @@ export default function BookingsModalV2() {
                                 Status: <span className="ml-10">Approved</span>
                             </p>
                             <p>
-                                Add on's: <span className="ml-5">Mattress and Carpet Cleaning</span>
+                                Add on&apos;s: <span className="ml-5">Mattress and Carpet Cleaning</span>
                             </p>
                             <p className="mt-8">
                                 Total: <span className="ml-12">₱ 2,000.00</span>
@@ -63,33 +63,33 @@ export default function BookingsModalV2() {
                 </div>
             </Dialog>
         </>
-    )
+  )
 }
 
 const blue = {
-    100: '#DAECFF',
-    200: '#b6daff',
-    400: '#3399FF',
-    500: '#007FFF',
-    600: '#0072E5',
-    900: '#003A75',
-  };
-  
-  const grey = {
-    50: '#F3F6F9',
-    100: '#E5EAF2',
-    200: '#DAE2ED',
-    300: '#C7D0DD',
-    400: '#B0B8C4',
-    500: '#9DA8B7',
-    600: '#6B7A90',
-    700: '#434D5B',
-    800: '#303740',
-    900: '#1C2025',
-  };
+  100: '#DAECFF',
+  200: '#b6daff',
+  400: '#3399FF',
+  500: '#007FFF',
+  600: '#0072E5',
+  900: '#003A75'
+}
+
+const grey = {
+  50: '#F3F6F9',
+  100: '#E5EAF2',
+  200: '#DAE2ED',
+  300: '#C7D0DD',
+  400: '#B0B8C4',
+  500: '#9DA8B7',
+  600: '#6B7A90',
+  700: '#434D5B',
+  800: '#303740',
+  900: '#1C2025'
+}
 
 const TextareaAutosize = styled(BaseTextareaAutosize)(
-    ({ theme }) => `
+  ({ theme }) => `
     box-sizing: border-box;
     margin-top: 15px;
     width: 320px;

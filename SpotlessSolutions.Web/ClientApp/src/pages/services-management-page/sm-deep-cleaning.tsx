@@ -1,9 +1,9 @@
-import { TextField } from "@mui/material"
-import ServicesManagementEdit from "./sm-edit";
-import ServicesManagementCheckbox from "./sm-checkbox";
+import { TextField } from '@mui/material'
+import ServicesManagementEdit from './sm-edit'
+import ServicesManagementCheckbox from './sm-checkbox'
 
-export default function DeepCleaning() {
-    return (
+export default function DeepCleaning () {
+  return (
     <section>
         <div className="h-screen flex">
             <div className="flex-1 min-w-0 bg-white">
@@ -13,18 +13,17 @@ export default function DeepCleaning() {
                         <div className='flex items-center jusitfy-between py-2'>
                             <div className='flex-1'>
                                 <h2 className='text-2xl font-semibold text-grey-900 leading-tight'>Deep Cleaning</h2>
-                            </div>                       
+                            </div>
                         </div>
                     </header>
                 </div>
 
                 {/* Services Management Side Bar */}
 
-
                 {/* Services Management */}
 
                 <ServicesManagementEdit />
-                
+
                 <div className="flex p-3">
                     <div>
                         <div className="mt-7 mx-5">
@@ -45,9 +44,9 @@ export default function DeepCleaning() {
                 </div>
 
                 <ServicesManagementCheckbox />
-                
-            </div>   
+
+            </div>
         </div>
     </section>
-    )
+  )
 }
