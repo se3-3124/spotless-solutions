@@ -1,6 +1,4 @@
-﻿using System.Text;
-
-namespace SpotlessSolutions.Web.Services.Services.Addons;
+﻿namespace SpotlessSolutions.Web.Services.Services.Addons;
 
 public class CarInteriorDeepCleaning : AddOnStandalone, IAddon
 {
