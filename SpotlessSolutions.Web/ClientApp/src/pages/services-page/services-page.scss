@@ -5,6 +5,10 @@
 .services-container {
   @apply w-full mb-8;
   
+  & .loading-state {
+    @apply p-4 h-screen flex justify-center content-center;
+  }
+  
   & .heading-text {
     @apply text-5xl font-bold p-8 flex justify-center;
   }

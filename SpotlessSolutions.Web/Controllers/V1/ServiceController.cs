@@ -30,32 +30,27 @@ public class ServiceController : ControllerBase
     public IActionResult GetAllServices()
     {
         var services = _registry.GetAllRegisteredServices();
-        return Ok(new ServiceListResponse
-        {
-            Success = true,
-            Data = services.Select(x => new ServiceDetails
-            {
-                Id = x.Id,
-                Description = x.Description,
-                Name = x.Name
-            }).ToArray()
-        });
-    }
-
-    [HttpGet("addons/all")]
-    [ProducesResponseType(typeof(ServiceListResponse), 200)]
-    public IActionResult GetAllAddons()
-    {
         var addons = _registry.GetAllAddons();
+
+        var data = services.Select(x => new ServiceDetails
+        {
+            Id = x.Id,
+            Description = x.Description,
+            Name = x.Name,
+            Type = ServiceObjectType.Main
+        }).ToList();
+        data.AddRange(addons.Select(addon => new ServiceDetails
+        {
+            Type = ServiceObjectType.Addon,
+            Id = addon.Id,
+            Name = addon.Name,
+            Description = addon.Description
+        }));
+
         return Ok(new ServiceListResponse
         {
             Success = true,
-            Data = addons.Select(x => new ServiceDetails
-            {
-                Id = x.Id,
-                Description = x.Description,
-                Name = x.Name
-            }).ToArray()
+            Data = data
         });
     }
 

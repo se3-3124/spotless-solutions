@@ -33,6 +33,7 @@ public static class BookingObjectToBookingDetailsMapper
             {
                 Service = new ServiceDetails
                 {
+                    Type = ServiceObjectType.Main,
                     Id = data.MainService.Service.Id,
                     Name = data.MainService.Service.Name,
                     Description = data.MainService.Service.Description
@@ -44,6 +45,7 @@ public static class BookingObjectToBookingDetailsMapper
                 {
                     Service = new ServiceDetails
                     {
+                        Type = ServiceObjectType.Addon,
                         Id = x.Service.Id,
                         Name = x.Service.Name,
                         Description = x.Service.Description

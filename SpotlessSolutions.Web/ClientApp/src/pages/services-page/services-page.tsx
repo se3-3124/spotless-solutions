@@ -1,72 +1,77 @@
-import { useContext } from 'react'
+import axios, { type AxiosInstance } from 'axios'
+import { useContext, useEffect, useState } from 'react'
+
+import CircularProgress from '@mui/material/CircularProgress'
 
 import AddOnServicesCard from '../../components/cards/AddOnServicesCard.tsx'
 import AuthContext from '../../contexts/AuthContext'
 import CardServices from '../../components/cards/CardServices.tsx'
 import FooterV2 from '../../components/footerv2/FooterV2.tsx'
 import NavigationBar from '../../components/navigation/NavigationBar'
+import NotificationsContext, { NotificationSeverity } from '../../contexts/NotificationsContext.tsx'
+import { type ServicesDataObject, ServiceType } from '../../types/ServicesDataObject.tsx'
 
 import tdLogo from '../../assets/td_logo.jpg'
 import './services-page.scss'
 
 export default function ServicesPage () {
   const context = useContext(AuthContext)
+  const notificationsContext = useContext(NotificationsContext)
 
-  const cardsData = [
-    {
-      title: 'Deep Cleaning',
-      description: 'Here are the biggest enterprise technology acquisitions of 2021 so far, in reverse chronological order.',
-      image: tdLogo
-    },
-    {
-      title: 'Deep Cleaning',
-      description: 'Here are the biggest enterprise technology acquisitions of 2021 so far, in reverse chronological order.',
-      image: tdLogo
-    },
-    {
-      title: 'Deep Cleaning',
-      description: 'Here are the biggest enterprise technology acquisitions of 2021 so far, in reverse chronological order.',
-      image: tdLogo
-    },
-    {
-      title: 'Deep Cleaning',
-      description: 'Here are the biggest enterprise technology acquisitions of 2021 so far, in reverse chronological order.',
-      image: tdLogo
+  const [ready, setReady] = useState(false)
+  const [services, setServices] = useState<ServicesDataObject[]>([])
+
+  useEffect(() => {
+    async function fetchServices (req: AxiosInstance) {
+      const data = await req
+        .get<{ success: true, data: ServicesDataObject[] }>('/api/v1/services/all')
+      setServices(data.data.data)
     }
-  ]
 
-  const additionalServices = [
-    { title: 'Mattress Cleaning', description: 'Go to this step by step guideline process on how to certify for your weekly benefits.' },
-    { title: 'Mattress Cleaning', description: 'Go to this step by step guideline process on how to certify for your weekly benefits.' },
-    { title: 'Mattress Cleaning', description: 'Go to this step by step guideline process on how to certify for your weekly benefits.' },
-    { title: 'Mattress Cleaning', description: 'Go to this step by step guideline process on how to certify for your weekly benefits.' },
-    { title: 'Mattress Cleaning', description: 'Go to this step by step guideline process on how to certify for your weekly benefits.' },
-    { title: 'Mattress Cleaning', description: 'Go to this step by step guideline process on how to certify for your weekly benefits.' }
-  ]
+    fetchServices(context.request ?? axios.create({ baseURL: window.location.origin })).then(() => {
+      setReady(true)
+    }).catch(() => {
+      notificationsContext.notify(NotificationSeverity.Error, 'Failed to fetch service data')
+    })
+  }, [])
 
   return (
     <>
       <NavigationBar user={context.user} />
-      <div className="services-container">
-        <h1 className="heading-text">
-          SERVICES OFFERED
-        </h1>
+      {
+        ready
+          ? (
+          <div className="services-container">
+            <h1 className="heading-text">
+              SERVICES OFFERED
+            </h1>
 
-        <div className="services-grid-container">
-          {cardsData.map((card, index) => (
-            <CardServices key={index} title={card.title} description={card.description} image={card.image}/>
-          ))}
-        </div>
-        <h1 className="heading-text">
-          ADDONS SERVICES
-        </h1>
-        <div className="services-grid-container cols-6-only">
-          {additionalServices.map((service, index) => (
-            <AddOnServicesCard key={index} title={service.title} description={service.description} />
-          ))}
-        </div>
-      </div>
-      <FooterV2 />
+            <div className="services-grid-container">
+              {services.filter(x => x.type === ServiceType.Main)
+                .map((card, index) => (
+                    <CardServices key={index} title={card.name} description={card.description} image={tdLogo}/>
+                ))}
+            </div>
+            <h1 className="heading-text">
+              ADDONS SERVICES
+            </h1>
+            <div className="services-grid-container cols-6-only">
+              {services.filter(x => x.type === ServiceType.Addon)
+                .map((service, index) => (
+                  <AddOnServicesCard key={index} title={service.name} description={service.description}/>
+                ))}
+            </div>
+          </div>
+            )
+          : (
+          <div className="services-container">
+            <div className="loading-state">
+              <CircularProgress />
+            </div>
+          </div>
+            )
+      }
+      <FooterV2/>
     </>
   )
 }
