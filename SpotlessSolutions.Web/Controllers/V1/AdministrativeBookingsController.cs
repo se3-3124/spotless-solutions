@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using SpotlessSolutions.Web.Contracts.V1.Requests;
 using SpotlessSolutions.Web.Contracts.V1.ResponseMappers;
 using SpotlessSolutions.Web.Contracts.V1.Responses;
 using SpotlessSolutions.Web.Data.Models;
@@ -73,5 +74,56 @@ public class AdministrativeBookingsController : ControllerBase
             Success = true,
             Data = data
         });
+    }
+
+    [HttpPatch("state")]
+    [ProducesResponseType(typeof(ErrorException), 500)]
+    [ProducesResponseType(typeof(ErrorException), 401)]
+    [ProducesResponseType(typeof(GenericOkResult), 200)]
+    public async Task<IActionResult> UpdateBookingState([FromBody] BookingUpdateDetails details)
+    {
+        // Check the role
+        var userRole = HttpContext.User.Claims.Single(x => x.Type == "user_role")
+            .Value;
+        if (userRole != UserRoles.Administrator.ToString())
+        {
+            return Unauthorized(new ErrorException
+            {
+                Error = true,
+                Messages = ["Not allowed"]
+            });
+        }
+
+        try
+        {
+            var result = await _booking.UpdateBookingState(details.Id, details.State);
+            if (!result)
+            {
+                return BadRequest(new ErrorException
+                {
+                    Error = true,
+                    Messages =
+                    [
+                        "Invalid request on changing state."
+                    ]
+                });
+            }
+            
+            return Ok(new GenericOkResult
+            {
+                Success = true
+            });
+        }
+        catch
+        {
+            return StatusCode(StatusCodes.Status500InternalServerError, new ErrorException
+            {
+                Error = true,
+                Messages =
+                [
+                    "An error occured at updating state. Please try again later."
+                ]
+            });
+        }
     }
 }

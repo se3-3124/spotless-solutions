@@ -11,6 +11,7 @@ export interface ObjectBuckets {
 export interface DashboardWorkflowContextType {
   buckets: ObjectBuckets
   moveBucket: (from: keyof ObjectBuckets, target: keyof ObjectBuckets, data: BookingResponseType) => void
+  openBucket: (data: BookingResponseType) => void
 }
 
 export default createContext<DashboardWorkflowContextType>({} as unknown as DashboardWorkflowContextType)

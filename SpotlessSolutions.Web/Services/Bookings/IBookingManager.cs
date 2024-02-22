@@ -1,3 +1,5 @@
+using SpotlessSolutions.Web.Data.Models;
+
 namespace SpotlessSolutions.Web.Services.Bookings;
 
 public interface IBookingManager
@@ -31,4 +33,12 @@ public interface IBookingManager
     /// <param name="end"></param>
     /// <returns></returns>
     Task<IEnumerable<DateTime>> GetAnonymizedBookingDetails(DateTime start, DateTime end);
+
+    /// <summary>
+    /// Update booking state
+    /// </summary>
+    /// <param name="id"></param>
+    /// <param name="targetState"></param>
+    /// <returns></returns>
+    Task<bool> UpdateBookingState(Guid id, BookingStatus targetState);
 }

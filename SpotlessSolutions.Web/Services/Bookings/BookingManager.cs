@@ -1,6 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Caching.Distributed;
 using SpotlessSolutions.Web.Data;
+using SpotlessSolutions.Web.Data.Models;
 using SpotlessSolutions.Web.Extensions;
 using SpotlessSolutions.Web.Services.Services;
 
@@ -17,6 +18,21 @@ public class BookingManager : IBookingManager
         _context = context;
         _registry = registry;
         _cache = cache;
+    }
+
+    public async Task<bool> UpdateBookingState(Guid id, BookingStatus targetState)
+    {
+        var booking = await _context.Bookings
+            .FirstOrDefaultAsync(x => x.Id.Equals(id));
+        if (booking == null)
+        {
+            return false;
+        }
+
+        booking.Status = targetState;
+        _context.Bookings.Update(booking);
+
+        return await _context.SaveChangesAsync() >= 1;
     }
 
     public async Task<IEnumerable<BookingObject>> GetBooking(int year, int month)

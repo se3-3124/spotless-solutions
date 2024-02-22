@@ -3,7 +3,27 @@
 @use 'tailwindcss/utilities.css';
 
 .droppable-object {
-  @apply block p-5 bg-white rounded-md shadow mb-2;
+  @apply block p-5 rounded-md shadow mb-2;
+
+  &.item-pending {
+    @apply bg-yellow-400;
+    @apply border-2 border-amber-500;
+  }
+
+  &.item-done {
+    @apply bg-teal-400;
+    @apply border-2 border-teal-500;
+  }
+
+  &.item-rejected {
+    @apply bg-red-400;
+    @apply border-2 border-red-500;
+  }
+
+  &.item-accepted {
+    @apply bg-green-400;
+    @apply border-2 border-green-500;
+  }
   
   & .service-detail {
     @apply text-sm font-medium leading-snug text-gray-900 font-sans;
