@@ -15,6 +15,7 @@ import EmailVerificationStaticStatusPage from './pages/authentication/EmailVerif
 import Dashboard from './pages/dashboard/Dashboard.tsx'
 import DashboardBookingCalendarView from './pages/dashboard/DashboardBookingCalendarView.tsx'
 import Home from './pages/home-page/home-page.tsx'
+import AboutUs from './pages/aboutUs/aboutUs-page.tsx'
 import LogInPage from './pages/authentication/LoginPage.tsx'
 import LogoutFlowPage from './pages/authentication/LogoutFlowPage.tsx'
 import RegistrationPage from './pages/authentication/RegistrationPage.tsx'
@@ -164,7 +165,9 @@ function Main () {
                       <Route path="/dashboard/history" element={<History />} />
                       <Route path="/dashboard/calendar-workflow" element={<DashboardBookingsWorkflowView />} />
 
+                      {/* Core PAges */}
                       <Route path="/" element={<Home />} />
+                      <Route path="/aboutUs" element={<AboutUs />} />
                       <Route path="/services" element={<Services />} />
                       <Route path="/services2" element={<Services2 />} />
 
