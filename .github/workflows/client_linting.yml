@@ -1,0 +1,28 @@
+name: 'ClientApp linting'
+
+on:
+    workflow_dispatch: ~
+    push:
+        branches:
+            - main
+    pull_request:
+        types:
+            - opened
+            - synchronize
+            - reopened
+
+jobs:
+    lint:
+        runs-on: ubuntu-latest
+
+        steps:
+            - name: Checkout
+              uses: actions/checkout@v4
+
+            - name: Setup node.js
+              uses: actions/setup-node@v4
+              with:
+                node-version: 20
+
+            - name: Restore dependencies and run linter
+              run: cd $(pwd)/SpotlessSolutions.Web/ClientApp && npm install && npm run lint

@@ -62,9 +62,6 @@ public class Authentication : IAuthentication
 
         return new AuthenticationResult
         {
-            FirstName = userData.FirstName,
-            LastName = userData.LastName,
-            IsAdmin = userData.Role == UserRoles.Administrator,
             Token = sessionTokens.Token,
             RefreshToken = sessionTokens.RefreshToken
         };
@@ -128,7 +125,7 @@ public class Authentication : IAuthentication
                     },
                     Subject = "Account confirmation",
                     Body = $"""
-                            Confirm your account by clicking <a href="{hostname}/api/auth/confirm?token={code}">here</a>
+                            Confirm your account by clicking <a href="{hostname}/api/auth/confirm?t={code}">here</a>
                             """
                 };
 
@@ -141,6 +138,8 @@ public class Authentication : IAuthentication
         {
             // Remove user when operation fails
             await _user.DeleteAsync(user);
+            _context.UserData.Remove(userInformation);
+            await _context.SaveChangesAsync();
             return false;
         }
     }
@@ -289,22 +288,6 @@ public class Authentication : IAuthentication
         await _context.SaveChangesAsync();
 
         return true;
-    }
-
-    public async Task<UserDataInformation?> GetUserInformation(Guid userDataId)
-    {
-        var data = await _context.UserData.FindAsync(userDataId);
-        if (data == null)
-        {
-            return null;
-        }
-
-        return new UserDataInformation
-        {
-            FirstName = data.FirstName,
-            LastName = data.LastName,
-            IsAdmin = data.Role == UserRoles.Administrator
-        };
     }
 
     public async Task<SessionToken?> LoginOAuth2User(AccountBindingType source, string id)

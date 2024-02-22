@@ -1,0 +1,7 @@
+@use 'tailwindcss/base.css';
+@use 'tailwindcss/components.css';
+@use 'tailwindcss/utilities.css';
+
+.dashboard-navbar-root {
+  @apply border-b-gray-300 border-b;
+}

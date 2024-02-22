@@ -44,8 +44,7 @@
     </ItemGroup>
 
     <ItemGroup>
-      <Folder Include="Services\Management\AccountManagement\" />
-      <Folder Include="Services\Management\Analytics\" />
+      <Folder Include="ClientApp\src\components\footer\" />
     </ItemGroup>
 
     <Target Name="DebugEnsureNodeEnv" BeforeTargets="Build" Condition=" '$(Configuration)' == 'Debug' And !Exists('$(SpaRoot)node_modules') ">

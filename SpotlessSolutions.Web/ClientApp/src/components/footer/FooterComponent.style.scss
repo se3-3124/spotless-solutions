@@ -1,0 +1,42 @@
+@use 'tailwindcss/base.css';
+@use 'tailwindcss/components.css';
+@use 'tailwindcss/utilities.css';
+
+.footer {
+  @apply w-full bg-fruityorange p-8 text-white ;
+
+  @media (max-width: 768px) {
+    @apply p-2; // Adjust padding for smaller screens
+  }
+
+  @media (max-width: 480px) {
+    @apply p-2; // Further adjust padding for even smaller screens
+  }
+
+  & .contents {
+    @apply flex;
+    @apply flex-row;
+
+    & .contact-field {
+      @apply ml-20;
+      @apply flex-grow;
+      @apply text-midnightblue;
+    }
+  }
+
+  & .divider {
+    @apply mt-8;
+    @apply mb-8;
+    @apply h-1;
+    @apply w-full;
+    @apply bg-white;
+  }
+
+  & .bottom-footer {
+    @apply w-full; 
+   & h1 {
+    @apply text-white text-2xl text-center font-bold;
+   }
+  }
+
+}

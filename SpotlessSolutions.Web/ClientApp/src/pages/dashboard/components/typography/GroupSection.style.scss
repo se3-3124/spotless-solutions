@@ -1,0 +1,7 @@
+@use 'tailwindcss/base.css';
+@use 'tailwindcss/components.css';
+@use 'tailwindcss/utilities.css';
+
+.group-section {
+  @apply text-xs font-semibold text-gray-600 uppercase tracking-wide;
+}

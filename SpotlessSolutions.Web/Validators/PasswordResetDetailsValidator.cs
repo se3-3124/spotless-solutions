@@ -1,6 +1,5 @@
 using FluentValidation;
 using SpotlessSolutions.Web.Contracts.V1.Requests;
-using SpotlessSolutions.Web.Contracts.V1.Responses;
 
 namespace SpotlessSolutions.Web.Validators;
 

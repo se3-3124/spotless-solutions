@@ -1,0 +1,39 @@
+﻿@use 'tailwindcss/base.css';
+@use 'tailwindcss/components.css';
+@use 'tailwindcss/utilities.css';
+
+.modal-container {
+  @apply p-8;
+
+  & .modal-header {
+    @apply flex justify-between;
+
+    & h2 {
+      @apply text-lg font-bold;
+    }
+  }
+
+  & .modal-contents {
+    @apply flex;
+
+    & .modal-information {
+      @apply flex-1 lg:flex-auto ml-3 py-3 text-gray-700;
+
+      & p {
+        @apply py-2;
+      }
+    }
+  }
+
+  & .modal-bottom {
+    @apply flex-1 lg:flex-col;
+
+    & p {
+      @apply mt-4;
+    }
+
+    & button {
+      @apply flex mt-4 px-2 py-2 text-sm font-medium text-white bg-midnightblue rounded-md;
+    }
+  }
+}

@@ -1,11 +1,13 @@
 namespace SpotlessSolutions.Web.Contracts.V1.Responses;
 
-public class ManyRequestsException
+public class ManyRequestsException : ErrorException
 {
-    public bool Error { get; init; } = true;
-
-    public string[] Message = new[]
+    public ManyRequestsException()
     {
-        "Too many requests. Please try again later."
-    };
+        Error = true;
+        Messages =
+        [
+            "Too many requests. Please try again later."
+        ];
+    }
 }

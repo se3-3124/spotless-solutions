@@ -11,7 +11,7 @@ public class LoginDataValidator : AbstractValidator<LoginData>
             .NotNull()
             .NotEmpty()
             .EmailAddress()
-            .WithMessage("Email must not be empty!");
+            .WithMessage("Invalid Email Address");
 
         RuleFor(opts => opts.Password)
             .NotNull()
