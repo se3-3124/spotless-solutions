@@ -1,8 +1,8 @@
-import { FiPhone } from "react-icons/fi";
-import { GrLocation } from "react-icons/gr";
-import { FaFacebookSquare } from "react-icons/fa";
+import { FiPhone } from 'react-icons/fi'
+import { GrLocation } from 'react-icons/gr'
+import { FaFacebookSquare } from 'react-icons/fa'
 
-function Footer() {
+function Footer () {
   return (
     <footer className="w-screen font-sans">
       <div className="bg-[#05132F] text-white p-4 md:p-10 flex flex-col md:flex-row justify-between">
@@ -50,7 +50,7 @@ function Footer() {
         </p>
       </div>
     </footer>
-  );
+  )
 }
 
-export default Footer;
+export default Footer
