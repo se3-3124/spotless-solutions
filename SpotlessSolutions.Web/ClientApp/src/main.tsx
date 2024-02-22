@@ -17,6 +17,10 @@ import {createTheme, ThemeProvider} from "@mui/material";
 import LogoutRedirect from "./pages/LogoutRedirect.tsx";
 import Bookings from './pages/bookings-page/bookings.tsx';
 import BookingsModalV2 from './pages/bookings-page/bookings-modal-v2.tsx';
+import ServicesManagementMain from './pages/services-management-page/sm-deep-cleaning.tsx'
+import ServicesManagementAddons from './pages/services-management-page/sm-lawntrimming.tsx';
+import ServicesManagementSnackbar from './pages/services-management-page/sm-dialog.tsx';
+
 
 const router = createBrowserRouter([
     {
@@ -68,8 +72,16 @@ const router = createBrowserRouter([
         element: <BookingsModalV2 />
     },
     {
-        path: "/history",
-        element: <History />
+        path: "/services-management-main",
+        element: <ServicesManagementMain />
+    },
+    {
+        path: "/services-management-addons",
+        element: <ServicesManagementAddons />
+    },
+    {
+        path: "/services-management-snackbar",
+        element: <ServicesManagementSnackbar />
     }
 ]);
 
