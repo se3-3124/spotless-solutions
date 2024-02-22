@@ -40,4 +40,10 @@ public interface IService
     /// </summary>
     /// <returns></returns>
     string GetName();
+
+    /// <summary>
+    /// Export the current instance value to object
+    /// </summary>
+    /// <returns></returns>
+    ServiceExportObject ToExportObject();
 }

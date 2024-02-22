@@ -1,4 +1,6 @@
-﻿namespace SpotlessSolutions.Web.Services.Services.Addons;
+﻿using System.Text;
+
+namespace SpotlessSolutions.Web.Services.Services.Addons;
 
 public class CarInteriorDeepCleaning : AddOnStandalone, IAddon
 {
@@ -78,6 +80,25 @@ public class CarInteriorDeepCleaning : AddOnStandalone, IAddon
                 _pricingConfig[key] = (value1, value2);
             }
         }
+    }
+
+    public override ServiceExportObject ToExportObject()
+    {
+        var config = new List<string>();
+        foreach (var (key, value) in _pricingConfig)
+        {
+            config.Add($"{key}:(float|float):({value.Item1}|{value.Item2})");
+        }
+
+        return new ServiceExportObject
+        {
+            Id = Id,
+            Name = Name,
+            Description = Description,
+            Config = string.Join(",", config),
+            Type = ServiceType.Addons,
+            Editable = true
+        };
     }
 
     private float GetBasePrice(string key, CarServiceType type)

@@ -2,7 +2,7 @@
 
 public class GeneralCleaning : ServiceTransportable, IService
 {
-    private readonly string _id = "service.main.general-cleaning";
+    private const string Id = "service.main.general-cleaning";
     private string _name = "General Cleaning";
     private string _description = "";
 
@@ -25,12 +25,27 @@ public class GeneralCleaning : ServiceTransportable, IService
 
     public override string GetId()
     {
-        return _id;
+        return Id;
     }
 
     public override string GetDescription()
     {
         return _description;
+    }
+
+    public override ServiceExportObject ToExportObject()
+    {
+        var export = new ServiceExportObject
+        {
+            Id = Id,
+            Name = _name,
+            Description = _description,
+            Editable = true,
+            Type = ServiceType.Main,
+            Config = $"base:float:{_base},cleaners:float:{_cleaners},next:float:{_perHourTick}"
+        };
+
+        return export;
     }
 
     public override void UpdateConfig(string name, string description, string config)

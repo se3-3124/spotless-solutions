@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using SpotlessSolutions.Web.Contracts.V1.ResponseMappers;
 using SpotlessSolutions.Web.Contracts.V1.Responses;
 using SpotlessSolutions.Web.Data.Models;
 using SpotlessSolutions.Web.Services.Services;
@@ -51,6 +52,78 @@ public class ServiceController : ControllerBase
         {
             Success = true,
             Data = data
+        });
+    }
+
+    [HttpGet("view-details/service")]
+    [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+    [ProducesResponseType(typeof(ErrorException), 401)]
+    [ProducesResponseType(typeof(ErrorException), 404)]
+    [ProducesResponseType(typeof(ServiceDataResponse), 200)]
+    public IActionResult GetServiceDetail([FromQuery] string id)
+    {
+        // Check for role
+        var userRole = HttpContext.User.Claims.Single(x => x.Type == "user_role")
+            .Value;
+        if (userRole != UserRoles.Administrator.ToString())
+        {
+            return Unauthorized(new ErrorException
+            {
+                Error = true,
+                Messages = ["Not allowed"]
+            });
+        }
+
+        var services = _registry.GetActivatedServiceInstance(id);
+        if (services == null)
+        {
+            return NotFound(new ErrorException
+            {
+                Error = true,
+                Messages = ["Specified service ID cannot be found"]
+            });
+        }
+
+        return Ok(new ServiceDataResponse
+        {
+            Success = true,
+            Result = services.ToExportObject().ToServiceData()
+        });
+    }
+    
+    [HttpGet("view-details/addon")]
+    [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+    [ProducesResponseType(typeof(ErrorException), 401)]
+    [ProducesResponseType(typeof(ErrorException), 404)]
+    [ProducesResponseType(typeof(ServiceDataResponse), 200)]
+    public IActionResult GetAddonDetail([FromQuery] string id)
+    {
+        // Check for role
+        var userRole = HttpContext.User.Claims.Single(x => x.Type == "user_role")
+            .Value;
+        if (userRole != UserRoles.Administrator.ToString())
+        {
+            return Unauthorized(new ErrorException
+            {
+                Error = true,
+                Messages = ["Not allowed"]
+            });
+        }
+
+        var addon = _registry.GetActivatedAddonInstance(id);
+        if (addon == null)
+        {
+            return NotFound(new ErrorException
+            {
+                Error = true,
+                Messages = ["Specified addon ID cannot be found"]
+            });
+        }
+
+        return Ok(new ServiceDataResponse
+        {
+            Success = true,
+            Result = addon.ToExportObject().ToServiceData()
         });
     }
 

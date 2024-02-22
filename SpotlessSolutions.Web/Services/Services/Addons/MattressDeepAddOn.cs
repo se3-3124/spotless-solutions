@@ -69,6 +69,26 @@ public class MattressDeepAddOn : AddOnStandalone, IAddon
             }
         }
     }
+    
+    
+    public override ServiceExportObject ToExportObject()
+    {
+        var config = new List<string>();
+        foreach (var (key, value) in _pricingConfig)
+        {
+            config.Add($"{key}:float:({value})");
+        }
+
+        return new ServiceExportObject
+        {
+            Id = Id,
+            Name = Name,
+            Description = Description,
+            Config = string.Join(",", config),
+            Type = ServiceType.Addons,
+            Editable = true
+        };
+    }
 
     private MattressDeepSize ParseSize(float value)
     {

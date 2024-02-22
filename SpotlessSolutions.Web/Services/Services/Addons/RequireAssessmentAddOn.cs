@@ -32,4 +32,16 @@ public abstract class RequireAssessmentAddOn : IAddon
     }
     
     public abstract void UpdateConfiguration(string name, string description, string serviceConfig);
+
+    public ServiceExportObject ToExportObject()
+    {
+        return new ServiceExportObject
+        {
+            Id = Id,
+            Name = Name,
+            Description = Description,
+            Editable = false,
+            Type = ServiceType.Addons
+        };
+    }
 }

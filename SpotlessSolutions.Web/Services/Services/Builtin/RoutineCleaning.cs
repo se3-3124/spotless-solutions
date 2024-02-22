@@ -1,4 +1,6 @@
-﻿namespace SpotlessSolutions.Web.Services.Services.Builtin;
+﻿using System.Text;
+
+namespace SpotlessSolutions.Web.Services.Services.Builtin;
 
 public class RoutineCleaning : ServiceTransportable, IService
 {
@@ -56,6 +58,28 @@ public class RoutineCleaning : ServiceTransportable, IService
     public override string GetDescription()
     {
         return _description;
+    }
+
+    public override ServiceExportObject ToExportObject()
+    {
+        var config = new StringBuilder();
+        config.Append($"weekly_base:float:{_weeklyBase},");
+        config.Append($"bi_monthly_base:float:{_biMonthlyBase},");
+        config.Append($"monthly_base:float:{_monthlyBase},");
+        config.Append($"weekly_tick:float:{_weeklyTick},");
+        config.Append($"bi_monthly_tick:float:{_biMonthlyTick}");
+        config.Append($"monthly_tick:float:{_monthlyTick}");
+        config.Append($"min:float:{_min}");
+
+        return new ServiceExportObject
+        {
+            Id = Id,
+            Name = _name,
+            Description = _description,
+            Editable = true,
+            Type = ServiceType.Main,
+            Config = config.ToString()
+        };
     }
 
     public override void UpdateConfig(string name, string description, string config)

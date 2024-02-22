@@ -61,4 +61,17 @@ public class SofaDeepCleaning : AddOnStandalone, IAddon
             }
         }
     }
+
+    public override ServiceExportObject ToExportObject()
+    {
+        return new ServiceExportObject
+        {
+            Id = Id,
+            Name = Name,
+            Description = Description,
+            Editable = true,
+            Type = ServiceType.Addons,
+            Config = $"restriction:float:{_restrictionValue},base:float:{_base}"
+        };
+    }
 }

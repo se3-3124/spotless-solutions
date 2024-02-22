@@ -40,4 +40,10 @@ public interface IAddon
     /// <param name="description"></param>
     /// <param name="serviceConfig"></param>
     void UpdateConfiguration(string name, string description, string serviceConfig);
+
+    /// <summary>
+    /// Export the current instance value to object
+    /// </summary>
+    /// <returns></returns>
+    ServiceExportObject ToExportObject();
 }

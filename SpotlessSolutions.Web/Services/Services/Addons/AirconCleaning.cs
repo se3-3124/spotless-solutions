@@ -1,4 +1,6 @@
-﻿namespace SpotlessSolutions.Web.Services.Services.Addons;
+﻿using System.Text;
+
+namespace SpotlessSolutions.Web.Services.Services.Addons;
 
 public class AirconCleaning : AddOnStandalone, IAddon
 {
@@ -99,6 +101,33 @@ public class AirconCleaning : AddOnStandalone, IAddon
                 _pricingConfig[key] = priceValue;
             }
         }
+    }
+
+    public override ServiceExportObject ToExportObject()
+    {
+        var config = new StringBuilder();
+        config.Append($"0.75_w:float:{GetValueFromKey("0.75_w")},");
+        config.Append("0.75_stb:float:0,");
+        config.Append("0.75_stf:float:0,");
+        config.Append($"1.0_w:float:{GetValueFromKey("1.0_w")},");
+        config.Append($"1.0_stb:float:{GetValueFromKey("1.0_stb")},");
+        config.Append($"1.0_stf:float:{GetValueFromKey("1.0_stf")},");
+        config.Append($"2.0_w:float:{GetValueFromKey("2.0_w")},");
+        config.Append($"2.0_stb:float:{GetValueFromKey("2.0_stb")},");
+        config.Append($"2.0_stf:float:{GetValueFromKey("2.0_stf")},");
+        config.Append($"2.5_w:float:{GetValueFromKey("2.5_w")},");
+        config.Append($"2.5_stb:float:{GetValueFromKey("2.5_stb")},");
+        config.Append($"2.5_stf:float:{GetValueFromKey("2.5_stf")}");
+
+        return new ServiceExportObject
+        {
+            Id = Id,
+            Name = Name,
+            Description = Description,
+            Config = config.ToString(),
+            Type = ServiceType.Addons,
+            Editable = true
+        };
     }
 
     private static AirconTypes ParseType(float value)

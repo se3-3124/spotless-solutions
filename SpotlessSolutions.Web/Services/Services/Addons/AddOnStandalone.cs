@@ -18,6 +18,7 @@ public abstract class AddOnStandalone : IAddon
     
     public abstract float Calculate(float[] values);
     public abstract void UpdateConfiguration(string name, string description, string serviceConfig);
+    public abstract ServiceExportObject ToExportObject();
 
     public string GetDescription()
     {

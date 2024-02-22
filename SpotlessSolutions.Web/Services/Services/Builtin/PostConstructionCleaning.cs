@@ -30,6 +30,19 @@ public class PostConstructionCleaning : ServiceTransportable, IService
         return _description;
     }
 
+    public override ServiceExportObject ToExportObject()
+    {
+        return new ServiceExportObject
+        {
+            Id = Id,
+            Name = _name,
+            Description = _description,
+            Type = ServiceType.Main,
+            Editable = true,
+            Config = $"base:float:{_base},min:float:{_min},next:float:{_next}"
+        };
+    }
+
     public override void UpdateConfig(string name, string description, string config)
     {
         _name = name;

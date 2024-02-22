@@ -35,6 +35,22 @@ public class DeepCleaning : ServiceTransportable, IService
         return _description;
     }
 
+    public override ServiceExportObject ToExportObject()
+    {
+        var export = new ServiceExportObject
+        {
+            Id = Id,
+            Name = _name,
+            Description = _description,
+            Editable = true,
+            Type = ServiceType.Main,
+            Config =
+                $"base:float:{_defaultBasePrice},min:float:{_minimumThreshold},next:float:{_defaultIncrementPerExceedingValue}"
+        };
+
+        return export;
+    }
+
     public override void UpdateConfig(string name, string description, string config)
     {
         _name = name;
