@@ -2,7 +2,7 @@ import { useContext } from 'react'
 import NavigationBar from '../../components/navigation/NavigationBar'
 import AuthContext from '../../contexts/AuthContext'
 import tdLogo from '../../assets/td_logo.jpg'
-import Footer from '../dashboard/components/Footer/Footer'
+import Footer from '../../components/footer/Footer'
 
 const Services2 = () => {
   const context = useContext(AuthContext)
