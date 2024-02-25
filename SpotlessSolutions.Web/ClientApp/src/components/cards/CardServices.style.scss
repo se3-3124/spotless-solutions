@@ -1,0 +1,32 @@
+@use 'tailwindcss/base.css';
+@use 'tailwindcss/components.css';
+@use 'tailwindcss/utilities.css';
+
+.service-card {
+  @apply max-w-sm bg-white border border-gray-200 rounded-lg shadow;
+
+  & a {
+    & img {
+      @apply rounded-t-lg;
+    }
+  }
+
+  & .card-body {
+    @apply p-5;
+
+    & a {
+      & h5 {
+        @apply mb-2 text-2xl font-bold tracking-tight text-gray-900;
+      }
+    }
+
+    & .description {
+      @apply mb-3 font-normal text-gray-700 dark:text-gray-400;
+    }
+
+    & .book-btn {
+      @apply inline-flex items-center px-3 py-2 text-sm font-medium text-center text-white bg-blue-700 rounded-lg;
+      @apply hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300
+    }
+  }
+}
