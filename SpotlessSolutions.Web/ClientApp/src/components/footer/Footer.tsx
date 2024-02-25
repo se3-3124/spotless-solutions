@@ -3,7 +3,7 @@ import { AiFillInstagram } from 'react-icons/ai'
 import { IoLocationSharp } from 'react-icons/io5'
 import { MdPhone, MdEmail } from 'react-icons/md'
 
-function Footer () {
+const Footer = () => {
   const currentYear = new Date().getFullYear()
 
   return (
@@ -55,9 +55,7 @@ function Footer () {
         </div>
       </div>
       <hr className="border-gray-300 my-2 mx-10 mb-6" />
-      <p className="text-center">
-        © {currentYear} TOPDOWN Services. All Rights Reserved.
-      </p>
+      <p className="text-center">© {currentYear} TOPDOWN Services. All Rights Reserved.</p>
     </footer>
   )
 }

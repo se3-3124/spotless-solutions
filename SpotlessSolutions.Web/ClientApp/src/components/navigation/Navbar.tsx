@@ -1,7 +1,8 @@
 import { useState } from 'react'
 import { AiOutlineClose, AiOutlineMenu } from 'react-icons/ai'
+import tdLogo from '../../assets/td_logo.jpg'
 
-const Nav = () => {
+const NavBar = () => {
   const [menuOpen, setMenuOpen] = useState(false)
 
   const toggleMenu = () => {
@@ -16,11 +17,7 @@ const Nav = () => {
             href=""
             className="flex items-center space-x-3 rtl:space-x-reverse"
           >
-            <img
-              src="src/assets/td_logo.jpg"
-              className="h-8"
-              alt="TCS Logo"
-            />
+            <img src={tdLogo} className="h-8" alt="TCS Logo" />
             <span className="self-center text-2xl font-semibold whitespace-nowrap dark:text-white">
               TopDown
             </span>
@@ -32,18 +29,18 @@ const Nav = () => {
           >
             <button
               type="button"
-              className=" text-white focus:outline-none font-medium rounded-lg text-sm px-3 py-2 text-center dark:bg-[#EFA25D] dark:hover:bg-[#fc9439]"
+              className=" text-white focus:outline-none font-medium rounded-lg text-sm px-3 py-2 text-center bg-[#ff8e2c] hover:bg-opacity-70 transition-colors duration-300 ease-in-out"
             >
               Log in
             </button>
             <button
               type="button"
               onClick={toggleMenu}
-              className={`md:hidden text-white focus:outline-none  font-medium rounded-lg text-sm px-4 py-2 text-center  ${
+              className={`md:hidden text-white focus:outline-none  font-medium rounded-lg text-sm px-4 py-2 text-center ${
                 menuOpen ? 'order-1' : 'order-2'
               }`}
             >
-              {menuOpen ? <AiOutlineClose /> : <AiOutlineMenu />}
+              {menuOpen ? (<AiOutlineClose size={20} />) : (<AiOutlineMenu size={20} />)}
             </button>
           </div>
           <div
@@ -74,7 +71,7 @@ const Nav = () => {
                   href="#"
                   className="block py-2 px-3 text-gray-900 rounded md:hover:bg-transparent md:hover:text-[#EFA25D] md:p-0 dark:text-white hover:bg-gray-700"
                 >
-                  Serives
+                  Services
                 </a>
               </li>
               <li>
@@ -93,4 +90,4 @@ const Nav = () => {
   )
 }
 
-export default Nav
+export default NavBar
