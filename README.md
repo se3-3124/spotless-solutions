@@ -10,7 +10,7 @@ A Cleaning Service Booking & Management System
 
 ### Prerequisites
 
-Please make sure you have the following softwares/SDKs installed in your system:
+Please make sure you have the following software and SDKs installed in your system:
 
 - [.NET 8 SDK](https://dotnet.microsoft.com/en-us/download)
 - [Postgres](https://www.postgresql.org/)
@@ -30,9 +30,9 @@ with [ESLint extension](https://marketplace.visualstudio.com/items?itemName=dbae
 [C# Dev Kit extension](https://marketplace.visualstudio.com/items?itemName=ms-dotnettools.csdevkit) or
 [JetBrains' Rider](https://www.jetbrains.com/rider/).
 
-### Downloading te source code
+### Downloading the source code
 
-Clone te repository:
+Clone the repository:
 
 ```
 git clone https://github.com/se3-3124/spotless-solutions.git
@@ -56,7 +56,7 @@ npm install
 
 ### Setting up your environment
 
-There are three ways you can setup your environment. First is by editting `appsettings.json` on the
+There are three ways you can setup your environment. First is by editing `appsettings.json` on the
 `SpotlessSolutions.Web` folder **(Not recommended)**, by using [User Secrets](https://learn.microsoft.com/en-us/aspnet/core/security/app-secrets?view=aspnetcore-8.0)
 and using Environment variables.
 
