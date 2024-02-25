@@ -5,6 +5,11 @@ import FooterV2 from '../../components/footerv2/FooterV2.tsx'
 import NavigationBar from '../../components/navigation/NavigationBar.tsx'
 
 import tdLogo from '../../assets/td_logo.jpg'
+import cleaningImage1 from '../../assets/cleaning_services_hp1.png'
+import cleaningImage2 from '../../assets/cleaning_services_hp2.png'
+import cleaningImage3 from '../../assets/cleaning_services_hp3.png'
+import cleaningImage4 from '../../assets/cleaning_services_hp4.png'
+
 import './home-page.scss'
 
 export default function Home () {
@@ -31,7 +36,7 @@ export default function Home () {
         </div>
         <div className="md:grid md:grid-cols-2 md:grid-rows-2">
           <div className="flex items-start font-montserrat my-6 mr-10">
-            <img src='./cleaning_services_hp4.png' alt='' className="h-7 mr-5"/>
+            <img src={cleaningImage4} alt='' className="h-7 mr-5"/>
             <div>
               <h3 className="font-semibold text-2xl">Deep Cleaning</h3>
               <h6 className='secondarySpacing'>ABOUT</h6>
@@ -46,7 +51,7 @@ export default function Home () {
           </div>
 
           <div className="flex items-start font-montserrat my-6 mr-10">
-            <img src='/packages/client/src/assets/cleaning_services_hp2.png' alt='' className="h-7 mr-4"/>
+            <img src={cleaningImage2} alt='' className="h-7 mr-4"/>
             <div>
               <h3 className="font-semibold text-2xl">Post Con Cleaning</h3>
               <h6 className='secondarySpacing'>ABOUT</h6>
@@ -61,7 +66,7 @@ export default function Home () {
           </div>
 
           <div className="flex items-start font-montserrat my-6 mr-10">
-            <img src='/packages/client/src/assets/cleaning_services_hp3.png' alt='' className="h-7 mr-4"/>
+            <img src={cleaningImage3} alt='' className="h-7 mr-4"/>
             <div>
               <h3 className="font-semibold text-2xl">Routine Cleaning</h3>
               <h6 className='secondarySpacing'>ABOUT</h6>
@@ -76,7 +81,7 @@ export default function Home () {
           </div>
 
           <div className="flex items-start font-montserrat my-6 mr-10">
-            <img src='/packages/client/src/assets/cleaning_services_hp1.png' alt='' className="h-7 mr-4"/>
+            <img src={cleaningImage1} alt='' className="h-7 mr-4"/>
             <div>
               <h3 className="font-semibold text-2xl">General Cleaning</h3>
               <h6 className='secondarySpacing'>ABOUT</h6>

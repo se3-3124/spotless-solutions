@@ -12,7 +12,7 @@ import DashboardAppBarComponent from './components/DashboardAppBarComponent.tsx'
 import DashboardDrawerComponent from './components/DashboardDrawerComponent.tsx'
 import NotificationsContext, { NotificationSeverity } from '../../contexts/NotificationsContext.tsx'
 import ServiceEditor from './components/forms/ServiceEditor.tsx'
-import { type ServicesDataObject, ServiceType } from '../../types/ServicesDataObject.tsx'
+import { type ServicesDataObject, type ServiceType } from '../../types/ServicesDataObject.tsx'
 import ServicesEditingContext from './contexts/ServicesEditingContext.tsx'
 import SidebarServiceList from './components/sidebar/SidebarServiceList.tsx'
 import { type ServiceDefinitionObject } from '../../types/ServiceDefinitionObject.ts'
@@ -66,7 +66,7 @@ export default function DashboardServiceManagementView () {
     setViewReady(false)
 
     async function getServiceDetail (req: AxiosInstance, id: string) {
-      let requestUrl = 'api/v1/services/view-details?id=' + id
+      const requestUrl = 'api/v1/services/view-details?id=' + id
       const response = await req
         .get<{ success: true, result: ServiceDefinitionObject }>(requestUrl)
 

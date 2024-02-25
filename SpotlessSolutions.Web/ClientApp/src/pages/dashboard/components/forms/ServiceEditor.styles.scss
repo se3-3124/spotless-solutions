@@ -2,30 +2,44 @@
 @use 'tailwindcss/components.css';
 @use 'tailwindcss/utilities.css';
 
-.editor-head {
-  @apply flex p-3 -mb-6;
+.editor-root {
+  @apply w-full;
 
-  & .editor-container {
-    @apply flex-grow;
+  & .editor-head {
+    @apply flex;
 
-    & .editor-text-field {
-      @apply mt-7 mx-5;
+    & .editor-container {
+      @apply flex-grow;
+
+      & .form-input {
+        @apply h-10 border mt-1 rounded p-4 w-full bg-gray-50;
+      }
+
+      & .form-textarea {
+        @apply border mt-1 rounded p-4 w-full bg-gray-50 min-h-20;
+      }
     }
   }
+  
+  & .config-heading {
+    @apply font-bold mb-4;
+  }
+  
+  & .config-form {
+    @apply h-10 border mt-1 rounded p-4 w-full bg-gray-50;
+  }
 
-  & .photo-section {
-    @apply flex-col mx-5 p-8;
+  & .editor-bottom {
+    @apply mt-4 text-right mb-4;
+
+    .btn-editor-submit {
+      @apply bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded;
+    }
+
+    .btn-editor-reset {
+      @apply bg-orange-500 hover:bg-orange-700 text-white font-bold py-2 px-4 rounded;
+    }
   }
 }
 
-.editor-bottom {
-  @apply flex mx-8 p-3 pb-32 justify-end;
 
-  & .form-control-checkbox {
-    @apply flex-1;
-  }
-
-  & .button-group {
-    @apply flex mx-4;
-  }
-}

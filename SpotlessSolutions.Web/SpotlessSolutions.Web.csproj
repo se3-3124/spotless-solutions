@@ -46,6 +46,7 @@
 
     <ItemGroup>
       <Folder Include="ClientApp\src\components\footer\" />
+      <Folder Include="ClientApp\src\components\inputs\" />
     </ItemGroup>
 
     <Target Name="DebugEnsureNodeEnv" BeforeTargets="Build" Condition=" '$(Configuration)' == 'Debug' And !Exists('$(SpaRoot)node_modules') ">
