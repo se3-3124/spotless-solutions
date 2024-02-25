@@ -13,7 +13,7 @@ function Home () {
       setIsSmallScreen(window.innerWidth < 768)
     }
 
-    handleResize();
+    handleResize()
     window.addEventListener('resize', handleResize)
 
     return () => {
