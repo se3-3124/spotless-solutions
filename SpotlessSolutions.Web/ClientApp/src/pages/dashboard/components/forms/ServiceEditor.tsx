@@ -2,20 +2,17 @@ import { useEffect, useState } from 'react'
 
 import Box from '@mui/material/Box'
 import Button from '@mui/material/Button'
-import Dialog from '@mui/material/Dialog'
-import DialogActions from '@mui/material/DialogActions'
-import DialogContent from '@mui/material/DialogContent'
-import DialogContentText from '@mui/material/DialogContentText'
-import DialogTitle from '@mui/material/DialogTitle'
 import Divider from '@mui/material/Divider'
 import Grid from '@mui/material/Grid'
 import TextField from '@mui/material/TextField'
 
+import ConfirmChangeModal from '../modals/ConfirmChangeModal.tsx'
 import TextAreaAutoSize from './TextAreaAutoSize.tsx'
-import type { ServiceConfigType } from '../../../../types/ServiceConfigType.ts'
+import { type ServiceConfigType, ServiceObjectType } from '../../../../types/ServiceConfigType.ts'
 import { type ServiceDefinitionObject } from '../../../../types/ServiceDefinitionObject.ts'
 
 import './ServiceEditor.styles.scss'
+import { ServiceType } from '../../../../types/ServicesDataObject.tsx'
 
 interface ServiceEditorProps {
   data: ServiceDefinitionObject
@@ -150,15 +147,23 @@ export default function ServiceEditor (props: ServiceEditorProps) {
     return config.join(',')
   }
 
+  const mapServiceType = () => {
+    switch (props.data.type) {
+      case ServiceType.Addon:
+        return ServiceObjectType.Addon
+      case ServiceType.Main:
+        return ServiceObjectType.Main
+    }
+  }
+
   const handleSubmitModal = () => {
     const serviceObject: ServiceConfigType = {
       targetingServiceId: props.data.id,
       name: editorFields.title,
       description: editorFields.description,
-      config: buildConfigFromObject()
+      config: buildConfigFromObject(),
+      type: mapServiceType()
     }
-
-    console.log(serviceObject)
 
     props.onSubmit(serviceObject)
     setOpen(false)
@@ -212,7 +217,7 @@ export default function ServiceEditor (props: ServiceEditorProps) {
               disabled={!props.data.editable}
               value={editorFields.title}
               onChange={(e) => {
-                handleTitleChange((e.currentTarget as HTMLInputElement).value)
+                handleTitleChange(e.currentTarget.value)
               }}
               variant="standard"
             />
@@ -223,7 +228,7 @@ export default function ServiceEditor (props: ServiceEditorProps) {
               minRows={15}
               value={editorFields.description}
               disabled={!props.data.editable}
-              onInput={(e) => {
+              onChange={(e) => {
                 handleDescriptionChange(e.currentTarget.value)
               }}
               placeholder="Description"
@@ -326,16 +331,11 @@ export default function ServiceEditor (props: ServiceEditorProps) {
           }
         </div>
       </div>
-      <Dialog open={open} onClose={handleCloseModal}>
-        <DialogTitle>Confirm Changes?</DialogTitle>
-        <DialogContent>
-          <DialogContentText>Do you want to save your changes to the service?</DialogContentText>
-        </DialogContent>
-        <DialogActions>
-          <Button onClick={handleCloseModal}>Cancel</Button>
-          <Button onClick={handleSubmitModal} autoFocus>Save</Button>
-        </DialogActions>
-      </Dialog>
+      <ConfirmChangeModal
+        open={open}
+        onClose={handleCloseModal}
+        onSubmitChanges={handleSubmitModal}
+      />
     </Box>
   )
 }

@@ -159,13 +159,24 @@ public class ServiceController : ControllerBase
             });
         }
 
-        var result = await _manager.UpdateServiceConfiguration(new Services.Services.ServiceConfig
+        var updateConfig = new Services.Services.ServiceConfig
         {
             TargetingServiceId = config.TargetingServiceId,
             Config = config.Config,
             Description = config.Description,
             Name = config.Name
-        });
+        };
+
+        bool result;
+        if (config.Type == ServiceObjectType.Addon)
+        {
+            result = await _manager.UpdateAddonConfiguration(updateConfig);
+        }
+        else
+        {
+            result = await _manager.UpdateServiceConfiguration(updateConfig);
+        }
+        
         if (!result)
         {
             return BadRequest(new ErrorException

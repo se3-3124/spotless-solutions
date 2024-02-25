@@ -9,18 +9,22 @@ public class ServiceConfigurationValidator : AbstractValidator<ServiceConfig>
     public ServiceConfigurationValidator()
     {
         RuleFor(x => x.TargetingServiceId)
+            .NotNull()
             .NotEmpty()
             .WithMessage("Service ID must be specified or valid.");
         
         RuleFor(x => x.Name)
+            .NotNull()
             .NotEmpty()
             .WithMessage("Service name must not be empty!");
 
         RuleFor(x => x.Description)
+            .NotNull()
             .NotEmpty()
             .WithMessage("Service description must not be empty!");
 
         RuleFor(x => x.Config)
+            .NotNull()
             .NotEmpty()
             .Must(x =>
             {

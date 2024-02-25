@@ -8,4 +8,11 @@ public interface IServiceManager
     /// <param name="update"></param>
     /// <returns></returns>
     Task<bool> UpdateServiceConfiguration(ServiceConfig update);
+
+    /// <summary>
+    /// Update current addon configuration.
+    /// </summary>
+    /// <param name="update"></param>
+    /// <returns></returns>
+    Task<bool> UpdateAddonConfiguration(ServiceConfig update);
 }
