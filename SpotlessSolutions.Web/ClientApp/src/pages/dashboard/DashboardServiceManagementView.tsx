@@ -65,24 +65,15 @@ export default function DashboardServiceManagementView () {
 
     setViewReady(false)
 
-    async function getServiceDetail (req: AxiosInstance, id: string, type: ServiceType) {
-      let baseUrl: string
-      switch (type) {
-        case ServiceType.Main:
-          baseUrl = 'api/v1/services/view-details/service?id=' + id
-          break
-        case ServiceType.Addon:
-          baseUrl = 'api/v1/services/view-details/addon?id=' + id
-          break
-      }
-
+    async function getServiceDetail (req: AxiosInstance, id: string) {
+      let requestUrl = 'api/v1/services/view-details?id=' + id
       const response = await req
-        .get<{ success: true, result: ServiceDefinitionObject }>(baseUrl)
+        .get<{ success: true, result: ServiceDefinitionObject }>(requestUrl)
 
       setActiveServiceDefinitionObject(response.data.result)
     }
 
-    getServiceDetail(authContext.request, activeServiceView.id, activeServiceView.type)
+    getServiceDetail(authContext.request, activeServiceView.id)
       .then(() => {
         setViewReady(true)
       })
