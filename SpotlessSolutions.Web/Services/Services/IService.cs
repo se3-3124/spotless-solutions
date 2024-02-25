@@ -1,13 +1,7 @@
-﻿namespace SpotlessSolutions.Web.Services.Services.Builtin;
+﻿namespace SpotlessSolutions.Web.Services.Services;
 
 public interface IService
 {
-    /// <summary>
-    /// Indicates that the service requires transport fee
-    /// </summary>
-    /// <returns></returns>
-    bool RequireTransportFee();
-
     /// <summary>
     /// Calculates the price according to the value
     /// </summary>
@@ -46,4 +40,10 @@ public interface IService
     /// </summary>
     /// <returns></returns>
     ServiceExportObject ToExportObject();
+
+    /// <summary>
+    /// Get the service type
+    /// </summary>
+    /// <returns></returns>
+    ServiceType GetServiceType();
 }

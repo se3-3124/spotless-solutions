@@ -8,7 +8,7 @@ public class Dishwashing : RequireAssessmentAddOn
         Name = "Dishwashing";
     }
 
-    public override void UpdateConfiguration(string name, string description, string serviceConfig)
+    public override void UpdateConfig(string name, string description, string serviceConfig)
     {
         Name = name;
         Description = description;

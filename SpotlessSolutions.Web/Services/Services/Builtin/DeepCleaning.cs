@@ -1,6 +1,6 @@
 ﻿namespace SpotlessSolutions.Web.Services.Services.Builtin;
 
-public class DeepCleaning : ServiceTransportable, IService
+public class DeepCleaning : IService
 {
     private const string Id = "service.main.deepcleaning";
     private string _name = "Deep Cleaning";
@@ -10,7 +10,7 @@ public class DeepCleaning : ServiceTransportable, IService
     private float _defaultBasePrice = 949;
     private float _defaultIncrementPerExceedingValue = 28;
 
-    public override float Calculate(float[] value)
+    public float Calculate(float[] value)
     {
         if (value[0] < 0)
         {
@@ -25,17 +25,17 @@ public class DeepCleaning : ServiceTransportable, IService
         return _defaultBasePrice + (value[0] * _defaultIncrementPerExceedingValue);
     }
 
-    public override string GetId()
+    public string GetId()
     {
         return Id;
     }
 
-    public override string GetDescription()
+    public string GetDescription()
     {
         return _description;
     }
 
-    public override ServiceExportObject ToExportObject()
+    public ServiceExportObject ToExportObject()
     {
         var export = new ServiceExportObject
         {
@@ -51,7 +51,7 @@ public class DeepCleaning : ServiceTransportable, IService
         return export;
     }
 
-    public override void UpdateConfig(string name, string description, string config)
+    public void UpdateConfig(string name, string description, string config)
     {
         _name = name;
         _description = description;
@@ -91,8 +91,13 @@ public class DeepCleaning : ServiceTransportable, IService
         }
     }
 
-    public override string GetName()
+    public string GetName()
     {
         return _name;
+    }
+
+    public ServiceType GetServiceType()
+    {
+        return ServiceType.Main;
     }
 }

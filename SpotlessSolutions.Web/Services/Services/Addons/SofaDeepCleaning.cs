@@ -1,6 +1,6 @@
 ﻿namespace SpotlessSolutions.Web.Services.Services.Addons;
 
-public class SofaDeepCleaning : AddOnStandalone, IAddon
+public class SofaDeepCleaning : AddOnStandalone, IService
 {
     private float _restrictionValue = 4;
     private float _base = 299;
@@ -24,7 +24,7 @@ public class SofaDeepCleaning : AddOnStandalone, IAddon
         return _base * count;
     }
     
-    public override void UpdateConfiguration(string name, string description, string serviceConfig)
+    public override void UpdateConfig(string name, string description, string serviceConfig)
     {
         Name = name;
         Description = description;

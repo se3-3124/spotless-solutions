@@ -59,15 +59,17 @@ public class BookingManager : IBookingManager
                     {
                         Name = mainService.GetName(),
                         Description = mainService.GetDescription(),
-                        Id = mainService.GetId()
+                        Id = mainService.GetId(),
+                        Type = mainService.GetServiceType()
                     },
                     Configuration = x.MainServiceConfiguration
                 };
 
                 var addons = x.Addons.Keys
+                    .Where(id => _registry.GetActivatedServiceInstance(id)?.GetServiceType() == ServiceType.Addons)
                     .Select(y =>
                     {
-                        var service = _registry.GetActivatedAddonInstance(y)!;
+                        var service = _registry.GetActivatedServiceInstance(y)!;
 
                         return new ServiceDetailConfig
                         {
@@ -75,7 +77,8 @@ public class BookingManager : IBookingManager
                             {
                                 Name = service.GetName(),
                                 Description = service.GetDescription(),
-                                Id = service.GetId()
+                                Id = service.GetId(),
+                                Type = service.GetServiceType()
                             },
                             Configuration = x.Addons[y]
                         };

@@ -2,7 +2,7 @@
 
 namespace SpotlessSolutions.Web.Services.Services.Builtin;
 
-public class RoutineCleaning : ServiceTransportable, IService
+public class RoutineCleaning : IService
 {
     private const string Id = "service.main.routine-cleaning";
     private string _name = "Routine Cleaning";
@@ -16,7 +16,7 @@ public class RoutineCleaning : ServiceTransportable, IService
     private float _monthlyTick = 25;
     private float _min = 35;
 
-    public override float Calculate(float[] values)
+    public float Calculate(float[] values)
     {
         var type = ParseType(values[0]);
         var value = values[1];
@@ -50,17 +50,17 @@ public class RoutineCleaning : ServiceTransportable, IService
         };
     }
 
-    public override string GetId()
+    public string GetId()
     {
         return Id;
     }
 
-    public override string GetDescription()
+    public string GetDescription()
     {
         return _description;
     }
 
-    public override ServiceExportObject ToExportObject()
+    public ServiceExportObject ToExportObject()
     {
         var config = new StringBuilder();
         config.Append($"weekly_base:float:{_weeklyBase},");
@@ -82,7 +82,7 @@ public class RoutineCleaning : ServiceTransportable, IService
         };
     }
 
-    public override void UpdateConfig(string name, string description, string config)
+    public void UpdateConfig(string name, string description, string config)
     {
         _name = name;
         _description = description;
@@ -134,8 +134,13 @@ public class RoutineCleaning : ServiceTransportable, IService
         }
     }
 
-    public override string GetName()
+    public string GetName()
     {
         return _name;
+    }
+    
+    public ServiceType GetServiceType()
+    {
+        return ServiceType.Main;
     }
 }

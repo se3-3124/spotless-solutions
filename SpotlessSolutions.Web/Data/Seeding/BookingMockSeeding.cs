@@ -64,7 +64,7 @@ public static class BookingMockSeeding
             var mainServiceConfig = "0:float:" + value;
             var mainServicePrice = mainService.Calculate([value]);
 
-            var addon1 = registry.GetActivatedAddonInstance("addon.aircon-cleaning")!;
+            var addon1 = registry.GetActivatedServiceInstance("addon.aircon-cleaning")!;
             const string addon1Config = "0:float:2.0,1:float:3,2:float:2";
             var addon1Price = addon1.Calculate([2.0f, 3, 2]);
 

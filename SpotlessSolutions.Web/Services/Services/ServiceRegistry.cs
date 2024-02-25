@@ -1,49 +1,21 @@
 ﻿using System.Reflection;
-using SpotlessSolutions.Web.Services.Services.Addons;
-using SpotlessSolutions.Web.Services.Services.Builtin;
 
 namespace SpotlessSolutions.Web.Services.Services;
 
 public class ServiceRegistry : IServiceRegistry
 {
-    private readonly Dictionary<string, IService> _services;
-    private readonly Dictionary<string, IAddon> _addOns;
+    private readonly Dictionary<string, IService> _services = GetAllExportedServices();
 
-    public ServiceRegistry()
-    {
-        _services = GetAllServices();
-        _addOns = GetAllAddOns();
-    }
-
-    public ServiceDetails[] GetAllRegisteredServices()
+    public IEnumerable<ServiceDetails> GetAllServices()
     {
         return _services.Values
             .Select(x => new ServiceDetails
             {
                 Id = x.GetId(),
                 Description = x.GetDescription(),
-                Name = x.GetName()
+                Name = x.GetName(),
+                Type = x.GetServiceType()
             })
-            .ToArray();
-    }
-
-    public ServiceDetails[] GetAllAddons()
-    {
-        return _addOns.Values
-            .Select(x => new ServiceDetails
-            {
-                Id = x.GetId(),
-                Description = x.GetDescription(),
-                Name = x.GetName()
-            })
-            .ToArray();
-    }
-
-    public string[] GetAllStandaloneAddonsServices()
-    {
-        return _addOns.Values
-            .Where(x => x.IsStandalone())
-            .Select(x => x.GetId())
             .ToArray();
     }
 
@@ -52,12 +24,7 @@ public class ServiceRegistry : IServiceRegistry
         return _services.GetValueOrDefault(id);
     }
 
-    public IAddon? GetActivatedAddonInstance(string id)
-    {
-        return _addOns.GetValueOrDefault(id);
-    }
-
-    private static Dictionary<string, IService> GetAllServices()
+    private static Dictionary<string, IService> GetAllExportedServices()
     {
         var assemblies = Assembly.GetExecutingAssembly().GetExportedTypes()
             .Where(x => !x.IsAbstract && x is { IsInterface: false, IsClass: true } &&
@@ -67,17 +34,5 @@ public class ServiceRegistry : IServiceRegistry
             .ToList();
 
         return assemblies.ToDictionary(service => service.GetId());
-    }
-
-    private static Dictionary<string, IAddon> GetAllAddOns()
-    {
-        var assemblies = Assembly.GetExecutingAssembly().GetExportedTypes()
-            .Where(x => !x.IsAbstract && x is { IsClass: true, IsInterface: false } &&
-                        typeof(IAddon).IsAssignableFrom(x))
-            .Select(Activator.CreateInstance)
-            .Cast<IAddon>()
-            .ToList();
-
-        return assemblies.ToDictionary(addon => addon.GetId());
     }
 }

@@ -1,6 +1,6 @@
 ﻿namespace SpotlessSolutions.Web.Services.Services.Addons;
 
-public class CarInteriorDeepCleaning : AddOnStandalone, IAddon
+public class CarInteriorDeepCleaning : AddOnStandalone, IService
 {
     private readonly Dictionary<string, (float, float)> _pricingConfig;
     
@@ -40,7 +40,7 @@ public class CarInteriorDeepCleaning : AddOnStandalone, IAddon
         return basePrice * count;
     }
     
-    public override void UpdateConfiguration(string name, string description, string serviceConfig)
+    public override void UpdateConfig(string name, string description, string serviceConfig)
     {
         Name = name;
         Description = description;

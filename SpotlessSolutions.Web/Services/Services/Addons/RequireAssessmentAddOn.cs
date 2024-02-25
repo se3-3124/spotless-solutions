@@ -1,6 +1,6 @@
 ﻿namespace SpotlessSolutions.Web.Services.Services.Addons;
 
-public abstract class RequireAssessmentAddOn : IAddon
+public abstract class RequireAssessmentAddOn : IService
 {
     protected string Id = string.Empty;
     protected string Name = string.Empty;
@@ -31,7 +31,7 @@ public abstract class RequireAssessmentAddOn : IAddon
         return 0;
     }
     
-    public abstract void UpdateConfiguration(string name, string description, string serviceConfig);
+    public abstract void UpdateConfig(string name, string description, string serviceConfig);
 
     public ServiceExportObject ToExportObject()
     {
@@ -43,5 +43,10 @@ public abstract class RequireAssessmentAddOn : IAddon
             Editable = false,
             Type = ServiceType.Addons
         };
+    }
+
+    public ServiceType GetServiceType()
+    {
+        return ServiceType.Addons;
     }
 }

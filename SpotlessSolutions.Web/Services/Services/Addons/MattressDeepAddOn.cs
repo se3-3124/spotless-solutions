@@ -1,6 +1,6 @@
 ﻿namespace SpotlessSolutions.Web.Services.Services.Addons;
 
-public class MattressDeepAddOn : AddOnStandalone, IAddon
+public class MattressDeepAddOn : AddOnStandalone, IService
 {
     private readonly Dictionary<string, float> _pricingConfig;
     
@@ -40,7 +40,7 @@ public class MattressDeepAddOn : AddOnStandalone, IAddon
         };
     }
     
-    public override void UpdateConfiguration(string name, string description, string serviceConfig)
+    public override void UpdateConfig(string name, string description, string serviceConfig)
     {
         Name = name;
         Description = description;

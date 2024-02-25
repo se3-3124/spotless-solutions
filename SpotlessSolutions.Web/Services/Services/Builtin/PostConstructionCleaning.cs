@@ -1,6 +1,6 @@
 ﻿namespace SpotlessSolutions.Web.Services.Services.Builtin;
 
-public class PostConstructionCleaning : ServiceTransportable, IService
+public class PostConstructionCleaning : IService
 {
     private const string Id = "service.main.post-construction-cleaning";
     private string _name = "Post Construction Cleaning";
@@ -10,7 +10,7 @@ public class PostConstructionCleaning : ServiceTransportable, IService
     private float _min = 35;
     private float _next = 30;
 
-    public override float Calculate(float[] values)
+    public float Calculate(float[] values)
     {
         if (values[0] <= _min)
         {
@@ -20,17 +20,17 @@ public class PostConstructionCleaning : ServiceTransportable, IService
         return _base + (values[0] * _next);
     }
 
-    public override string GetId()
+    public string GetId()
     {
         return Id;
     }
 
-    public override string GetDescription()
+    public string GetDescription()
     {
         return _description;
     }
 
-    public override ServiceExportObject ToExportObject()
+    public ServiceExportObject ToExportObject()
     {
         return new ServiceExportObject
         {
@@ -43,7 +43,7 @@ public class PostConstructionCleaning : ServiceTransportable, IService
         };
     }
 
-    public override void UpdateConfig(string name, string description, string config)
+    public void UpdateConfig(string name, string description, string config)
     {
         _name = name;
         _description = description;
@@ -83,8 +83,13 @@ public class PostConstructionCleaning : ServiceTransportable, IService
         }
     }
 
-    public override string GetName()
+    public string GetName()
     {
         return _name;
+    }
+    
+    public ServiceType GetServiceType()
+    {
+        return ServiceType.Main;
     }
 }

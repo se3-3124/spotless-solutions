@@ -57,7 +57,7 @@ public static class DataContextSeed
         var registry = scope.ServiceProvider.GetRequiredService<IServiceRegistry>();
         var logger = scope.ServiceProvider.GetRequiredService<ILogger<Program>>();
 
-        foreach (var service in registry.GetAllRegisteredServices())
+        foreach (var service in registry.GetAllServices())
         {
             var instance = registry.GetActivatedServiceInstance(service.Id);
             if (instance == null)
@@ -75,26 +75,6 @@ public static class DataContextSeed
             }
 
             instance.UpdateConfig(config.Name, config.Description, config.ServiceConfiguration);
-        }
-
-        foreach (var addon in registry.GetAllAddons())
-        {
-            var instance = registry.GetActivatedAddonInstance(addon.Id);
-            if (instance == null)
-            {
-                logger.LogWarning("No addon found from id: {id}", addon.Id);
-                continue;
-            }
-
-            var config = await context.ServiceConfigs
-                .FirstOrDefaultAsync(x => x.TargetingServiceId == addon.Id);
-            if (config == null)
-            {
-                logger.LogWarning("No addon configuration found for {id}. This is harmless.", addon.Id);
-                continue;
-            }
-            
-            instance.UpdateConfiguration(config.Name, config.Description, config.ServiceConfiguration);
         }
     }
 }

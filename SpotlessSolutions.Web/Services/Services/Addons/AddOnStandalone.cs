@@ -1,6 +1,6 @@
 ﻿namespace SpotlessSolutions.Web.Services.Services.Addons;
 
-public abstract class AddOnStandalone : IAddon
+public abstract class AddOnStandalone : IService
 {
     protected string Id = string.Empty;
     protected string Name = string.Empty;
@@ -17,7 +17,7 @@ public abstract class AddOnStandalone : IAddon
     }
     
     public abstract float Calculate(float[] values);
-    public abstract void UpdateConfiguration(string name, string description, string serviceConfig);
+    public abstract void UpdateConfig(string name, string description, string serviceConfig);
     public abstract ServiceExportObject ToExportObject();
 
     public string GetDescription()
@@ -28,5 +28,10 @@ public abstract class AddOnStandalone : IAddon
     public string GetName()
     {
         return Name;
+    }
+
+    public ServiceType GetServiceType()
+    {
+        return ServiceType.Addons;
     }
 }
