@@ -2,6 +2,7 @@ import { DateTime } from 'luxon'
 
 import Grid from '@mui/material/Grid'
 
+import BookingCard from '../cards/BookingCard.tsx'
 import { type BookingResponseType } from '../../types/BookingResponseType.tsx'
 import { isToday } from '../../utils/date-utils.ts'
 
@@ -107,16 +108,12 @@ export default function MonthCalendarComponent ({ date, handleOpen, events }: Ca
               <p className={d.inactive ? 'inactive' : ''}>{d.date.getDate()}</p>
               {
                 events.filter(x => {
-                  const issued = new Date(x.issuedDate)
+                  const issued = new Date(x.schedule)
                   return issued.getFullYear() === d.date.getFullYear() &&
                     issued.getMonth() === d.date.getMonth() &&
                     issued.getDate() === d.date.getDate()
                 }).map((x, ii) => (
-                  <div key={`d-${ii}`} onClick={() => {
-                    handleOpen(x)
-                  }}>
-                    {x.servicesBooked[0].name}
-                  </div>
+                  <BookingCard key={ii} handleClick={handleOpen} booking={x}/>
                 ))
               }
             </div>

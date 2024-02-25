@@ -1,4 +1,6 @@
 using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
+using SpotlessSolutions.Web.Services.Services;
 
 namespace SpotlessSolutions.Web.Data.Seeding;
 
@@ -9,20 +11,9 @@ public static class DataContextSeed
         var scope = application.Services.CreateScope();
 
         var context = scope.ServiceProvider.GetRequiredService<DataContext>();
+        var registry = scope.ServiceProvider.GetRequiredService<IServiceRegistry>();
         var userAccount = scope.ServiceProvider.GetRequiredService<UserManager<IdentityUser>>();
         var logger = scope.ServiceProvider.GetRequiredService<ILogger<Program>>();
-        
-        logger.LogInformation("Beginning seeding the context...");
-        logger.LogInformation("Seeding Service descriptors...");
-        try
-        {
-            await context.ApplyServiceDescriptorSeed();
-            logger.LogInformation("Seeding of service descriptors complete.");
-        }
-        catch (Exception ex)
-        {
-            logger.LogCritical("Seeding failed! Exception: {e}", ex);
-        }
         
         logger.LogInformation("Seeding administrator account...");
         try
@@ -34,16 +25,56 @@ public static class DataContextSeed
             logger.LogCritical("Seeding failed! Exception: {e}", ex);
         }
         
-        logger.LogInformation("Seeding bogus booking data...");
+        
+        logger.LogInformation("Seeding services configuration...");
         try
         {
-            await context.SeedBogusBookings(logger);
+            await context.SeedServiceConfigurations();
         }
         catch (Exception ex)
         {
-            logger.LogWarning("Seeding failed for bogus. Exception: {e}", ex);
+            logger.LogCritical("Seeding failed for services config! Exception: {e}", ex);
+        }
+        
+        logger.LogInformation("Seeding booking details");
+        try
+        {
+            await context.PopulateScheduleWithMock(userAccount, registry);
+        }
+        catch (Exception ex)
+        {
+            logger.LogCritical("Seeding failed for booking! Exception: {ex}", ex);
         }
 
         await context.SaveChangesAsync();
+    }
+
+    public static async Task FinalizeSeed(this WebApplication application)
+    {
+        var scope = application.Services.CreateScope();
+
+        var context = scope.ServiceProvider.GetRequiredService<DataContext>();
+        var registry = scope.ServiceProvider.GetRequiredService<IServiceRegistry>();
+        var logger = scope.ServiceProvider.GetRequiredService<ILogger<Program>>();
+
+        foreach (var service in registry.GetAllServices())
+        {
+            var instance = registry.GetActivatedServiceInstance(service.Id);
+            if (instance == null)
+            {
+                logger.LogWarning("No service found from id: {id}", service.Id);
+                continue;
+            }
+
+            var config = await context.ServiceConfigs
+                .FirstOrDefaultAsync(x => x.TargetingServiceId == service.Id);
+            if (config == null)
+            {
+                logger.LogWarning("No service configuration found for: {id} This is harmless.", service.Id);
+                continue;
+            }
+
+            instance.UpdateConfig(config.Name, config.Description, config.ServiceConfiguration);
+        }
     }
 }

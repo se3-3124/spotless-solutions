@@ -5,7 +5,15 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="28939386-8850-4574-80ac-21125b8806f6" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/src/pages/dashboard/components/forms/ServiceEditor.styles.scss" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/pages/dashboard/components/forms/ServiceEditor.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/pages/dashboard/components/forms/TextAreaAutoSize.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/stories/ServicesEditing.stories.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/types/ServiceConfigType.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/pages/dashboard/DashboardServiceManagementView.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/dashboard/DashboardServiceManagementView.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/pages/services-management-page/sm-edit.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/services-management-page/sm-edit.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/stories/SidebarServiceItem.stories.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/stories/SidebarServiceItem.stories.tsx" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -34,7 +42,7 @@
   &quot;keyToString&quot;: {
     &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
     &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;dev-storybook&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;feat-service-management&quot;,
     &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
     &quot;node.js.detected.package.standard&quot;: &quot;true&quot;,
     &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
@@ -48,6 +56,11 @@
     &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
 }</component>
+  <component name="RecentsManager">
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/src/pages/dashboard/components" />
+    </key>
+  </component>
   <component name="RunManager">
     <configuration name="storybook" type="js.build_tools.npm" nameIsGenerated="true">
       <package-json value="$PROJECT_DIR$/package.json" />
@@ -72,6 +85,10 @@
       <workItem from="1707044412051" duration="1224000" />
       <workItem from="1707799800073" duration="14130000" />
       <workItem from="1707822799312" duration="59000" />
+      <workItem from="1708525861419" duration="266000" />
+      <workItem from="1708607941072" duration="82000" />
+      <workItem from="1708608233521" duration="7122000" />
+      <workItem from="1708616244224" duration="1539000" />
     </task>
     <servers />
   </component>

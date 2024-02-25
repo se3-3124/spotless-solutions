@@ -30,6 +30,7 @@ import './index.css'
 import DashboardBookingsWorkflowView from './pages/dashboard/DashboardBookingsWorkflowVew.tsx'
 import NotificationsContext, { NotificationSeverity } from './contexts/NotificationsContext.tsx'
 import { type NotificationStateType } from './types/MainStateTypes.tsx'
+import DashboardServiceManagementView from './pages/dashboard/DashboardServiceManagementView.tsx'
 
 const theme = createTheme({
   palette: {
@@ -159,6 +160,7 @@ function Main () {
                       <Route path="/dashboard/calendar" element={<DashboardBookingCalendarView />} />
                       <Route path="/dashboard/history" element={<History />} />
                       <Route path="/dashboard/calendar-workflow" element={<DashboardBookingsWorkflowView />} />
+                      <Route path="/dashboard/service-management" element={<DashboardServiceManagementView />} />
 
                       <Route path="/" element={<Home />} />
                       <Route path="/services" element={<ServicesPage />} />
