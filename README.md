@@ -24,8 +24,8 @@ docker run -d -p 5432:5432 -e POSTGRES_PASSWORD=<your password> postgres:latest
 docker run -d -p 6379:6379 redis:latest
 ```
 
-When working with the codebase, we recommend using a IDE with intelligent code
-completion and syntax highlighting, such as latest version of [Visual Studio Code](https://code.visualstudio.com/)
+When working with the codebase, we recommend using an IDE with intelligent code
+completion and syntax highlighting, such as the latest version of [Visual Studio Code](https://code.visualstudio.com/)
 with [ESLint extension](https://marketplace.visualstudio.com/items?itemName=dbaeumer.vscode-eslint) &
 [C# Dev Kit extension](https://marketplace.visualstudio.com/items?itemName=ms-dotnettools.csdevkit) or
 [JetBrains' Rider](https://www.jetbrains.com/rider/).
@@ -42,7 +42,7 @@ cd spotless-solutions
 ### Resolving Project Dependencies
 
 This project is using [ASP.NET Core](https://dotnet.microsoft.com/en-us/apps/aspnet) with [Vite + React](https://vitejs.dev/)
-on the `ClientApp` folder. To install the dependencies you must:
+on the `ClientApp` folder. To install the dependencies, you must:
 
 ```
 # Install dependencies on the server:
@@ -56,8 +56,10 @@ npm install
 
 ### Setting up your environment
 
-There are three ways you can setup your environment. First is by editing `appsettings.json` on the
-`SpotlessSolutions.Web` folder **(Not recommended)**, by using [User Secrets](https://learn.microsoft.com/en-us/aspnet/core/security/app-secrets?view=aspnetcore-8.0)
+There are three ways you can set up your environment.
+First is by editing `appsettings.json` on the
+`SpotlessSolutions.Web` folder **(Not recommended)**,
+by using [User Secrets](https://learn.microsoft.com/en-us/aspnet/core/security/app-secrets?view=aspnetcore-8.0)
 and using Environment variables.
 
 This README will only cover setting up User Secrets and Environment Variables.
@@ -65,8 +67,8 @@ This README will only cover setting up User Secrets and Environment Variables.
 #### What you need:
 
 - Your Google Account's App Password (for setting up mailer, this is temporary as this will be moved to much
-  more better mailing solutions such as using [MailGun](https://www.mailgun.com/) in the future.) However,
-  You are allowed to use other services that allows you to send mails via SMTP.
+  better mailing solutions such as using [MailGun](https://www.mailgun.com/) in the future.) However,
+  You are allowed to use other services that allow you to send mails via SMTP.
 - Google Cloud's OAuth Credentials. (See [here](https://developers.google.com/identity/protocols/oauth2))
 - Credentials for your Redis & Postgres database
 
@@ -112,7 +114,7 @@ ExternalAuthenticators__Google__RedirectUri=https://localhost:5173/oauth2/google
 ```
 </details>
 
-**NOTE: You need to replace `RedirectUri`'s Hostname both on your google and your config once you are
+**NOTE: You need to replace `RedirectUri`'s Hostname both on your Google and your config once you are
 deploying it to server with its hostname**
 
 ##### Your Database Connection Strings
@@ -145,7 +147,7 @@ JwtSettings__Secret=your_custom_secret_key
 ```
 </details>
 
-Afterwards, you can update your database (Ensure that `dotnet-ef` tool is installed):
+Afterward, you can update your database (Ensure that `dotnet-ef` tool is installed):
 
 ```
 dotnet ef database update
@@ -160,10 +162,12 @@ dotnet run
 ### Code Analysis
 
 Before committing your code, please run `npm run lint` on `ClientApp` folder to ensure that
-it follows the style this project enforce. This will also be spotted by the CI during the pull
-request, however it is a good practice to have it checked first before committing.
+it follows the style this project enforces.
+The CI will also spot this during the pull
+request; however, it is a good practice to have it checked first before committing.
 
 ### License
 
 Spotless Solution's Source Code is licensed under [BSD 3-Clause License](https://spdx.org/licenses/BSD-3-Clause.html).
-Please see the [LICENSE](LICENSE) file for more information. [tl;dr](https://www.tldrlegal.com/license/bsd-3-clause-license-revised)
+Please see the [LICENSE](LICENSE) file for more information.
+[Tl;dr](https://www.tldrlegal.com/license/bsd-3-clause-license-revised)
