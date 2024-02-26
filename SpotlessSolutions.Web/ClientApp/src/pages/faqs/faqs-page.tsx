@@ -190,6 +190,86 @@ export default function Faqs () {
           </div>
           </div>
 
+          <div className=" bg-white md:grid-">
+          <div className="flex items-start font-montserrat my-6 mr-10">
+            <img src='./cleaning_services_hp4.png' alt='' className="h-7 mr-5"/>
+            <div>
+              <h6 className='secondarySpacing'>Q11: Do you offer special packages for AirBnB owners?</h6>
+              <p className='font-bold'>A11: Here is our AirBnB package</p>
+              <h6 className='secondarySpacing'>15 basic housekeeping sessions</h6>
+              <h6 className='secondarySpacing'>Rate of 7.5k</h6>
+              <h6 className='secondarySpacing'>Enough to make room presentable and ready for guests (Our services are the following:</h6>
+              <h6 className='secondarySpacing'>1. Chinging of linens and AirBnB supplies</h6>
+              <h6 className='secondarySpacing'>2. Garbage disposal</h6> 
+              <h6 className='secondarySpacing'>3. Dusting</h6>  
+              <h6 className='secondarySpacing'>4. Vacuuming</h6> 
+              <h6 className='secondarySpacing'>5. Mopping</h6> 
+              <h6 className='secondarySpacing'>6. CR quick clean</h6> 
+              <h6 className='secondarySpacing'>7. Disinfection of whole area</h6> 
+              <h6 className='secondarySpacing'>8. Reporting of AirBnB status - status of the room after the previous guest has left</h6> 
+              <h6 className='secondarySpacing'>After your first cleaning session, our next cleaning will be right after your next booking. This is to ensure that your unit is always clean and ready for new clients</h6> 
+              <h6 className='secondarySpacing'>Optional service (laundry) - we can do your laundry so we can cycle your beddings/linens. As we change your dirty linens with fresh ones, we wash your dirty linens. Rate is P 200 per load</h6> 
+              <h6 className='secondarySpacing'>No need to come to your AirBnB unit in between cients anymore since Topdown is here</h6> 
+            </div>
+          </div>
+          </div>
+
+          <div className=" bg-white md:grid-">
+          <div className="flex items-start font-montserrat my-6 mr-10">
+            <img src='./cleaning_services_hp4.png' alt='' className="h-7 mr-5"/>
+            <div>
+              <h6 className='secondarySpacing'>Q12: Do you offer speacial cleaning services for homes that are affected by flooding?</h6>
+              <p className='font-bold'>A12: Yes, our intensive post flooding clean includes the following: :)</p>
+              <h6 className='secondarySpacing'>Intensive home cleaning using tried and tested cleaning solutions</h6>
+              <h6 className='secondarySpacing'>Sofa under the section cleaning (shampoo, scrub, power extraction of dirt and water)</h6>
+              <h6 className='secondarySpacing'>Garage cleaning</h6>
+              <h6 className='secondarySpacing'>Fagging Disinfection (with Citronella to repel mosquitos)</h6>
+              <h6 className='secondarySpacing'>UV Sanitation (deeper clean using ozone disinfection technology)</h6>  
+            </div>
+          </div>
+          </div>
+
+          <div className=" bg-white md:grid-">
+          <div className="flex items-start font-montserrat my-6 mr-10">
+            <img src='./cleaning_services_hp4.png' alt='' className="h-7 mr-5"/>
+            <div>
+              <h6 className='secondarySpacing'>Q13: What information do I need to provide for booking?</h6>
+              <p className='font-bold'>A13: We require the following information for booking</p>
+              <h6 className='secondarySpacing'>1. How many sqm is your place?</h6>
+              <h6 className='secondarySpacing'>2. How many floors (sqm per floor)</h6>
+              <h6 className='secondarySpacing'>3. Preferred cleaning service? (General and how many hours, deep, maintenance)</h6>
+              <h6 className='secondarySpacing'>4. Your complete address</h6>
+              <h6 className='secondarySpacing'>5. Preferred time and date of cleaning</h6>  
+              <h6 className='secondarySpacing'>6. Contact Number</h6>
+              <h6 className='secondarySpacing'>7. Indicate add ons, if any</h6>
+            </div>
+          </div>
+          </div>
+
+          <div className=" bg-white md:grid-">
+          <div className="flex items-start font-montserrat my-6 mr-10">
+            <img src='./cleaning_services_hp4.png' alt='' className="h-7 mr-5"/>
+            <div>
+              <h6 className='secondarySpacing'>Q14: How do you ensure that our valuables are taken care of?</h6>
+              <p className='font-bold'>A14: We ensure your valuable through:</p>
+              <h6 className='secondarySpacing'>1. Prior to the cleaning, we request our clients to keep and lock away all valuables.</h6>
+              <h6 className='secondarySpacing'>2. Our team lead (TL) will frisk our cleaners beafore and after leaving your home for added security</h6>
+              <h6 className='secondarySpacing'>3. We carefully select our cleaners to ensure a high level of integrity. Please rest assured that honesty is a core value in our business</h6>
+            </div>
+          </div>
+          </div>
+
+          <div className=" bg-white md:grid-">
+          <div className="flex items-start font-montserrat my-6 mr-10">
+            <img src='./cleaning_services_hp4.png' alt='' className="h-7 mr-5"/>
+            <div>
+              <h6 className='secondarySpacing'>Q15: Do we need to provide any cleaning materials or equipment for your team? </h6>
+              <p className='font-bold'>A15: Topdown Cleaning Services provides all the cleaning solution and equipments. No need to preapre anything, we've got you all covered.</p>
+            </div>
+          </div>
+          </div>
+
+
 
         </div>
       </div>
