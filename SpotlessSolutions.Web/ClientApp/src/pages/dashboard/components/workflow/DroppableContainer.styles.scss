@@ -1,0 +1,19 @@
+@use 'tailwindcss/base.css';
+@use 'tailwindcss/components.css';
+@use 'tailwindcss/utilities.css';
+
+.droppable-container {
+  @apply p-3 w-80 bg-gray-200 rounded-md ml-1 mr-1;
+  
+  & .header {
+    @apply text-sm font-medium text-gray-900;
+  }
+
+  & .droppable-window {
+    @apply mt-2;
+
+    min-height: 100%;
+    min-width: 100%;
+    display: block;
+  }
+}

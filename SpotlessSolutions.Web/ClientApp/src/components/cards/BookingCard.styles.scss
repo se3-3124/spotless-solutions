@@ -1,0 +1,53 @@
+@use 'tailwindcss/base.css';
+@use 'tailwindcss/components.css';
+@use 'tailwindcss/utilities.css';
+
+.booking-card {
+  @apply w-full p-2 mb-1;
+  
+  border-radius: 4px;
+  
+  &.item-pending {
+    @apply bg-yellow-400;
+    @apply border-2 border-amber-500;
+    
+    & .booking-name {
+      @apply text-black;
+    }
+  }
+  
+  &.item-done {
+    @apply bg-teal-400;
+    @apply border-2 border-teal-500;
+
+    & .booking-name {
+      @apply text-black;
+    }
+  }
+  
+  &.item-rejected {
+    @apply bg-red-400;
+    @apply border-2 border-red-500;
+
+    & .booking-name {
+      @apply text-white;
+    }
+  }
+  
+  &.item-accepted {
+    @apply bg-green-400;
+    @apply border-2 border-green-500;
+
+    & .booking-name {
+      @apply text-black;
+    }
+  }
+  
+  & .booking-name {
+    @apply font-sans font-bold;
+  }
+  
+  &:hover {
+    @apply cursor-pointer;
+  }
+}

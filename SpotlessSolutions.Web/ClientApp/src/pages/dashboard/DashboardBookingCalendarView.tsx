@@ -104,11 +104,11 @@ export default function DashboardBookingCalendarView () {
         const startISOString = startOfWeek.toJSDate().toISOString()
         const endISOString = endOfWeek.toJSDate().toISOString()
 
-        const requestPath = `/api/bookings/admin/range?start=${startISOString}&end=${endISOString}`
+        const requestPath = `/api/v1/bookings/administrative/range?start=${startISOString}&end=${endISOString}`
         const response = await request
-          .get<{ success: boolean, result: BookingResponseType[] }>(requestPath)
+          .get<{ success: boolean, data: BookingResponseType[] }>(requestPath)
 
-        setCalendarData(response.data.result)
+        setCalendarData(response.data.data)
       }
 
       fetchWeeklyCalendarEvents(context.request).catch(() => {
@@ -121,11 +121,11 @@ export default function DashboardBookingCalendarView () {
     const date = DateTime.fromJSDate(activeCalendarView)
 
     async function fetchMonthCalendarEvents (request: AxiosInstance) {
-      const requestPath = `/api/bookings/admin/monthly?year=${date.year}&month=${date.month}`
+      const requestPath = `/api/v1/bookings/administrative/monthly?year=${date.year}&month=${date.month}`
       const response = await request
-        .get<{ success: boolean, result: BookingResponseType[] }>(requestPath)
+        .get<{ success: boolean, data: BookingResponseType[] }>(requestPath)
 
-      setCalendarData(response.data.result)
+      setCalendarData(response.data.data)
     }
 
     fetchMonthCalendarEvents(context.request).catch(() => {

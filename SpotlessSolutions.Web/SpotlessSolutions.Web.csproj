@@ -16,6 +16,7 @@
   </PropertyGroup>
 
     <ItemGroup>
+        <PackageReference Include="Bogus" Version="35.4.0" />
         <PackageReference Include="FluentValidation" Version="11.8.1" />
         <PackageReference Include="FluentValidation.DependencyInjectionExtensions" Version="11.8.1" />
         <PackageReference Include="MailKit" Version="4.3.0" />
@@ -45,6 +46,7 @@
 
     <ItemGroup>
       <Folder Include="ClientApp\src\components\footer\" />
+      <Folder Include="ClientApp\src\components\inputs\" />
     </ItemGroup>
 
     <Target Name="DebugEnsureNodeEnv" BeforeTargets="Build" Condition=" '$(Configuration)' == 'Debug' And !Exists('$(SpaRoot)node_modules') ">
