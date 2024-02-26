@@ -4,6 +4,7 @@ import NavBar from '../../components/navigation/Navbar.tsx'
 import { HiArrowCircleRight } from 'react-icons/hi'
 import mobileBG from '../../assets/CleaningServiceMobileBG.png'
 import desktopBG from '../../assets/CleaningServicebg.png'
+import star from '../../assets/star.svg'
 
 function Home () {
   const [isSmallScreen, setIsSmallScreen] = useState(false)
@@ -28,14 +29,14 @@ function Home () {
         <img
           src={
             isSmallScreen
-              ? { mobileBG }
-              : { desktopBG }
+              ? mobileBG
+              : desktopBG
           }
           alt="Background"
           className="inset-0 object-cover w-full h-full"
         />
         <img
-          src="src/assets/star.svg"
+          src={star}
           alt="TOPDOWN Logo"
           className="absolute top-52 -left-3 h-32 -mt-8 md:-left-8 md:h-44 md:-mt-24"
         />
