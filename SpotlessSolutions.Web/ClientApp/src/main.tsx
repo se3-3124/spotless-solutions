@@ -25,6 +25,7 @@ import OAuthSuccessPage from './pages/authentication/OAuthSuccessPage.tsx'
 import PasswordRecoveryPage from './pages/authentication/PasswordRecoveryPage.tsx'
 import PasswordRecoveryWizardPage from './pages/authentication/PasswordRecoveryWizardPage.tsx'
 import ServicesPage from './pages/services-page/services-page.tsx'
+import FaqsPage from './pages/faqs/faqs-page.tsx'
 
 import './index.css'
 import DashboardBookingsWorkflowView from './pages/dashboard/DashboardBookingsWorkflowVew.tsx'
@@ -162,6 +163,7 @@ function Main () {
 
                       <Route path="/" element={<Home />} />
                       <Route path="/services" element={<ServicesPage />} />
+                      <Route path="/faqs" element={<FaqsPage />} />
 
                     </Routes>
                   </BrowserRouter>
