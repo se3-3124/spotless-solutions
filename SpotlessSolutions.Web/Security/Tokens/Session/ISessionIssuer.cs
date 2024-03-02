@@ -1,7 +1,7 @@
 using Microsoft.AspNetCore.Identity;
 using SpotlessSolutions.Web.Data.Models;
 
-namespace SpotlessSolutions.Web.Services.Authentication.Session;
+namespace SpotlessSolutions.Web.Security.Tokens.Session;
 
 public interface ISessionIssuer
 {

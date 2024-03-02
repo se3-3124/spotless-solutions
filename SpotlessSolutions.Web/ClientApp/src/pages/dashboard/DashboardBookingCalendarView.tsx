@@ -1,7 +1,6 @@
 import { type AxiosInstance } from 'axios'
 import { DateTime } from 'luxon'
 import React, { useContext, useEffect, useState } from 'react'
-import { useNavigate } from 'react-router-dom'
 
 import Box from '@mui/material/Box'
 import Button from '@mui/material/Button'
@@ -17,13 +16,13 @@ import KeyboardArrowDownRoundedIcon from '@mui/icons-material/KeyboardArrowDownR
 import KeyboardArrowLeftRoundedIcon from '@mui/icons-material/KeyboardArrowLeftRounded'
 import KeyboardArrowRightRoundedIcon from '@mui/icons-material/KeyboardArrowRightRounded'
 
-import AuthContext from '../../contexts/AuthContext.ts'
 import BookingsDetailModal from './components/modals/BookingDetailModal.tsx'
 import { type BookingResponseType } from '../../types/BookingResponseType.tsx'
 import DashboardAppBarComponent from './components/DashboardAppBarComponent.tsx'
 import DashboardDrawerComponent from './components/DashboardDrawerComponent.tsx'
 import MonthCalendarComponent from '../../components/calendars/MonthCalendarComponent.tsx'
 import NotificationsContext, { NotificationSeverity } from '../../contexts/NotificationsContext.tsx'
+import useSession from '../../hooks/useSession.ts'
 import WeeklyCalendarComponent from '../../components/calendars/WeeklyCalendarComponent.tsx'
 
 import './dashboard.scss'
@@ -72,9 +71,8 @@ const StyledMenu = styled((props: MenuProps) => (
 }))
 
 export default function DashboardBookingCalendarView () {
-  const context = useContext(AuthContext)
+  const { request } = useSession()
   const notificationsContext = useContext(NotificationsContext)
-  const navigator = useNavigate()
 
   const [activeCalendarView, setActiveCalendarView] = useState<Date>(new Date())
   const [activeDetailView, setActiveDetailView] = useState<BookingResponseType | null>(null)
@@ -82,19 +80,8 @@ export default function DashboardBookingCalendarView () {
   const [calendarData, setCalendarData] = useState<BookingResponseType[]>([])
   const [calendarViewState, setCalendarViewState] = useState<CalendarViewState>('monthly')
 
-  useEffect(() => {
-    if (context.user === null) {
-      notificationsContext.notify(NotificationSeverity.Error, 'Unauthorized.')
-      navigator('/')
-    }
-  }, [context.user, notificationsContext])
-
   // Effect for changing view state
   useEffect(() => {
-    if (context.request === null) {
-      return
-    }
-
     if (calendarViewState === 'weekly') {
       const date = DateTime.fromJSDate(activeCalendarView)
       const startOfWeek = date.startOf('week')
@@ -111,7 +98,7 @@ export default function DashboardBookingCalendarView () {
         setCalendarData(response.data.data)
       }
 
-      fetchWeeklyCalendarEvents(context.request).catch(() => {
+      fetchWeeklyCalendarEvents(request).catch(() => {
         notificationsContext.notify(NotificationSeverity.Error, 'Failed to fetch calendar data.')
       })
 
@@ -128,7 +115,7 @@ export default function DashboardBookingCalendarView () {
       setCalendarData(response.data.data)
     }
 
-    fetchMonthCalendarEvents(context.request).catch(() => {
+    fetchMonthCalendarEvents(request).catch(() => {
       notificationsContext.notify(NotificationSeverity.Error, 'Failed to fetch calendar data.')
     })
   }, [activeCalendarView, calendarViewState])

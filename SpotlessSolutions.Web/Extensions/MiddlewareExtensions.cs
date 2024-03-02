@@ -15,7 +15,7 @@ public static class MiddlewareExtensions
 
             if (result != null)
             {
-                if (result.Counter % 6 == 0 && result.LiftedAt > DateTime.Now)
+                if (result.Counter % 6 == 0 && result.LiftedAt > DateTime.UtcNow)
                 {
                     context.Response.StatusCode = 429;
                     await context.Response.WriteAsJsonAsync(new ManyRequestsException());

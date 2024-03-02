@@ -1,6 +1,6 @@
 // ReSharper disable UnusedAutoPropertyAccessor.Global
 
-namespace SpotlessSolutions.Web.Services.Authentication.Session;
+namespace SpotlessSolutions.Web.Security.Tokens.Session;
 
 public class RefreshTokenInformation
 {

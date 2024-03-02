@@ -1,13 +1,11 @@
 import type { AxiosInstance } from 'axios'
 import { useContext, useEffect, useState } from 'react'
-import { useNavigate } from 'react-router-dom'
 
 import Box from '@mui/material/Box'
 import CircularProgress from '@mui/material/CircularProgress'
 import Grid from '@mui/material/Grid'
 import Stack from '@mui/material/Stack'
 
-import AuthContext from '../../contexts/AuthContext.ts'
 import DashboardAppBarComponent from './components/DashboardAppBarComponent.tsx'
 import DashboardDrawerComponent from './components/DashboardDrawerComponent.tsx'
 import NotificationsContext, { NotificationSeverity } from '../../contexts/NotificationsContext.tsx'
@@ -17,6 +15,7 @@ import ServicesEditingContext from './contexts/ServicesEditingContext.tsx'
 import SidebarServiceList from './components/sidebar/SidebarServiceList.tsx'
 import { type ServiceDefinitionObject } from '../../types/ServiceDefinitionObject.ts'
 import { type ServiceConfigType } from '../../types/ServiceConfigType.ts'
+import useSession from '../../hooks/useSession.ts'
 
 interface ActiveViewState {
   id: string
@@ -24,23 +23,15 @@ interface ActiveViewState {
 }
 
 export default function DashboardServiceManagementView () {
+  const { request } = useSession()
+  const notificationsContext = useContext(NotificationsContext)
+
   const [servicesList, setServicesList] = useState<ServicesDataObject[]>([])
   const [activeServiceView, setActiveView] = useState<ActiveViewState | null>(null)
   const [activeServiceDefinitionObject, setActiveServiceDefinitionObject] = useState<ServiceDefinitionObject | null>(null)
   const [viewReady, setViewReady] = useState(false)
 
-  const authContext = useContext(AuthContext)
-  const notificationsContext = useContext(NotificationsContext)
-  const navigator = useNavigate()
-
   const runServiceListUpdate = () => {
-    if (authContext.user === null || authContext.request === null) {
-      notificationsContext.notify(NotificationSeverity.Error, 'Unauthorized')
-      navigator('/')
-
-      return
-    }
-
     async function getServices (req: AxiosInstance) {
       const response = await req
         .get<{ success: true, data: ServicesDataObject[] }>('/api/v1/services/all')
@@ -48,7 +39,7 @@ export default function DashboardServiceManagementView () {
       setServicesList(response.data.data)
     }
 
-    getServices(authContext.request)
+    getServices(request)
       .catch(() => {
         notificationsContext.notify(NotificationSeverity.Error, 'Failed to fetch servicess list')
       })
@@ -59,7 +50,7 @@ export default function DashboardServiceManagementView () {
   }, [])
 
   useEffect(() => {
-    if (activeServiceView === null || authContext.request === null) {
+    if (activeServiceView === null) {
       return
     }
 
@@ -73,7 +64,7 @@ export default function DashboardServiceManagementView () {
       setActiveServiceDefinitionObject(response.data.result)
     }
 
-    getServiceDetail(authContext.request, activeServiceView.id)
+    getServiceDetail(request, activeServiceView.id)
       .then(() => {
         setViewReady(true)
       })
@@ -95,7 +86,7 @@ export default function DashboardServiceManagementView () {
   }
 
   const updateService = (config: ServiceConfigType) => {
-    if (authContext.request === null) {
+    if (request === null) {
       return
     }
 
@@ -103,7 +94,7 @@ export default function DashboardServiceManagementView () {
       await req.patch<{ success: boolean }>('/api/v1/services/edit', config)
     }
 
-    patchService(authContext.request, config)
+    patchService(request, config)
       .then(() => {
         runServiceListUpdate()
         notificationsContext.notify(NotificationSeverity.Success, 'Service Updated!')

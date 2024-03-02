@@ -10,4 +10,5 @@ export interface UserData {
   token: string
   refreshToken: string
   isEmailValidated: boolean
+  expires: Date
 }

@@ -19,9 +19,6 @@ interface LoginState {
 interface AuthenticationResponse {
   token: string
   refreshToken: string
-  firstName: string
-  lastName: string
-  isAdmin: boolean
 }
 
 export default function LoginPage () {

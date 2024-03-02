@@ -1,10 +1,9 @@
-import axios, { type AxiosInstance } from 'axios'
+import axios from 'axios'
 import { useContext, useEffect, useState } from 'react'
 
 import CircularProgress from '@mui/material/CircularProgress'
 
 import AddOnServicesCard from '../../components/cards/AddOnServicesCard.tsx'
-import AuthContext from '../../contexts/AuthContext'
 import CardServices from '../../components/cards/CardServices.tsx'
 import FooterV2 from '../../components/footerv2/FooterV2.tsx'
 import NavigationBar from '../../components/navigation/NavigationBar'
@@ -15,20 +14,21 @@ import tdLogo from '../../assets/td_logo.jpg'
 import './services-page.scss'
 
 export default function ServicesPage () {
-  const context = useContext(AuthContext)
   const notificationsContext = useContext(NotificationsContext)
 
   const [ready, setReady] = useState(false)
   const [services, setServices] = useState<ServicesDataObject[]>([])
 
   useEffect(() => {
-    async function fetchServices (req: AxiosInstance) {
-      const data = await req
+    async function fetchServices () {
+      const request = axios.create({ baseURL: window.location.origin })
+
+      const data = await request
         .get<{ success: true, data: ServicesDataObject[] }>('/api/v1/services/all')
       setServices(data.data.data)
     }
 
-    fetchServices(context.request ?? axios.create({ baseURL: window.location.origin })).then(() => {
+    fetchServices().then(() => {
       setReady(true)
     }).catch(() => {
       notificationsContext.notify(NotificationSeverity.Error, 'Failed to fetch service data')
@@ -37,7 +37,7 @@ export default function ServicesPage () {
 
   return (
     <>
-      <NavigationBar user={context.user} />
+      <NavigationBar />
       {
         ready
           ? (
@@ -71,7 +71,7 @@ export default function ServicesPage () {
           </div>
             )
       }
-      <FooterV2/>
+      <FooterV2 />
     </>
   )
 }

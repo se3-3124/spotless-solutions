@@ -7,8 +7,8 @@ using Microsoft.Extensions.Caching.Distributed;
 using SpotlessSolutions.Web.Data;
 using SpotlessSolutions.Web.Data.Models;
 using SpotlessSolutions.Web.Extensions;
+using SpotlessSolutions.Web.Security.Tokens.Session;
 using SpotlessSolutions.Web.Services.Authentication.OAuth2;
-using SpotlessSolutions.Web.Services.Authentication.Session;
 using SpotlessSolutions.Web.Services.Mailer;
 
 namespace SpotlessSolutions.Web.Services.Authentication;
@@ -325,5 +325,17 @@ public class Authentication : IAuthentication
             RefreshToken = tokens.RefreshToken,
             Token = tokens.Token
         };
+    }
+
+    public async Task<SessionToken?> RefreshSession(string token, string refreshToken)
+    {
+        var session = await _sessionIssuer.Refresh(token, refreshToken);
+        return session != null
+            ? new SessionToken
+            {
+                RefreshToken = session.RefreshToken,
+                Token = session.Token
+            }
+            : null;
     }
 }

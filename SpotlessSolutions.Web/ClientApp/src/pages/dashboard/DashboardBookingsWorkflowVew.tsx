@@ -4,29 +4,25 @@ import { useContext, useEffect, useState } from 'react'
 import Box from '@mui/material/Box'
 import Stack from '@mui/material/Stack'
 
-import AuthContext from '../../contexts/AuthContext.ts'
 import BookingsDetailModal from './components/modals/BookingDetailModal.tsx'
 import { type BookingResponseType, type BookingStatus } from '../../types/BookingResponseType.tsx'
 import DashboardAppBarComponent from './components/DashboardAppBarComponent.tsx'
 import DashboardDrawerComponent from './components/DashboardDrawerComponent.tsx'
 import DashboardWorkflowDragAndDropComponent from './components/workflow/DashboardWorkflowDragAndDropComponent.tsx'
+import NotificationsContext, { NotificationSeverity } from '../../contexts/NotificationsContext.tsx'
+import useSession from '../../hooks/useSession.ts'
 
 import './dashboard.scss'
-import NotificationsContext, { NotificationSeverity } from '../../contexts/NotificationsContext.tsx'
 
 export default function DashboardBookingsWorkflowView () {
-  const { request } = useContext(AuthContext)
+  const { request } = useSession()
   const context = useContext(NotificationsContext)
 
   const [activeDetailView, setActiveDetailView] = useState<BookingResponseType | null>(null)
   const [bookings, setBookings] = useState<BookingResponseType[]>([])
 
   useEffect(() => {
-    async function retrieveAllBookings () {
-      if (request === null) {
-        return
-      }
-
+    async function retrieveAllBookings (request: AxiosInstance) {
       const currentYear = new Date().getFullYear()
       const start = new Date(currentYear, 0, 1)
       const end = new Date(currentYear + 1, 1, 1)
@@ -37,7 +33,7 @@ export default function DashboardBookingsWorkflowView () {
       setBookings(response.data.data)
     }
 
-    retrieveAllBookings().catch(console.error)
+    retrieveAllBookings(request).catch(console.error)
   }, [])
 
   const handleOpen = (data: BookingResponseType) => {
