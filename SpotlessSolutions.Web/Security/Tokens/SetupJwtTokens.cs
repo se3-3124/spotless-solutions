@@ -9,10 +9,9 @@ public static class SetupJwtTokens
 {
     private static byte[] HashKey(string key)
     {
-        var sha = SHA256.Create();
-        return sha.ComputeHash(Encoding.UTF8.GetBytes(key));
+        return SHA256.HashData(Encoding.UTF8.GetBytes(key));
     }
-    
+
     public static void InstallJwtConfig(this IServiceCollection services, IConfiguration configuration)
     {
         var jwtSettings = new JwtConfig();

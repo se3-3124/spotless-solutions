@@ -9,9 +9,8 @@ using Microsoft.IdentityModel.Tokens;
 using SpotlessSolutions.Web.Data;
 using SpotlessSolutions.Web.Data.Models;
 using SpotlessSolutions.Web.Extensions;
-using SpotlessSolutions.Web.Security.Tokens;
 
-namespace SpotlessSolutions.Web.Services.Authentication.Session;
+namespace SpotlessSolutions.Web.Security.Tokens.Session;
 
 public class SessionIssuer : ISessionIssuer
 {
@@ -57,7 +56,7 @@ public class SessionIssuer : ISessionIssuer
                 new Claim("cid", data.Id.ToString()),
                 new Claim("is_email_validated", user.EmailConfirmed ? "1" : "0")
             }),
-            Expires = DateTime.Now.Add(TimeSpan.Parse(_jwtConfig.TokenLifetime)),
+            Expires = DateTime.UtcNow.Add(TimeSpan.Parse(_jwtConfig.TokenLifetime)),
             SigningCredentials =
                 new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256)
         };
@@ -69,8 +68,8 @@ public class SessionIssuer : ISessionIssuer
         {
             TokenId = token.Id,
             UserId = user.Id,
-            Created = DateTime.Now,
-            Expires = DateTime.Now.AddDays(7)
+            Created = DateTime.UtcNow,
+            Expires = DateTime.UtcNow.AddDays(7)
         };
 
         await _cache.SetRecordAsync($"t_{refreshTokenId}", refreshTokenInfo,
@@ -85,7 +84,7 @@ public class SessionIssuer : ISessionIssuer
 
     private bool IsJwtValidSecurityAlgorithm(SecurityToken validatedToken)
     {
-        return (validatedToken is JwtSecurityToken jwtSecurityToken) &&
+        return validatedToken is JwtSecurityToken jwtSecurityToken &&
                jwtSecurityToken.Header.Alg.Equals(SecurityAlgorithms.HmacSha256,
                    StringComparison.InvariantCultureIgnoreCase);
     }
@@ -119,7 +118,7 @@ public class SessionIssuer : ISessionIssuer
             return null;
         }
 
-        if (refreshData.Expires <= DateTime.Now)
+        if (refreshData.Expires <= DateTime.UtcNow)
         {
             return null;
         }

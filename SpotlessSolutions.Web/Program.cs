@@ -34,6 +34,7 @@ builder.Services.InstallDataContexts(builder.Configuration);
 builder.Services.InstallGoogleConfig(builder.Configuration);
 builder.Services.InstallSwaggerDocumentation();
 builder.Services.InstallMailerSettings(builder.Configuration);
+builder.Services.InstallDefaultSessionIssuer();
 builder.Services.InstallServices();
 
 var app = builder.Build();
@@ -59,9 +60,6 @@ app.UseStaticFiles();
 app.UseRouting();
 
 app.UseCors();
-
-// This middleware blocks the request when if its still on the blocking period
-app.UseIpBlockingFilter();
 
 app.UseAuthentication();
 app.UseAuthorization();

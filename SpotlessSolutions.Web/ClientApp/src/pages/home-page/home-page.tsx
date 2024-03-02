@@ -1,6 +1,3 @@
-import { useContext } from 'react'
-
-import AuthContext from '../../contexts/AuthContext.ts'
 import FooterV2 from '../../components/footerv2/FooterV2.tsx'
 import NavigationBar from '../../components/navigation/NavigationBar.tsx'
 
@@ -13,11 +10,9 @@ import cleaningImage4 from '../../assets/cleaning_services_hp4.png'
 import './home-page.scss'
 
 export default function Home () {
-  const context = useContext(AuthContext)
-
   return (
     <>
-      <NavigationBar user={context.user}/>
+      <NavigationBar />
       <section className="section-header">
         <div className="container">
           <h1 className="brand">TOPDOWN</h1>

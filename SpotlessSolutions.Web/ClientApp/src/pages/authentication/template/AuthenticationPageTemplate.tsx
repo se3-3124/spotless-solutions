@@ -1,6 +1,5 @@
-import { type ReactNode, useContext } from 'react'
+import { type ReactNode } from 'react'
 
-import AuthContext from '../../../contexts/AuthContext.ts'
 import FooterV2 from '../../../components/footerv2/FooterV2.tsx'
 import NavigationBar from '../../../components/navigation/NavigationBar.tsx'
 
@@ -12,11 +11,9 @@ export interface AuthenticationPageTemplatePropType {
 }
 
 export default function AuthenticationPageTemplate (props: AuthenticationPageTemplatePropType) {
-  const authContext = useContext(AuthContext)
-
   return (
     <>
-      <NavigationBar user={authContext.user} />
+      <NavigationBar />
       <div className="auth-common-wrapper">
         <div className="wrapper">
           <div className="wrapper-contents">

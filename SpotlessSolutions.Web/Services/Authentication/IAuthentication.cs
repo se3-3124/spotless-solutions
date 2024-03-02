@@ -1,6 +1,6 @@
 using SpotlessSolutions.Web.Data.Models;
+using SpotlessSolutions.Web.Security.Tokens.Session;
 using SpotlessSolutions.Web.Services.Authentication.OAuth2;
-using SpotlessSolutions.Web.Services.Authentication.Session;
 
 namespace SpotlessSolutions.Web.Services.Authentication;
 
@@ -59,4 +59,12 @@ public interface IAuthentication
     /// <param name="id"></param>
     /// <returns></returns>
     Task<SessionToken?> LoginOAuth2User(AccountBindingType source, string id);
+
+    /// <summary>
+    /// Refreshes the user session
+    /// </summary>
+    /// <param name="token"></param>
+    /// <param name="refreshToken"></param>
+    /// <returns></returns>
+    Task<SessionToken?> RefreshSession(string token, string refreshToken);
 }

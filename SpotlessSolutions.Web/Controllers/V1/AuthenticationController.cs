@@ -1,4 +1,6 @@
 using FluentValidation;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using SpotlessSolutions.Web.Contracts.V1.Requests;
 using SpotlessSolutions.Web.Contracts.V1.Responses;
@@ -15,18 +17,21 @@ public class AuthenticationController : ControllerBase
     private readonly IValidator<RegistrationData> _registrationDataValidator;
     private readonly IValidator<PasswordResetDetails> _passwordRequestResetValidator;
     private readonly IValidator<AccountRecoveryDetails> _accountRecoveryDetailsValidator;
+    private readonly IValidator<SessionData> _sessionDataValidator;
 
     public AuthenticationController(IAuthentication auth,
         IValidator<LoginData> loginDataValidator,
         IValidator<RegistrationData> registrationDataValidator,
         IValidator<PasswordResetDetails> passwordRequestResetValidator,
-        IValidator<AccountRecoveryDetails> accountRecoveryDetailsValidator)
+        IValidator<AccountRecoveryDetails> accountRecoveryDetailsValidator,
+        IValidator<SessionData> sessionDataValidator)
     {
         _auth = auth;
         _loginDataValidator = loginDataValidator;
         _registrationDataValidator = registrationDataValidator;
         _passwordRequestResetValidator = passwordRequestResetValidator;
         _accountRecoveryDetailsValidator = accountRecoveryDetailsValidator;
+        _sessionDataValidator = sessionDataValidator;
     }
 
     [HttpPost("login")]
@@ -186,6 +191,39 @@ public class AuthenticationController : ControllerBase
         return Ok(new GenericOkResult
         {
             Success = true
+        });
+    }
+
+    [HttpPost("refresh")]
+    [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+    [ProducesResponseType(typeof(ErrorException), 401)]
+    [ProducesResponseType(typeof(SessionResult), 200)]
+    public async Task<IActionResult> RefreshSession([FromBody] SessionData sessionData)
+    {
+        var validator = await _sessionDataValidator.ValidateAsync(sessionData);
+        if (!validator.IsValid)
+        {
+            return BadRequest(new ErrorException
+            {
+                Error = true,
+                Messages = validator.Errors.Select(x => x.ErrorMessage).ToArray()
+            });
+        }
+
+        var result = await _auth.RefreshSession(sessionData.Token, sessionData.RefreshToken);
+        if (result == null)
+        {
+            return BadRequest(new ErrorException
+            {
+                Error = true,
+                Messages = ["Invalid session"]
+            });
+        }
+
+        return Ok(new SessionResult
+        {
+            Token = result.Token,
+            RefreshToken = result.RefreshToken
         });
     }
 }

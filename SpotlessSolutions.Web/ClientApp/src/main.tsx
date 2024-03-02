@@ -26,11 +26,13 @@ import PasswordRecoveryPage from './pages/authentication/PasswordRecoveryPage.ts
 import PasswordRecoveryWizardPage from './pages/authentication/PasswordRecoveryWizardPage.tsx'
 import ServicesPage from './pages/services-page/services-page.tsx'
 
-import './index.css'
 import DashboardBookingsWorkflowView from './pages/dashboard/DashboardBookingsWorkflowVew.tsx'
 import NotificationsContext, { NotificationSeverity } from './contexts/NotificationsContext.tsx'
 import { type NotificationStateType } from './types/MainStateTypes.tsx'
 import DashboardServiceManagementView from './pages/dashboard/DashboardServiceManagementView.tsx'
+
+import './index.css'
+import SessionRefresh from "./pages/authentication/SessionRefresh.tsx";
 
 const theme = createTheme({
   palette: {
@@ -67,7 +69,8 @@ function Main () {
         role: tokenData.user_role === 'Administrator' ? UserRole.Administrator : UserRole.User,
         token,
         refreshToken,
-        isEmailValidated: tokenData.is_email_validated === '1'
+        isEmailValidated: tokenData.is_email_validated === '1',
+        expires: new Date((tokenData.exp as number) * 1000)
       })
 
       localStorage.setItem('sst', token)
@@ -149,6 +152,7 @@ function Main () {
                       <Route path="/signup" element={<RegistrationPage />} />
                       <Route path="/login" element={<LogInPage />} />
                       <Route path="/logout" element={<LogoutFlowPage />} />
+                      <Route path="/auth/session" element={<SessionRefresh />} />
 
                       {/* OAuth Token stuff */}
                       <Route path="/auth/oauth/success" element={<OAuthSuccessPage />} />
