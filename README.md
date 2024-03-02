@@ -15,14 +15,11 @@ Please make sure you have the following software and SDKs installed in your syst
 - [.NET 8 SDK](https://dotnet.microsoft.com/en-us/download)
 - [Postgres](https://www.postgresql.org/)
 - [Redis](https://redis.io/)
+- [RabbitMQ](https://www.rabbitmq.com/)
 - [Node.js >= 20](https://nodejs.org/en)
 
-It is recommended that you spin up docker containers for Postgres and Redis:
-
-```
-docker run -d -p 5432:5432 -e POSTGRES_PASSWORD=<your password> postgres:latest
-docker run -d -p 6379:6379 redis:latest
-```
+To spin up everything that this repository requires, run `docker compose up` at the
+root folder of this repository.
 
 When working with the codebase, we recommend using an IDE with intelligent code
 completion and syntax highlighting, such as the latest version of [Visual Studio Code](https://code.visualstudio.com/)
