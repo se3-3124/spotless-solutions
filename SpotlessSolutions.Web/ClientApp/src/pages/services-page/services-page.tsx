@@ -21,8 +21,8 @@ export default function ServicesPage () {
 
   useEffect(() => {
     async function fetchServices () {
-      const request = axios.create({ baseURL: window.location.origin });
-      
+      const request = axios.create({ baseURL: window.location.origin })
+
       const data = await request
         .get<{ success: true, data: ServicesDataObject[] }>('/api/v1/services/all')
       setServices(data.data.data)

@@ -3,8 +3,8 @@ import { withRouter } from 'storybook-addon-react-router-v6'
 
 import NavigationBar from '../components/navigation/NavigationBar.tsx'
 import { routerDefaults } from './routingParameters.tsx'
-import {UserData, UserRole} from '../types/UserData.ts'
-import AuthContext from "../contexts/AuthContext.ts";
+import { type UserData, UserRole } from '../types/UserData.ts'
+import AuthContext from '../contexts/AuthContext.ts'
 
 const meta = {
   title: 'Navigation Bar',

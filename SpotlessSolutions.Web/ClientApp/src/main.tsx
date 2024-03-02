@@ -32,7 +32,7 @@ import { type NotificationStateType } from './types/MainStateTypes.tsx'
 import DashboardServiceManagementView from './pages/dashboard/DashboardServiceManagementView.tsx'
 
 import './index.css'
-import SessionRefresh from "./pages/authentication/SessionRefresh.tsx";
+import SessionRefresh from './pages/authentication/SessionRefresh.tsx'
 
 const theme = createTheme({
   palette: {
@@ -70,7 +70,7 @@ function Main () {
         token,
         refreshToken,
         isEmailValidated: tokenData.is_email_validated === '1',
-        expires: new Date((tokenData.exp as number) * 1000)
+        expires: new Date(tokenData.exp! * 1000) // eslint-disable-line @typescript-eslint/no-non-null-assertion
       })
 
       localStorage.setItem('sst', token)

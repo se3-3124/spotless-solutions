@@ -1,16 +1,16 @@
 import { DateTime } from 'luxon'
-import { useContext, useEffect } from 'react';
+import { useContext, useEffect } from 'react'
 import { useLocation, useNavigate } from 'react-router-dom'
 
 import AuthContext from '../contexts/AuthContext.ts'
-import NotificationsContext, { NotificationSeverity } from '../contexts/NotificationsContext.tsx';
+import NotificationsContext, { NotificationSeverity } from '../contexts/NotificationsContext.tsx'
 
 function shouldRefresh (from: Date) {
   const dateFrom = DateTime.fromJSDate(from, { zone: 'utc' })
   const dateTo = DateTime.utc()
-  
+
   console.log(dateFrom, dateTo, dateFrom.minus(dateTo.valueOf()).valueOf())
-  return dateFrom.minus(dateTo.valueOf()).valueOf() <= (5 * 60 * 1000);
+  return dateFrom.minus(dateTo.valueOf()).valueOf() <= (5 * 60 * 1000)
 }
 
 export default function useSession () {
@@ -18,9 +18,9 @@ export default function useSession () {
   const notificationsContext = useContext(NotificationsContext)
   const navigator = useNavigate()
   const location = useLocation()
-  
+
   useEffect(() => {
-    if (context.user === null || context.user === undefined || context.request === null) {
+    if (context.user === null || context.request === null) {
       notificationsContext.notify(NotificationSeverity.Error, 'Unauthorized')
       navigator('/')
 
@@ -32,9 +32,9 @@ export default function useSession () {
       navigator(`/auth/session?next=${location.pathname}`)
     }
   }, [])
-  
+
   return {
-    user: context.user!,
-    request: context.request!
+    user: context.user!, // eslint-disable-line @typescript-eslint/no-non-null-assertion
+    request: context.request! // eslint-disable-line @typescript-eslint/no-non-null-assertion
   }
 }

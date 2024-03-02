@@ -1,6 +1,6 @@
-import { useContext } from 'react';
+import { useContext } from 'react'
 
-import AuthContext from '../contexts/AuthContext.ts';
+import AuthContext from '../contexts/AuthContext.ts'
 
 export default function useUserDetails () {
   const context = useContext(AuthContext)

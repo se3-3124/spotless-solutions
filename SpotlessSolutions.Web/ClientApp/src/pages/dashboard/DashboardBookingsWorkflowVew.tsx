@@ -10,7 +10,7 @@ import DashboardAppBarComponent from './components/DashboardAppBarComponent.tsx'
 import DashboardDrawerComponent from './components/DashboardDrawerComponent.tsx'
 import DashboardWorkflowDragAndDropComponent from './components/workflow/DashboardWorkflowDragAndDropComponent.tsx'
 import NotificationsContext, { NotificationSeverity } from '../../contexts/NotificationsContext.tsx'
-import useSession from "../../hooks/useSession.ts";
+import useSession from '../../hooks/useSession.ts'
 
 import './dashboard.scss'
 

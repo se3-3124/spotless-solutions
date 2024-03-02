@@ -22,7 +22,7 @@ import DashboardAppBarComponent from './components/DashboardAppBarComponent.tsx'
 import DashboardDrawerComponent from './components/DashboardDrawerComponent.tsx'
 import MonthCalendarComponent from '../../components/calendars/MonthCalendarComponent.tsx'
 import NotificationsContext, { NotificationSeverity } from '../../contexts/NotificationsContext.tsx'
-import useSession from "../../hooks/useSession.ts";
+import useSession from '../../hooks/useSession.ts'
 import WeeklyCalendarComponent from '../../components/calendars/WeeklyCalendarComponent.tsx'
 
 import './dashboard.scss'

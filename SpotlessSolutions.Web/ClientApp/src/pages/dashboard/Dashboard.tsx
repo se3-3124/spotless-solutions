@@ -4,7 +4,7 @@ import Typography from '@mui/material/Typography'
 
 import DashboardAppBarComponent from './components/DashboardAppBarComponent.tsx'
 import DashboardDrawerComponent from './components/DashboardDrawerComponent.tsx'
-import useSession from "../../hooks/useSession.ts";
+import useSession from '../../hooks/useSession.ts'
 
 import './dashboard.scss'
 

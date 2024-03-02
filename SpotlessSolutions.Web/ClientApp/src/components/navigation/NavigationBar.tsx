@@ -16,7 +16,7 @@ import { UserRole } from '../../types/UserData.ts'
 
 import tdLogo from '../../assets/td_logo.jpg'
 import './NavigationBar.style.scss'
-import useUserDetails from "../../hooks/useUserDetails.ts";
+import useUserDetails from '../../hooks/useUserDetails.ts'
 
 /**
  * Navigation bar component

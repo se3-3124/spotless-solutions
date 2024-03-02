@@ -15,7 +15,7 @@ import ServicesEditingContext from './contexts/ServicesEditingContext.tsx'
 import SidebarServiceList from './components/sidebar/SidebarServiceList.tsx'
 import { type ServiceDefinitionObject } from '../../types/ServiceDefinitionObject.ts'
 import { type ServiceConfigType } from '../../types/ServiceConfigType.ts'
-import useSession from "../../hooks/useSession.ts";
+import useSession from '../../hooks/useSession.ts'
 
 interface ActiveViewState {
   id: string
@@ -25,7 +25,7 @@ interface ActiveViewState {
 export default function DashboardServiceManagementView () {
   const { request } = useSession()
   const notificationsContext = useContext(NotificationsContext)
-  
+
   const [servicesList, setServicesList] = useState<ServicesDataObject[]>([])
   const [activeServiceView, setActiveView] = useState<ActiveViewState | null>(null)
   const [activeServiceDefinitionObject, setActiveServiceDefinitionObject] = useState<ServiceDefinitionObject | null>(null)
