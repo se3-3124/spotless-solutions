@@ -82,7 +82,7 @@ export default function DashboardBookingsWorkflowView () {
         </Stack>
       </Box>
       {/* Modal */}
-      <BookingsDetailModal data={activeDetailView} handleClose={handleClose} />
+      <BookingsDetailModal data={activeDetailView} onModalClose={handleClose} />
     </>
   )
 }

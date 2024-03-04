@@ -275,7 +275,7 @@ export default function DashboardBookingCalendarView () {
         <MenuItem onClick={() => { changeViewType('weekly') }}>Weekly View</MenuItem>
       </StyledMenu>
       {/* Modal */}
-      <BookingsDetailModal data={activeDetailView} handleClose={handleClose} />
+      <BookingsDetailModal data={activeDetailView} onModalClose={handleClose} />
     </>
   )
 }

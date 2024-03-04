@@ -1,4 +1,6 @@
-﻿namespace SpotlessSolutions.Web.Services.Services.Addons;
+﻿using System.Globalization;
+
+namespace SpotlessSolutions.Web.Services.Services.Addons;
 
 public class MattressDeepAddOn : AddOnStandalone, IService
 {
@@ -19,7 +21,7 @@ public class MattressDeepAddOn : AddOnStandalone, IService
         };
     }
     
-    public override float Calculate(float[] values)
+    public override ServiceCalculationDescriptor Calculate(float[] values)
     {
         var size = ParseSize(values[0]);
         var count = values[1];
@@ -29,7 +31,7 @@ public class MattressDeepAddOn : AddOnStandalone, IService
             throw new ArgumentOutOfRangeException(nameof(values));
         }
 
-        return size switch
+        var calculatedPrice = size switch
         {
             MattressDeepSize.Single => _pricingConfig["single"] * count,
             MattressDeepSize.SemiDouble => _pricingConfig["semidouble"] * count,
@@ -37,6 +39,25 @@ public class MattressDeepAddOn : AddOnStandalone, IService
             MattressDeepSize.Queen => _pricingConfig["queen"] * count,
             MattressDeepSize.KingSize => _pricingConfig["kingsize"] * count,
             _ => throw new ArgumentOutOfRangeException(nameof(values))
+        };
+
+        var bedSizeDescriptor = size switch
+        {
+            MattressDeepSize.Single => "Single",
+            MattressDeepSize.SemiDouble => "Semi-Double",
+            MattressDeepSize.Double => "Double",
+            MattressDeepSize.Queen => "Queen",
+            MattressDeepSize.KingSize => "King Size",
+            _ => throw new ArgumentOutOfRangeException(nameof(values))
+        };
+
+        return new ServiceCalculationDescriptor
+        {
+            CalculatedValue = calculatedPrice,
+            Descriptors =
+            [
+                [ bedSizeDescriptor, $"x{count.ToString(CultureInfo.InvariantCulture)}" ]
+            ]
         };
     }
     

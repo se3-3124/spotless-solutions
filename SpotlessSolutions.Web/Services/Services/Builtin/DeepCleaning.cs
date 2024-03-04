@@ -1,4 +1,6 @@
-﻿namespace SpotlessSolutions.Web.Services.Services.Builtin;
+﻿using System.Globalization;
+
+namespace SpotlessSolutions.Web.Services.Services.Builtin;
 
 public class DeepCleaning : IService
 {
@@ -10,19 +12,33 @@ public class DeepCleaning : IService
     private float _defaultBasePrice = 949;
     private float _defaultIncrementPerExceedingValue = 28;
 
-    public float Calculate(float[] value)
+    public ServiceCalculationDescriptor Calculate(float[] value)
     {
         if (value[0] < 0)
         {
             throw new ArgumentOutOfRangeException(nameof(value));
         }
 
+        float calculatedPrice;
         if (value[0] <= _minimumThreshold)
         {
-            return _defaultBasePrice;
+            calculatedPrice = _defaultBasePrice;
+        }
+        else
+        {
+            calculatedPrice = _defaultBasePrice + (value[0] * _defaultIncrementPerExceedingValue);
         }
 
-        return _defaultBasePrice + (value[0] * _defaultIncrementPerExceedingValue);
+        return new ServiceCalculationDescriptor
+        {
+            CalculatedValue = calculatedPrice,
+            Descriptors =
+            [
+                [
+                    "Area Size", $"{value[0].ToString(CultureInfo.InvariantCulture)} sq. meters"
+                ]
+            ]
+        };
     }
 
     public string GetId()

@@ -1,0 +1,54 @@
+@use 'tailwindcss/base.css';
+@use 'tailwindcss/components.css';
+@use 'tailwindcss/utilities.css';
+
+.editor-box {
+  @apply w-full border border-gray-200;
+  
+  & .editor-controls {
+    @apply w-full border-b border-gray-200 p-2;
+  }
+  
+  & .editor-contents {
+    @apply w-full;
+  }
+}
+
+.button-group {
+  @apply flex justify-end mt-4;
+
+  & .btn-send {
+    font-size: 13px;
+    border-radius: 4px;
+    @apply bg-blue-700 text-white font-bold p-2;
+
+    &:hover {
+      @apply bg-blue-800;
+    }
+  }
+}
+
+.tiptap {
+  @apply p-2 w-full;
+  min-height: 25vh;
+}
+
+h1.override-text-size {
+  @apply text-6xl;
+}
+
+h2.override-text-size {
+  @apply text-5xl;
+}
+
+h3.override-text-size {
+  @apply text-4xl;
+}
+
+h4.override-text-sie {
+  @apply text-3xl;
+}
+
+h5.override-text-size {
+  @apply text-2xl;
+}

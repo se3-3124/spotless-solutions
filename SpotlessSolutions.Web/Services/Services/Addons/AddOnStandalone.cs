@@ -16,7 +16,7 @@ public abstract class AddOnStandalone : IService
         return true;
     }
     
-    public abstract float Calculate(float[] values);
+    public abstract ServiceCalculationDescriptor Calculate(float[] values);
     public abstract void UpdateConfig(string name, string description, string serviceConfig);
     public abstract ServiceExportObject ToExportObject();
 

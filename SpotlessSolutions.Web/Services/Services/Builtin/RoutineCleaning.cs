@@ -1,4 +1,5 @@
-﻿using System.Text;
+﻿using System.Globalization;
+using System.Text;
 
 namespace SpotlessSolutions.Web.Services.Services.Builtin;
 
@@ -16,16 +17,33 @@ public class RoutineCleaning : IService
     private float _monthlyTick = 25;
     private float _min = 35;
 
-    public float Calculate(float[] values)
+    public ServiceCalculationDescriptor Calculate(float[] values)
     {
         var type = ParseType(values[0]);
         var value = values[1];
 
-        return type switch
+        var calculated = type switch
         {
             RoutineCleaningTypes.Weekly => GetPrice(_weeklyBase, _weeklyTick, value),
             RoutineCleaningTypes.BiMonthly => GetPrice(_biMonthlyBase, _biMonthlyTick, value),
             _ => GetPrice(_monthlyBase, _monthlyTick, value)
+        };
+
+        var descriptorName = type switch
+        {
+            RoutineCleaningTypes.Weekly => "Weekly Interval",
+            RoutineCleaningTypes.BiMonthly => "Bi-Monthly Interval",
+            _ => "Monthly Interval"
+        };
+
+        return new ServiceCalculationDescriptor
+        {
+            CalculatedValue = calculated,
+            Descriptors =
+            [
+                [ descriptorName ],
+                [ "Area Size", $"{value.ToString(CultureInfo.InvariantCulture)} sq. meters" ]
+            ]
         };
     }
 

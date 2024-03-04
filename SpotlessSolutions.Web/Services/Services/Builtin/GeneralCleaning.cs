@@ -1,4 +1,6 @@
-﻿namespace SpotlessSolutions.Web.Services.Services.Builtin;
+﻿using System.Globalization;
+
+namespace SpotlessSolutions.Web.Services.Services.Builtin;
 
 public class GeneralCleaning : IService
 {
@@ -10,7 +12,7 @@ public class GeneralCleaning : IService
     private float _perHourTick = 289;
     private float _cleaners = 150;
     
-    public float Calculate(float[] value)
+    public ServiceCalculationDescriptor Calculate(float[] value)
     {
         if (value.Length < 2)
         {
@@ -20,7 +22,17 @@ public class GeneralCleaning : IService
         var hours = value[0];
         var cleaners = value[1];
 
-        return _base + (hours > 2 ? (hours - 1 * _perHourTick) : 0) + (cleaners > 2 ? (cleaners * _cleaners) : 0);
+        var calculated = _base + (hours > 2 ? (hours - 1 * _perHourTick) : 0) + (cleaners > 2 ? (cleaners * _cleaners) : 0);
+
+        return new ServiceCalculationDescriptor
+        {
+            CalculatedValue = calculated,
+            Descriptors = 
+            [
+                [ "Hours specified", $"{hours.ToString(CultureInfo.InvariantCulture)} hours" ],
+                [ "Cleaners", $"x{cleaners.ToString(CultureInfo.CurrentCulture)}" ]
+            ]
+        };
     }
 
     public string GetId()

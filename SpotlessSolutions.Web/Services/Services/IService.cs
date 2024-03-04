@@ -7,7 +7,7 @@ public interface IService
     /// </summary>
     /// <param name="value"></param>
     /// <returns></returns>
-    float Calculate(float[] value);
+    ServiceCalculationDescriptor Calculate(float[] value);
 
     /// <summary>
     /// Returns the ID of the service

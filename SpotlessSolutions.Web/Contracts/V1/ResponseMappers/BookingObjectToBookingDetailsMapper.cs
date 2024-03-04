@@ -38,7 +38,8 @@ public static class BookingObjectToBookingDetailsMapper
                     Name = data.MainService.Service.Name,
                     Description = data.MainService.Service.Description
                 },
-                Config = data.MainService.Configuration
+                BookingDescriptor = data.MainService.BookingDescriptor,
+                Calculated = data.MainService.Calculated
             },
             Addons = data.AddOns
                 .Select(x => new BookingDetails.ServiceDetailConfig
@@ -50,7 +51,8 @@ public static class BookingObjectToBookingDetailsMapper
                         Name = x.Service.Name,
                         Description = x.Service.Description
                     },
-                    Config = x.Configuration
+                    BookingDescriptor = x.BookingDescriptor,
+                    Calculated = x.Calculated
                 })
         };
 

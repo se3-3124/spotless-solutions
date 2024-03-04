@@ -26,11 +26,18 @@ public abstract class RequireAssessmentAddOn : IService
         return Name;
     }
 
-    public float Calculate(float[] values)
+    public ServiceCalculationDescriptor Calculate(float[] values)
     {
-        return 0;
+        return new ServiceCalculationDescriptor
+        {
+            CalculatedValue = 0,
+            Descriptors =
+            [
+                [ "To be assessed" ]
+            ]
+        };
     }
-    
+
     public abstract void UpdateConfig(string name, string description, string serviceConfig);
 
     public ServiceExportObject ToExportObject()

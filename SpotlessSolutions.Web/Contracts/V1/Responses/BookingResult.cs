@@ -17,7 +17,8 @@ public class BookingDetails
     public class ServiceDetailConfig
     {
         public required ServiceDetails Service { get; init; }
-        public string Config { get; init; } = string.Empty;
+        public required IEnumerable<string[]> BookingDescriptor { get; init; }
+        public required float Calculated { get; init; }
     }
 
     public class BookingAddress

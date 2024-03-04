@@ -27,10 +27,39 @@ export const mockEventData = [
         description: 'Book',
         id: 'book'
       },
-      config: ''
+      bookingDescriptor: [
+        [ 'Descriptor 1' ],
+        [ 'Descriptor 2', '69' ]
+      ],
+      calculated: 1900
     },
-    addons: [],
-    totalPrice: 1900
+    addons: [
+      {
+        service: {
+          name: 'Addon 1',
+          description: 'Addon',
+          id: 'addon1'
+        },
+        bookingDescriptor: [
+          [ 'Descriptor 1' ],
+          [ 'Descriptor 2', '69' ]
+        ],
+        calculated: 1900
+      },
+      {
+        service: {
+          name: 'Addon 2',
+          description: 'Addon',
+          id: 'addon1'
+        },
+        bookingDescriptor: [
+          [ 'Descriptor 1' ],
+          [ 'Descriptor 2', '1200' ]
+        ],
+        calculated: 1900
+      }
+    ],
+    totalPrice: 7600
   },
   {
     id: 'dummy-id-2',
@@ -56,7 +85,11 @@ export const mockEventData = [
         description: 'Book',
         id: 'book'
       },
-      config: ''
+      bookingDescriptor: [
+        [ 'Descriptor 1' ],
+        [ 'Descriptor 2', '69' ]
+      ],
+      calculated: 1900
     },
     addons: [],
     totalPrice: 1900

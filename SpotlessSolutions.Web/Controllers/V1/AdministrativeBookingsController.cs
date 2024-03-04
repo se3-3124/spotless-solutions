@@ -38,9 +38,8 @@ public class AdministrativeBookingsController : ControllerBase
         }
 
         var result = await _booking.GetBooking(year, month);
-        var data = result
-            .Select(x => x.ToBookingDetails());
-
+        var bookingObjects = result.ToList();
+        var data = bookingObjects.Select(x => x.ToBookingDetails());
         return Ok(new BookingResult
         {
             Success = true,
@@ -66,9 +65,8 @@ public class AdministrativeBookingsController : ControllerBase
         }
         
         var result = await _booking.GetBooking(start, end);
-        var data = result
-            .Select(x => x.ToBookingDetails());
-
+        var bookingObjects = result as BookingObject[] ?? result.ToArray();
+        var data = bookingObjects.Select(x => x.ToBookingDetails());
         return Ok(new BookingResult
         {
             Success = true,

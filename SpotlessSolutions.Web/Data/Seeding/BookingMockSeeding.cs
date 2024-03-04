@@ -79,7 +79,7 @@ public static class BookingMockSeeding
                 {
                     { "addon.aircon-cleaning", addon1Config }
                 },
-                FinalPrice = mainServicePrice + addon1Price,
+                FinalPrice = mainServicePrice.CalculatedValue + addon1Price.CalculatedValue,
                 Schedule = DateTime.Now.AddDays(i)
                     .ToUniversalTime()
             };

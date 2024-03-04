@@ -1,4 +1,6 @@
-﻿namespace SpotlessSolutions.Web.Services.Services.Builtin;
+﻿using System.Globalization;
+
+namespace SpotlessSolutions.Web.Services.Services.Builtin;
 
 public class PostConstructionCleaning : IService
 {
@@ -10,14 +12,26 @@ public class PostConstructionCleaning : IService
     private float _min = 35;
     private float _next = 30;
 
-    public float Calculate(float[] values)
+    public ServiceCalculationDescriptor Calculate(float[] values)
     {
+        float calculated;
         if (values[0] <= _min)
         {
-            return _base;
+            calculated = _base;
+        }
+        else
+        {
+            calculated = _base + (values[0] * _next);
         }
 
-        return _base + (values[0] * _next);
+        return new ServiceCalculationDescriptor
+        {
+            CalculatedValue = calculated,
+            Descriptors =
+            [
+                [ "Area size", $"{values[0].ToString(CultureInfo.InvariantCulture)} sq. meters" ]
+            ]
+        };
     }
 
     public string GetId()

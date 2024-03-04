@@ -5,6 +5,16 @@ export enum BookingStatus {
   Completed
 }
 
+export interface ServiceBooked {
+  service: {
+    id: string
+    description: string
+    name: string
+  },
+  bookingDescriptor: string[][],
+  calculated: number
+}
+
 export interface BookingResponseType {
   id: string
   schedule: string
@@ -23,21 +33,7 @@ export interface BookingResponseType {
     lastName: string
     email: string
   }
-  mainService: {
-    service: {
-      id: string
-      description: string
-      name: string
-    }
-    config: string
-  }
-  addons: Array<{
-    service: {
-      id: string
-      description: string
-      name: string
-    }
-    config: string
-  }>
+  mainService: ServiceBooked
+  addons: Array<ServiceBooked>
   totalPrice: number
 }

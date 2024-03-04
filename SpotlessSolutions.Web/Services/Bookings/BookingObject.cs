@@ -6,7 +6,8 @@ namespace SpotlessSolutions.Web.Services.Bookings;
 public class ServiceDetailConfig
 {
     public required ServiceDetails Service { get; init; }
-    public required string Configuration { get; init; }
+    public required IEnumerable<string[]> BookingDescriptor { get; init; }
+    public required float Calculated { get; init; }
 }
 
 public class User
