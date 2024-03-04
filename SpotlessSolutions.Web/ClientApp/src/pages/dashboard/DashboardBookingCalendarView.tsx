@@ -6,10 +6,8 @@ import { useNavigate } from 'react-router-dom'
 import Box from '@mui/material/Box'
 import Button from '@mui/material/Button'
 import IconButton from '@mui/material/IconButton'
-import Menu, { type MenuProps } from '@mui/material/Menu'
 import MenuItem from '@mui/material/MenuItem'
 import Stack from '@mui/material/Stack'
-import { alpha, styled } from '@mui/material/styles'
 import Tooltip from '@mui/material/Tooltip'
 import Typography from '@mui/material/Typography'
 
@@ -19,57 +17,17 @@ import KeyboardArrowRightRoundedIcon from '@mui/icons-material/KeyboardArrowRigh
 
 import AuthContext from '../../contexts/AuthContext.ts'
 import BookingsDetailModal from './components/modals/BookingDetailModal.tsx'
-import { type BookingResponseType } from '../../types/BookingResponseType.tsx'
+import { type BookingResponseType, type BookingStatus } from '../../types/BookingResponseType.tsx'
 import DashboardAppBarComponent from './components/DashboardAppBarComponent.tsx'
 import DashboardDrawerComponent from './components/DashboardDrawerComponent.tsx'
 import MonthCalendarComponent from '../../components/calendars/MonthCalendarComponent.tsx'
 import NotificationsContext, { NotificationSeverity } from '../../contexts/NotificationsContext.tsx'
+import StyledMenu from './components/mui-templates/StyledMenu.tsx'
 import WeeklyCalendarComponent from '../../components/calendars/WeeklyCalendarComponent.tsx'
 
 import './dashboard.scss'
 
 type CalendarViewState = 'monthly' | 'weekly'
-
-const StyledMenu = styled((props: MenuProps) => (
-  <Menu
-    elevation={0}
-    anchorOrigin={{
-      vertical: 'bottom',
-      horizontal: 'right'
-    }}
-    transformOrigin={{
-      vertical: 'top',
-      horizontal: 'right'
-    }}
-    {...props}
-  />
-))(({ theme }) => ({
-  '& .MuiPaper-root': {
-    borderRadius: 6,
-    marginTop: theme.spacing(1),
-    minWidth: 180,
-    color:
-      theme.palette.mode === 'light' ? 'rgb(55, 65, 81)' : theme.palette.grey[300],
-    boxShadow:
-      'rgb(255, 255, 255) 0px 0px 0px 0px, rgba(0, 0, 0, 0.05) 0px 0px 0px 1px, rgba(0, 0, 0, 0.1) 0px 10px 15px -3px, rgba(0, 0, 0, 0.05) 0px 4px 6px -2px',
-    '& .MuiMenu-list': {
-      padding: '4px 0'
-    },
-    '& .MuiMenuItem-root': {
-      '& .MuiSvgIcon-root': {
-        fontSize: 18,
-        color: theme.palette.text.secondary,
-        marginRight: theme.spacing(1.5)
-      },
-      '&:active': {
-        backgroundColor: alpha(
-          theme.palette.primary.main,
-          theme.palette.action.selectedOpacity
-        )
-      }
-    }
-  }
-}))
 
 export default function DashboardBookingCalendarView () {
   const context = useContext(AuthContext)
@@ -81,6 +39,7 @@ export default function DashboardBookingCalendarView () {
   const [calendarChangeMenuAnchor, setCalendarChangeMenuAnchor] = useState<HTMLElement | null>(null)
   const [calendarData, setCalendarData] = useState<BookingResponseType[]>([])
   const [calendarViewState, setCalendarViewState] = useState<CalendarViewState>('monthly')
+  const [triggerRefresh, setTriggerRefresh] = useState<boolean>(false)
 
   useEffect(() => {
     if (context.user === null) {
@@ -88,6 +47,39 @@ export default function DashboardBookingCalendarView () {
       navigator('/')
     }
   }, [context.user, notificationsContext])
+
+  const updateActiveModalDetail = (data: BookingResponseType[]) => {
+    if (activeDetailView !== null) {
+      const update = data
+        .filter(x => x.id === activeDetailView.id)
+
+      if (update.length === 0) {
+        return
+      }
+      setActiveDetailView(update[0])
+    }
+  }
+
+  const fetchWeeklyCalendarEvents = async (request: AxiosInstance, start: DateTime, end: DateTime) => {
+    const startISOString = start.toJSDate().toISOString()
+    const endISOString = end.toJSDate().toISOString()
+
+    const requestPath = `/api/v1/bookings/administrative/range?start=${startISOString}&end=${endISOString}`
+    const response = await request
+      .get<{ success: boolean, data: BookingResponseType[] }>(requestPath)
+
+    setCalendarData(response.data.data)
+    updateActiveModalDetail(response.data.data)
+  }
+
+  const fetchMonthCalendarEvents = async (request: AxiosInstance, date: DateTime) => {
+    const requestPath = `/api/v1/bookings/administrative/monthly?year=${date.year}&month=${date.month}`
+    const response = await request
+      .get<{ success: boolean, data: BookingResponseType[] }>(requestPath)
+
+    setCalendarData(response.data.data)
+    updateActiveModalDetail(response.data.data)
+  }
 
   // Effect for changing view state
   useEffect(() => {
@@ -100,18 +92,7 @@ export default function DashboardBookingCalendarView () {
       const startOfWeek = date.startOf('week')
       const endOfWeek = date.endOf('week')
 
-      async function fetchWeeklyCalendarEvents (request: AxiosInstance) {
-        const startISOString = startOfWeek.toJSDate().toISOString()
-        const endISOString = endOfWeek.toJSDate().toISOString()
-
-        const requestPath = `/api/v1/bookings/administrative/range?start=${startISOString}&end=${endISOString}`
-        const response = await request
-          .get<{ success: boolean, data: BookingResponseType[] }>(requestPath)
-
-        setCalendarData(response.data.data)
-      }
-
-      fetchWeeklyCalendarEvents(context.request).catch(() => {
+      fetchWeeklyCalendarEvents(context.request, startOfWeek, endOfWeek).catch(() => {
         notificationsContext.notify(NotificationSeverity.Error, 'Failed to fetch calendar data.')
       })
 
@@ -119,19 +100,10 @@ export default function DashboardBookingCalendarView () {
     }
 
     const date = DateTime.fromJSDate(activeCalendarView)
-
-    async function fetchMonthCalendarEvents (request: AxiosInstance) {
-      const requestPath = `/api/v1/bookings/administrative/monthly?year=${date.year}&month=${date.month}`
-      const response = await request
-        .get<{ success: boolean, data: BookingResponseType[] }>(requestPath)
-
-      setCalendarData(response.data.data)
-    }
-
-    fetchMonthCalendarEvents(context.request).catch(() => {
+    fetchMonthCalendarEvents(context.request, date).catch(() => {
       notificationsContext.notify(NotificationSeverity.Error, 'Failed to fetch calendar data.')
     })
-  }, [activeCalendarView, calendarViewState])
+  }, [activeCalendarView, calendarViewState, triggerRefresh])
 
   const handleCalendarChangeMenuAnchor = (e: React.MouseEvent<HTMLElement>) => {
     setCalendarChangeMenuAnchor(e.currentTarget)
@@ -187,6 +159,28 @@ export default function DashboardBookingCalendarView () {
 
   const handleClose = () => {
     setActiveDetailView(null)
+  }
+
+  const handleBookingStateChange = (state: BookingStatus) => {
+    if (context.request === null || activeDetailView === null) {
+      return
+    }
+
+    async function doUpdateState (req: AxiosInstance, id: string, to: BookingStatus) {
+      await req.patch<{ success: true }>('/api/v1/bookings/administrative/state', {
+        id,
+        state: to
+      })
+    }
+
+    doUpdateState(context.request, activeDetailView.id, state)
+      .then(() => {
+        setTriggerRefresh(t => !t)
+        notificationsContext.notify(NotificationSeverity.Success, 'Successfully updated the state')
+      })
+      .catch(() => {
+        notificationsContext.notify(NotificationSeverity.Error, 'Failed to update the state')
+      })
   }
 
   return (
@@ -275,7 +269,11 @@ export default function DashboardBookingCalendarView () {
         <MenuItem onClick={() => { changeViewType('weekly') }}>Weekly View</MenuItem>
       </StyledMenu>
       {/* Modal */}
-      <BookingsDetailModal data={activeDetailView} onModalClose={handleClose} />
+      <BookingsDetailModal
+        data={activeDetailView}
+        onStateChange={handleBookingStateChange}
+        onModalClose={handleClose}
+      />
     </>
   )
 }

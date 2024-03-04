@@ -25,7 +25,11 @@ import FormatUnderlinedRoundedIcon from '@mui/icons-material/FormatUnderlinedRou
 import ControlComponent, { type ControlComponentProps } from './ControlComponent.tsx'
 import './MessageComposer.styles.scss'
 
-export default function MessageComposer () {
+interface MessageComposerProps {
+  onSendMessage: (message: string) => void
+}
+
+export default function MessageComposer (props: MessageComposerProps) {
   const editor = useEditor({
     extensions: [
       Bold,
@@ -144,6 +148,10 @@ export default function MessageComposer () {
     editor?.chain().toggleHeading({ level: value as Level }).run()
   }
 
+  const sendMessage = () => {
+    props.onSendMessage(editor?.getHTML() ?? '')
+  }
+
   return (
     <>
       <div className="editor-box">
@@ -177,7 +185,7 @@ export default function MessageComposer () {
         </div>
       </div>
       <div className="button-group">
-        <button className="btn-send">Send Message</button>
+        <button className="btn-send" onClick={sendMessage}>Send Message</button>
       </div>
     </>
   )

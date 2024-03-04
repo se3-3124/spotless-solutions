@@ -1,4 +1,4 @@
-import { Fragment } from 'react'
+import { type ChangeEvent, Fragment } from 'react'
 import Dialog from '@mui/material/Dialog'
 import Grid from '@mui/material/Grid'
 import IconButton from '@mui/material/IconButton'
@@ -18,6 +18,12 @@ export interface BookingsDetailPropType {
    * Booking modal to display
    */
   data: BookingResponseType | null
+
+  /**
+   * Function to update the state of the booking
+   * @param status
+   */
+  onStateChange: (status: BookingStatus) => void
 
   /**
    * Function to close the modal
@@ -40,6 +46,30 @@ export default function BookingsDetailModal (prop: BookingsDetailPropType) {
       case BookingStatus.Pending:
         return 'Pending'
     }
+  }
+
+  const updateBookingState = (status: string) => {
+    let state: BookingStatus
+
+    switch (status) {
+      case 'Approved':
+        state = BookingStatus.Approved
+        break
+      case 'Denied':
+        state = BookingStatus.Rejected
+        break
+      case 'Done':
+        state = BookingStatus.Completed
+        break
+      default:
+        state = BookingStatus.Pending
+    }
+
+    prop.onStateChange(state)
+  }
+
+  const handleStateChange = (e: ChangeEvent<HTMLSelectElement>) => {
+    updateBookingState(e.currentTarget.value)
   }
 
   const formatDateToReadable = (date: Date): string => {
@@ -73,12 +103,12 @@ export default function BookingsDetailModal (prop: BookingsDetailPropType) {
         <div className="modal-header-group">
           <p className="job-id">Job ID: {prop.data.id}</p>
           <Tooltip title="Queue Job" placement="top">
-            <IconButton>
+            <IconButton onClick={() => { updateBookingState('Approved') }}>
               <AssignmentTurnedInRoundedIcon />
             </IconButton>
           </Tooltip>
           <Tooltip title="Mark as Complete" placement="top">
-            <IconButton>
+            <IconButton onClick={() => { updateBookingState('Done') }}>
               <CheckRoundedIcon />
             </IconButton>
           </Tooltip>
@@ -171,13 +201,13 @@ export default function BookingsDetailModal (prop: BookingsDetailPropType) {
                     <p>Area dimensions</p>
                   </div>
                   <div className="detail-contents-value">
-                    Not applicable
+                    Unknown
                   </div>
                   <div className="detail-contents-field-name">
                     <p>Booking Status</p>
                   </div>
                   <div className="detail-contents-value">
-                    <select value={formatBookingStatus()}>
+                    <select value={formatBookingStatus()} onChange={handleStateChange}>
                       <option value="Approved">Approved</option>
                       <option value="Denied">Denied</option>
                       <option value="Done">Done</option>

@@ -9,6 +9,7 @@ var builder = Host.CreateDefaultBuilder(args);
 
 var configuration = new ConfigurationBuilder()
     .AddJsonFile("appsettings.json")
+    .AddEnvironmentVariables()
     .AddUserSecrets<Program>()
     .Build();
 
