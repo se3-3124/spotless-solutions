@@ -1,4 +1,5 @@
 import Bold from '@tiptap/extension-bold'
+import DOMPurify from 'dompurify'
 import { EditorContent, useEditor } from '@tiptap/react'
 import FormControl from '@mui/material/FormControl'
 import Document from '@tiptap/extension-document'
@@ -149,7 +150,8 @@ export default function MessageComposer (props: MessageComposerProps) {
   }
 
   const sendMessage = () => {
-    props.onSendMessage(editor?.getHTML() ?? '')
+    const purified = DOMPurify.sanitize(editor?.getHTML() ?? '')
+    props.onSendMessage(purified)
   }
 
   return (

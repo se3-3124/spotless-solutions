@@ -124,4 +124,55 @@ public class AdministrativeBookingsController : ControllerBase
             });
         }
     }
+
+    [HttpPost("message")]
+    [ProducesResponseType(typeof(ErrorException), 500)]
+    [ProducesResponseType(typeof(ErrorException), 401)]
+    [ProducesResponseType(typeof(GenericOkResult), 200)]
+    public async Task<IActionResult> SendEmail([FromBody] EmailDetails details)
+    {
+        // Check the role
+        var userRole = HttpContext.User.Claims.Single(x => x.Type == "user_role")
+            .Value;
+        if (userRole != UserRoles.Administrator.ToString())
+        {
+            return Unauthorized(new ErrorException
+            {
+                Error = true,
+                Messages = ["Not allowed"]
+            });
+        }
+
+        try
+        {
+            var result = await _booking.SendEmail(details.UserId, details.Subject, details.Body);
+            if (!result)
+            {
+                return BadRequest(new ErrorException
+                {
+                    Error = true,
+                    Messages =
+                    [
+                        "Invalid request on sending mail."
+                    ]
+                });
+            }
+            
+            return Ok(new GenericOkResult
+            {
+                Success = true
+            });
+        }
+        catch
+        {
+            return StatusCode(StatusCodes.Status500InternalServerError, new ErrorException
+            {
+                Error = true,
+                Messages =
+                [
+                    "An error occured at sending email."
+                ]
+            });
+        }
+    }
 }

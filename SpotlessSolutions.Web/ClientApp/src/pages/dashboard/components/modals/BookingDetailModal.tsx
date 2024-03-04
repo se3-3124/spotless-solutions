@@ -1,4 +1,5 @@
-import { type ChangeEvent, Fragment } from 'react'
+import { type AxiosInstance } from 'axios'
+import { type ChangeEvent, Fragment, useContext } from 'react'
 import Dialog from '@mui/material/Dialog'
 import Grid from '@mui/material/Grid'
 import IconButton from '@mui/material/IconButton'
@@ -8,8 +9,11 @@ import AssignmentTurnedInRoundedIcon from '@mui/icons-material/AssignmentTurnedI
 import CheckRoundedIcon from '@mui/icons-material/CheckRounded'
 import CloseRoundedIcon from '@mui/icons-material/CloseRounded'
 
+import AuthContext from '../../../../contexts/AuthContext.ts'
 import { type BookingResponseType, BookingStatus } from '../../../../types/BookingResponseType.tsx'
+import { type EmailDetailRequest } from '../../../../types/EmailDetailRequest.ts'
 import MessageComposer from '../forms/MessageComposer.tsx'
+import NotificationsContext, { NotificationSeverity } from '../../../../contexts/NotificationsContext.tsx'
 
 import './BookingsDetailModal.style.scss'
 
@@ -35,6 +39,9 @@ export interface BookingsDetailPropType {
  * Bookings Modal
  */
 export default function BookingsDetailModal (prop: BookingsDetailPropType) {
+  const authContext = useContext(AuthContext)
+  const notificationContext = useContext(NotificationsContext)
+
   const formatBookingStatus = (): string => {
     switch ((prop.data ?? { status: BookingStatus.Pending }).status) {
       case BookingStatus.Approved:
@@ -91,6 +98,30 @@ export default function BookingsDetailModal (prop: BookingsDetailPropType) {
         minute: 'numeric'
       })
       .format(date)
+  }
+
+  const handleSendMessage = (data: string) => {
+    if (prop.data === null || authContext.request === null) {
+      return
+    }
+
+    const mail: EmailDetailRequest = {
+      userId: prop.data.user.id,
+      subject: 'Message from administrator',
+      body: data
+    }
+
+    async function sendMail (req: AxiosInstance) {
+      await req.post<{ success: true }>('/api/v1/bookings/administrative/message', mail)
+    }
+
+    sendMail(authContext.request)
+      .then(() => {
+        notificationContext.notify(NotificationSeverity.Success, 'Email sent!')
+      })
+      .catch(() => {
+        notificationContext.notify(NotificationSeverity.Error, "Email wasn't sent due to an exception.")
+      })
   }
 
   if (prop.data === null) {
@@ -168,7 +199,7 @@ export default function BookingsDetailModal (prop: BookingsDetailPropType) {
               </div>
 
               <p className="modal-content-small-header">Send a message:</p>
-              <MessageComposer />
+              <MessageComposer onSendMessage={handleSendMessage} />
             </Grid>
             <Grid item xs={12} md={4}>
               <div className="right-side-container">

@@ -2,6 +2,7 @@ using Microsoft.EntityFrameworkCore;
 using SpotlessSolutions.Web.Data;
 using SpotlessSolutions.Web.Data.Models;
 using SpotlessSolutions.Web.Extensions;
+using SpotlessSolutions.Web.Services.Mailer;
 using SpotlessSolutions.Web.Services.Services;
 
 namespace SpotlessSolutions.Web.Services.Bookings;
@@ -9,11 +10,13 @@ namespace SpotlessSolutions.Web.Services.Bookings;
 public class BookingManager : IBookingManager
 {
     private readonly DataContext _context;
+    private readonly IMailer _mailer;
     private readonly IServiceRegistry _registry;
 
-    public BookingManager(DataContext context, IServiceRegistry registry)
+    public BookingManager(DataContext context, IMailer mailer, IServiceRegistry registry)
     {
         _context = context;
+        _mailer = mailer;
         _registry = registry;
     }
 
@@ -30,6 +33,31 @@ public class BookingManager : IBookingManager
         _context.Bookings.Update(booking);
 
         return await _context.SaveChangesAsync() >= 1;
+    }
+
+    public async Task<bool> SendEmail(Guid userId, string subject, string body)
+    {
+        var user = await _context.UserData
+            .Include(x => x.User)
+            .FirstOrDefaultAsync(x => x.Id.Equals(userId));
+
+        if (user?.User == null || string.IsNullOrEmpty(user.User.Email))
+        {
+            return false;
+        }
+
+        await _mailer.Send(new MailSettings
+        {
+            Recipient = new MailSettings.UserData
+            {
+                Address = user.User.Email,
+                Name = $"{user.LastName}, {user.FirstName}"
+            },
+            Subject = subject,
+            Body = body
+        });
+
+        return true;
     }
 
     public async Task<IEnumerable<BookingObject>> GetBooking(int year, int month)
@@ -87,7 +115,7 @@ public class BookingManager : IBookingManager
                     Email = x.User.User?.Email ?? "",
                     FirstName = x.User.FirstName,
                     LastName = x.User.LastName,
-                    UserId = x.Id
+                    UserId = x.User.Id
                 };
 
                 var address = new Address
