@@ -48,6 +48,7 @@
     <ItemGroup>
       <Folder Include="ClientApp\src\components\footer\" />
       <Folder Include="ClientApp\src\components\inputs\" />
+      <Folder Include="ClientApp\src\styles\" />
     </ItemGroup>
 
     <ItemGroup>

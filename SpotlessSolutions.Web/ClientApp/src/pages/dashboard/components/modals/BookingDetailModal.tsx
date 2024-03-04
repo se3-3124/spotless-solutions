@@ -100,14 +100,14 @@ export default function BookingsDetailModal (prop: BookingsDetailPropType) {
       .format(date)
   }
 
-  const handleSendMessage = (data: string) => {
+  const handleSendMessage = (subject: string, data: string) => {
     if (prop.data === null || authContext.request === null) {
       return
     }
 
     const mail: EmailDetailRequest = {
       userId: prop.data.user.id,
-      subject: 'Message from administrator',
+      subject,
       body: data
     }
 

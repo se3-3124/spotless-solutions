@@ -1,20 +1,21 @@
-import IconButton from '@mui/material/IconButton'
-import type SvgIcon from '@mui/material/SvgIcon'
+import { type IconType } from 'react-icons'
 import Tooltip from '@mui/material/Tooltip'
+
+import './ControlComponent.styles.scss'
 
 export interface ControlComponentProps {
   title: string
   onClick: () => void
-  Icon: typeof SvgIcon
+  Icon: IconType
   isActive: boolean
 }
 
 export default function ControlComponent ({ title, onClick, Icon, isActive }: ControlComponentProps) {
   return (
     <Tooltip placement="top" title={title}>
-      <IconButton onClick={onClick} size="small" color={isActive ? 'success' : 'default'}>
+      <button className={['control-btn', isActive ? 'active' : ''].join(' ')} onClick={onClick}>
         <Icon />
-      </IconButton>
+      </button>
     </Tooltip>
   )
 }

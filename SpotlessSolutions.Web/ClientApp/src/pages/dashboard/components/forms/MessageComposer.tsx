@@ -1,36 +1,36 @@
 import Bold from '@tiptap/extension-bold'
+import { type ChangeEvent, useState } from 'react'
 import DOMPurify from 'dompurify'
 import { EditorContent, useEditor } from '@tiptap/react'
-import FormControl from '@mui/material/FormControl'
 import Document from '@tiptap/extension-document'
 import Heading, { type Level } from '@tiptap/extension-heading'
 import Italic from '@tiptap/extension-italic'
-import InputLabel from '@mui/material/InputLabel'
 import Link from '@tiptap/extension-link'
-import MenuItem from '@mui/material/MenuItem'
 import Paragraph from '@tiptap/extension-paragraph'
-import Select, { type SelectChangeEvent } from '@mui/material/Select'
 import Stack from '@mui/material/Stack'
 import Text from '@tiptap/extension-text'
 import TextAlign from '@tiptap/extension-text-align'
 import Underline from '@tiptap/extension-underline'
 
-import FormatAlignCenterRoundedIcon from '@mui/icons-material/FormatAlignCenterRounded'
-import FormatAlignJustifyRoundedIcon from '@mui/icons-material/FormatAlignJustifyRounded'
-import FormatAlignLeftRoundedIcon from '@mui/icons-material/FormatAlignLeftRounded'
-import FormatAlignRightRoundedIcon from '@mui/icons-material/FormatAlignRightRounded'
-import FormatBoldRoundedIcon from '@mui/icons-material/FormatBoldRounded'
-import FormatItalicRoundedIcon from '@mui/icons-material/FormatItalicRounded'
-import FormatUnderlinedRoundedIcon from '@mui/icons-material/FormatUnderlinedRounded'
+import {
+  AiOutlineAlignCenter,
+  AiOutlineAlignLeft,
+  AiOutlineAlignRight,
+  AiOutlineBold,
+  AiOutlineItalic,
+  AiOutlineUnderline
+} from 'react-icons/ai'
 
 import ControlComponent, { type ControlComponentProps } from './ControlComponent.tsx'
 import './MessageComposer.styles.scss'
 
 interface MessageComposerProps {
-  onSendMessage: (message: string) => void
+  onSendMessage: (subject: string, message: string) => void
 }
 
 export default function MessageComposer (props: MessageComposerProps) {
+  const [subjectField, setSubjectField] = useState<string>('')
+
   const editor = useEditor({
     extensions: [
       Bold,
@@ -58,7 +58,7 @@ export default function MessageComposer (props: MessageComposerProps) {
       onClick: () => {
         editor?.chain().focus().toggleBold().run()
       },
-      Icon: FormatBoldRoundedIcon,
+      Icon: AiOutlineBold,
       isActive: editor?.isActive('bold') ?? false
     },
     {
@@ -66,7 +66,7 @@ export default function MessageComposer (props: MessageComposerProps) {
       onClick: () => {
         editor?.chain().focus().toggleItalic().run()
       },
-      Icon: FormatItalicRoundedIcon,
+      Icon: AiOutlineItalic,
       isActive: editor?.isActive('italic') ?? false
     },
     {
@@ -74,7 +74,7 @@ export default function MessageComposer (props: MessageComposerProps) {
       onClick: () => {
         editor?.chain().focus().toggleUnderline().run()
       },
-      Icon: FormatUnderlinedRoundedIcon,
+      Icon: AiOutlineUnderline,
       isActive: editor?.isActive('underline') ?? false
     },
     {
@@ -82,32 +82,24 @@ export default function MessageComposer (props: MessageComposerProps) {
       onClick: () => {
         editor?.chain().focus().setTextAlign('left').run()
       },
-      Icon: FormatAlignLeftRoundedIcon,
-      isActive: false
+      Icon: AiOutlineAlignLeft,
+      isActive: editor?.isActive({ textAlign: 'left' }) ?? false
     },
     {
       title: 'Align Center',
       onClick: () => {
         editor?.chain().focus().setTextAlign('center').run()
       },
-      Icon: FormatAlignCenterRoundedIcon,
-      isActive: false
+      Icon: AiOutlineAlignCenter,
+      isActive: editor?.isActive({ textAlign: 'center' }) ?? false
     },
     {
       title: 'Align Right',
       onClick: () => {
         editor?.chain().focus().setTextAlign('right').run()
       },
-      Icon: FormatAlignRightRoundedIcon,
-      isActive: false
-    },
-    {
-      title: 'Justify',
-      onClick: () => {
-        editor?.chain().focus().setTextAlign('justify').run()
-      },
-      Icon: FormatAlignJustifyRoundedIcon,
-      isActive: false
+      Icon: AiOutlineAlignRight,
+      isActive: editor?.isActive({ textAlign: 'right' }) ?? false
     }
   ]
 
@@ -139,8 +131,12 @@ export default function MessageComposer (props: MessageComposerProps) {
     return 0
   }
 
-  const changeHeadingLevel = (e: SelectChangeEvent) => {
-    const value = Number(e.target.value)
+  const handleSubjectFieldChange = (e: ChangeEvent<HTMLInputElement>) => {
+    setSubjectField(e.currentTarget.value)
+  }
+
+  const changeHeadingLevel = (e: ChangeEvent<HTMLSelectElement>) => {
+    const value = Number(e.currentTarget.value)
     if (isNaN(value) || value <= 0 || value >= 6) {
       editor?.chain().toggleHeading({ level: getActiveLevel() as Level }).run()
       return
@@ -151,30 +147,36 @@ export default function MessageComposer (props: MessageComposerProps) {
 
   const sendMessage = () => {
     const purified = DOMPurify.sanitize(editor?.getHTML() ?? '')
-    props.onSendMessage(purified)
+    props.onSendMessage(subjectField, purified)
   }
 
   return (
     <>
+      <div className="subject-field-group">
+        <label className="subject-label" htmlFor="subject_field">Subject</label>
+        <input
+          className="subject-input"
+          type="text"
+          onChange={handleSubjectFieldChange}
+          value={subjectField}
+          placeholder="Your subject..."
+        />
+      </div>
       <div className="editor-box">
         <div className="editor-controls">
           <Stack direction="row" spacing={1} alignItems="center">
-            <FormControl size="small" sx={{ width: '16vw' }}>
-              <InputLabel id="font-type-selection-label">Font Type</InputLabel>
-              <Select
-                labelId="font-type-selection-label"
-                id="font-type-selection"
-                value={getActiveLevel().toString()}
-                onChange={changeHeadingLevel}
-                label="Font Type">
-                <MenuItem value={0}>Default</MenuItem>
-                <MenuItem value={1}>h1. Heading</MenuItem>
-                <MenuItem value={2}>h2. Heading</MenuItem>
-                <MenuItem value={3}>h3. Heading</MenuItem>
-                <MenuItem value={4}>h4. Heading</MenuItem>
-                <MenuItem value={5}>h5. Heading</MenuItem>
-              </Select>
-            </FormControl>
+            <select
+              className="editor-font-selector"
+              value={getActiveLevel().toString()}
+              onChange={changeHeadingLevel}
+            >
+              <option value="0">Default</option>
+              <option value="1">h1. Heading</option>
+              <option value="2">h2. Heading</option>
+              <option value="3">h3. Heading</option>
+              <option value="4">h4. Heading</option>
+              <option value="5">h5. Heading</option>
+            </select>
             {
               controls.map((c, i) => (
                 <ControlComponent key={i} {...c} />
