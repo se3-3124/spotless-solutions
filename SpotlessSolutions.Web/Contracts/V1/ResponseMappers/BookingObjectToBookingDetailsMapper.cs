@@ -17,7 +17,6 @@ public static class BookingObjectToBookingDetailsMapper
             {
                 FirstName = data.User.FirstName,
                 LastName = data.User.LastName,
-                Email = data.User.Email,
                 Id = data.User.UserId
             },
             Address = new BookingDetails.BookingAddress

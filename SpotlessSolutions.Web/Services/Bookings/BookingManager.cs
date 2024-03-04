@@ -112,7 +112,6 @@ public class BookingManager : IBookingManager
 
                 var user = new User
                 {
-                    Email = x.User.User?.Email ?? "",
                     FirstName = x.User.FirstName,
                     LastName = x.User.LastName,
                     UserId = x.User.Id
