@@ -10,8 +10,8 @@ export interface ServiceBooked {
     id: string
     description: string
     name: string
-  },
-  bookingDescriptor: string[][],
+  }
+  bookingDescriptor: string[][]
   calculated: number
 }
 
@@ -34,6 +34,6 @@ export interface BookingResponseType {
     email: string
   }
   mainService: ServiceBooked
-  addons: Array<ServiceBooked>
+  addons: ServiceBooked[]
   totalPrice: number
 }

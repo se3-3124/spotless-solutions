@@ -9,7 +9,7 @@ import CheckRoundedIcon from '@mui/icons-material/CheckRounded'
 import CloseRoundedIcon from '@mui/icons-material/CloseRounded'
 
 import { type BookingResponseType, BookingStatus } from '../../../../types/BookingResponseType.tsx'
-import MessageComposer from '../forms/MessageComposer.tsx';
+import MessageComposer from '../forms/MessageComposer.tsx'
 
 import './BookingsDetailModal.style.scss'
 
@@ -41,7 +41,7 @@ export default function BookingsDetailModal (prop: BookingsDetailPropType) {
         return 'Pending'
     }
   }
-  
+
   const formatDateToReadable = (date: Date): string => {
     return Intl
       .DateTimeFormat('en-US', {
@@ -52,7 +52,7 @@ export default function BookingsDetailModal (prop: BookingsDetailPropType) {
       })
       .format(date)
   }
-  
+
   const formatTimeToReadable = (date: Date): string => {
     return Intl
       .DateTimeFormat('en-US', {
@@ -136,7 +136,7 @@ export default function BookingsDetailModal (prop: BookingsDetailPropType) {
                   }
                 </div>
               </div>
-              
+
               <p className="modal-content-small-header">Send a message:</p>
               <MessageComposer />
             </Grid>

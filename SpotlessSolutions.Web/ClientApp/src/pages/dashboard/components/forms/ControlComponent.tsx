@@ -3,9 +3,9 @@ import type SvgIcon from '@mui/material/SvgIcon'
 import Tooltip from '@mui/material/Tooltip'
 
 export interface ControlComponentProps {
-  title: string,
+  title: string
   onClick: () => void
-  Icon: typeof SvgIcon,
+  Icon: typeof SvgIcon
   isActive: boolean
 }
 

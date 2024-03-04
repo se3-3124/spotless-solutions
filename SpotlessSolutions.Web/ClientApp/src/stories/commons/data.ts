@@ -28,8 +28,8 @@ export const mockEventData = [
         id: 'book'
       },
       bookingDescriptor: [
-        [ 'Descriptor 1' ],
-        [ 'Descriptor 2', '69' ]
+        ['Descriptor 1'],
+        ['Descriptor 2', '69']
       ],
       calculated: 1900
     },
@@ -41,8 +41,8 @@ export const mockEventData = [
           id: 'addon1'
         },
         bookingDescriptor: [
-          [ 'Descriptor 1' ],
-          [ 'Descriptor 2', '69' ]
+          ['Descriptor 1'],
+          ['Descriptor 2', '69']
         ],
         calculated: 1900
       },
@@ -53,8 +53,8 @@ export const mockEventData = [
           id: 'addon1'
         },
         bookingDescriptor: [
-          [ 'Descriptor 1' ],
-          [ 'Descriptor 2', '1200' ]
+          ['Descriptor 1'],
+          ['Descriptor 2', '1200']
         ],
         calculated: 1900
       }
@@ -86,8 +86,8 @@ export const mockEventData = [
         id: 'book'
       },
       bookingDescriptor: [
-        [ 'Descriptor 1' ],
-        [ 'Descriptor 2', '69' ]
+        ['Descriptor 1'],
+        ['Descriptor 2', '69']
       ],
       calculated: 1900
     },

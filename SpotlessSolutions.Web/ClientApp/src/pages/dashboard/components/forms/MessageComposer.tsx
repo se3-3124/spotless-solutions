@@ -46,7 +46,7 @@ export default function MessageComposer () {
       Underline
     ]
   })
-  
+
   const controls: ControlComponentProps[] = [
     {
       title: 'Bold',
@@ -105,31 +105,35 @@ export default function MessageComposer () {
       isActive: false
     }
   ]
-  
+
   const getActiveLevel = (): number => {
-    if (editor?.isActive('heading', { level: 1 })) {
+    if (editor === null) {
+      return 0
+    }
+
+    if (editor.isActive('heading', { level: 1 })) {
       return 1
     }
 
-    if (editor?.isActive('heading', { level: 2 })) {
+    if (editor.isActive('heading', { level: 2 })) {
       return 2
     }
 
-    if (editor?.isActive('heading', { level: 3 })) {
+    if (editor.isActive('heading', { level: 3 })) {
       return 3
     }
 
-    if (editor?.isActive('heading', { level: 4 })) {
+    if (editor.isActive('heading', { level: 4 })) {
       return 4
     }
 
-    if (editor?.isActive('heading', { level: 5 })) {
+    if (editor.isActive('heading', { level: 5 })) {
       return 5
     }
-    
+
     return 0
   }
-  
+
   const changeHeadingLevel = (e: SelectChangeEvent) => {
     const value = Number(e.target.value)
     if (isNaN(value) || value <= 0 || value >= 6) {
@@ -145,7 +149,7 @@ export default function MessageComposer () {
       <div className="editor-box">
         <div className="editor-controls">
           <Stack direction="row" spacing={1} alignItems="center">
-            <FormControl size="small" sx={{width: '16vw'}}>
+            <FormControl size="small" sx={{ width: '16vw' }}>
               <InputLabel id="font-type-selection-label">Font Type</InputLabel>
               <Select
                 labelId="font-type-selection-label"
