@@ -62,9 +62,6 @@ your database:
     "Hostname": "your smtp host",
     "Port": "your smtp port, NOT A STRING",
     "Address": "your email address"
-  },
-  "ConnectionStrings": {
-    "PrimaryDatabase": "your postgres server connection string"
   }
 }
 ```
@@ -79,7 +76,6 @@ dotnet user-secrets set "Mailer:Password" "your smtp server password"
 dotnet user-secrets set "Mailer:Hostname" "your smtp server host"
 dotnet user-secrets set "Mailer:Port" "your smtp server port"
 dotnet user-secrets set "Mailer:Address" "your email address"
-dotnet user-secrets set "ConnectionStrings:PrimaryDatabase" "your postgres server connection string"
 ```
 </details>
 
@@ -95,19 +91,10 @@ export Mailer__Password='your smtp server password'
 export Mailer__Hostname='your smtp server hostname'
 export Mailer__Port=your_smtp_port
 export Mailer__Address='your email address'
-export ConnectionStrings__PrimaryDatabase='your postgres server connection string'
 ```
 </details>
 
-#### Configuring and Starting
-
-Update the database (Ensure you have `dotnet-ef` tool installed):
-
-```sh
-dotnet ef database update
-```
-
-Then finally run the worker:
+#### Starting the Worker:
 
 ```
 dotnet run
