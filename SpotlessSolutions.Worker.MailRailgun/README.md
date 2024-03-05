@@ -44,7 +44,6 @@ dotnet restore
 This requires you the following:
 
 - Your mail server's SMTP credentials
-- Postgres address and credential
 
 #### Setting up
 
