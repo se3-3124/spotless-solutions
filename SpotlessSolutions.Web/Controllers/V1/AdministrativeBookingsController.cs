@@ -13,11 +13,13 @@ namespace SpotlessSolutions.Web.Controllers.V1;
 [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
 public class AdministrativeBookingsController : ControllerBase
 {
-    private readonly IBookingManager _booking;
+    private readonly IBookingManager _bookingManager;
+    private readonly IBookingQuery _bookingQuery;
 
-    public AdministrativeBookingsController(IBookingManager booking)
+    public AdministrativeBookingsController(IBookingManager bookingManager, IBookingQuery bookingQuery)
     {
-        _booking = booking;
+        _bookingManager = bookingManager;
+        _bookingQuery = bookingQuery;
     }
 
     [HttpGet("monthly")]
@@ -37,7 +39,7 @@ public class AdministrativeBookingsController : ControllerBase
             });
         }
 
-        var result = await _booking.GetBooking(year, month);
+        var result = await _bookingQuery.GetBooking(year, month);
         var bookingObjects = result.ToList();
         var data = bookingObjects.Select(x => x.ToBookingDetails());
         return Ok(new BookingResult
@@ -64,7 +66,7 @@ public class AdministrativeBookingsController : ControllerBase
             });
         }
         
-        var result = await _booking.GetBooking(start, end);
+        var result = await _bookingQuery.GetBooking(start, end);
         var bookingObjects = result as BookingObject[] ?? result.ToArray();
         var data = bookingObjects.Select(x => x.ToBookingDetails());
         return Ok(new BookingResult
@@ -94,7 +96,7 @@ public class AdministrativeBookingsController : ControllerBase
 
         try
         {
-            var result = await _booking.UpdateBookingState(details.Id, details.State);
+            var result = await _bookingManager.UpdateBookingState(details.Id, details.State);
             if (!result)
             {
                 return BadRequest(new ErrorException
@@ -145,7 +147,7 @@ public class AdministrativeBookingsController : ControllerBase
 
         try
         {
-            var result = await _booking.SendEmail(details.UserId, details.Subject, details.Body);
+            var result = await _bookingManager.SendEmail(details.UserId, details.Subject, details.Body);
             if (!result)
             {
                 return BadRequest(new ErrorException

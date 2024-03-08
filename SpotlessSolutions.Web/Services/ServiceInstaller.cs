@@ -20,6 +20,7 @@ public static class ServiceInstaller
         serviceCollection.AddKeyedSingleton<IOAuth2Provider, GoogleOAuth2Provider>("GoogleOAuth2Provider");
 
         serviceCollection.AddSingleton<IServiceRegistry, ServiceRegistry>();
+        serviceCollection.AddScoped<IBookingQuery, BookingQuery>();
         serviceCollection.AddScoped<IBookingManager, BookingManager>();
         serviceCollection.AddScoped<IServiceManager, ServiceManager>();
     }
