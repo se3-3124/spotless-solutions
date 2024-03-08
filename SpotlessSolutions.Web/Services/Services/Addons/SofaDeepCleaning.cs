@@ -1,4 +1,6 @@
-﻿namespace SpotlessSolutions.Web.Services.Services.Addons;
+﻿using System.Globalization;
+
+namespace SpotlessSolutions.Web.Services.Services.Addons;
 
 public class SofaDeepCleaning : AddOnStandalone, IService
 {
@@ -11,7 +13,7 @@ public class SofaDeepCleaning : AddOnStandalone, IService
         Name = "Sofa Deep Cleaning";
     }
 
-    public override float Calculate(float[] values)
+    public override ServiceCalculationDescriptor Calculate(float[] values)
     {
         var restriction = values[0] > 0;
         var count = values[1];
@@ -21,7 +23,16 @@ public class SofaDeepCleaning : AddOnStandalone, IService
             throw new ArgumentOutOfRangeException(nameof(values));
         }
 
-        return _base * count;
+        var calculation = _base * count;
+
+        return new ServiceCalculationDescriptor
+        {
+            CalculatedValue = calculation,
+            Descriptors =
+            [
+                [ "Count", $"x{count.ToString(CultureInfo.InvariantCulture)}" ]
+            ]
+        };
     }
     
     public override void UpdateConfig(string name, string description, string serviceConfig)

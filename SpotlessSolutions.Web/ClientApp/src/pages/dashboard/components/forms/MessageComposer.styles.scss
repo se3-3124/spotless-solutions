@@ -1,0 +1,72 @@
+@use 'tailwindcss/base.css';
+@use 'tailwindcss/components.css';
+@use 'tailwindcss/utilities.css';
+
+.subject-field-group {
+  @apply w-full mb-2;
+  
+  & .subject-label {
+    @apply block mb-2 text-sm font-medium text-gray-900;
+  }
+  
+  & .subject-input {
+    @apply border border-gray-300 text-gray-900 text-sm focus:ring-blue-500 focus:border-blue-500;
+    @apply block w-full p-2.5;
+  }
+}
+
+.editor-box {
+  @apply w-full border border-gray-200;
+  
+  & .editor-controls {
+    @apply w-full border-b border-gray-200 p-2;
+    
+    & .editor-font-selector {
+      width: 16vw;
+      @apply p-2;
+    }
+  }
+  
+  & .editor-contents {
+    @apply w-full;
+  }
+}
+
+.button-group {
+  @apply flex justify-end mt-4;
+
+  & .btn-send {
+    font-size: 13px;
+    border-radius: 4px;
+    @apply bg-blue-700 text-white font-bold p-2;
+
+    &:hover {
+      @apply bg-blue-800;
+    }
+  }
+}
+
+.tiptap {
+  @apply p-2 w-full;
+  min-height: 25vh;
+}
+
+h1.override-text-size {
+  @apply text-6xl;
+}
+
+h2.override-text-size {
+  @apply text-5xl;
+}
+
+h3.override-text-size {
+  @apply text-4xl;
+}
+
+h4.override-text-sie {
+  @apply text-3xl;
+}
+
+h5.override-text-size {
+  @apply text-2xl;
+}

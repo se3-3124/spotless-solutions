@@ -1,4 +1,6 @@
-﻿namespace SpotlessSolutions.Web.Services.Services.Addons;
+﻿using System.Globalization;
+
+namespace SpotlessSolutions.Web.Services.Services.Addons;
 
 public class CarInteriorDeepCleaning : AddOnStandalone, IService
 {
@@ -20,7 +22,7 @@ public class CarInteriorDeepCleaning : AddOnStandalone, IService
         };
     }
     
-    public override float Calculate(float[] values)
+    public override ServiceCalculationDescriptor Calculate(float[] values)
     {
         var type = ParseCarType(values[0]);
         var serviceType = ParseServiceType(values[1]);
@@ -37,7 +39,35 @@ public class CarInteriorDeepCleaning : AddOnStandalone, IService
             _ => throw new ArgumentOutOfRangeException(nameof(values))
         };
 
-        return basePrice * count;
+        var carTypeDescriptor = type switch
+        {
+            CarType.Hatchback => "Hatchback/Compact",
+            CarType.Sedan => "Sedan",
+            CarType.Mpv => "MPV",
+            CarType.Suv => "SUV",
+            CarType.PickUp => "Pick-up",
+            CarType.Van => "Van",
+            _ => throw new ArgumentOutOfRangeException(nameof(values))
+        };
+
+        var serviceTypeDescriptor = serviceType switch
+        {
+            CarServiceType.WashShampoo => "Carwash with Shampoo",
+            CarServiceType.WashDeep => "Interior Deep Cleaning",
+            _ => throw new ArgumentOutOfRangeException(nameof(values))
+        };
+
+        var calculatedPrice= basePrice * count;
+
+        return new ServiceCalculationDescriptor
+        {
+            CalculatedValue = calculatedPrice,
+            Descriptors =
+            [
+                [ carTypeDescriptor ],
+                [ serviceTypeDescriptor, $"x{count.ToString(CultureInfo.InvariantCulture)}" ]
+            ]
+        };
     }
     
     public override void UpdateConfig(string name, string description, string serviceConfig)

@@ -6,7 +6,9 @@ using SpotlessSolutions.Web.Extensions;
 using SpotlessSolutions.Web.Security.Tokens;
 using SpotlessSolutions.Web.Services;
 using SpotlessSolutions.Web.Services.Authentication.OAuth2.Google;
-using SpotlessSolutions.Web.Services.Mailer;
+using SpotlessSolutions.Worker.MessageContracts;
+using Wolverine;
+using Wolverine.RabbitMQ;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -28,12 +30,25 @@ builder.Services.AddCors(options =>
     });
 });
 
+builder.Host.UseWolverine(opts =>
+{
+    opts.PublishMessage<SendMailRequest>().ToRabbitExchange("mail-exc", exchange =>
+    {
+        exchange.ExchangeType = ExchangeType.Direct;
+        exchange.BindQueue("mail-queue", "mail-queue-exchange");
+    });
+
+    opts.UseRabbitMq(c =>
+    {
+        c.HostName = "localhost";
+    }).AutoProvision();
+});
+
 builder.Services.AddControllersWithViews();
 builder.Services.AddValidatorsFromAssemblyContaining<Program>();
 builder.Services.InstallDataContexts(builder.Configuration);
 builder.Services.InstallGoogleConfig(builder.Configuration);
 builder.Services.InstallSwaggerDocumentation();
-builder.Services.InstallMailerSettings(builder.Configuration);
 builder.Services.InstallServices();
 
 var app = builder.Build();

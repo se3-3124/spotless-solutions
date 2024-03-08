@@ -1,6 +1,8 @@
 using Microsoft.EntityFrameworkCore;
 using SpotlessSolutions.Web.Data;
 using SpotlessSolutions.Web.Data.Models;
+using SpotlessSolutions.Web.Extensions;
+using SpotlessSolutions.Web.Services.Mailer;
 using SpotlessSolutions.Web.Services.Services;
 
 namespace SpotlessSolutions.Web.Services.Bookings;
@@ -8,11 +10,13 @@ namespace SpotlessSolutions.Web.Services.Bookings;
 public class BookingManager : IBookingManager
 {
     private readonly DataContext _context;
+    private readonly IMailer _mailer;
     private readonly IServiceRegistry _registry;
 
-    public BookingManager(DataContext context, IServiceRegistry registry)
+    public BookingManager(DataContext context, IMailer mailer, IServiceRegistry registry)
     {
         _context = context;
+        _mailer = mailer;
         _registry = registry;
     }
 
@@ -29,6 +33,31 @@ public class BookingManager : IBookingManager
         _context.Bookings.Update(booking);
 
         return await _context.SaveChangesAsync() >= 1;
+    }
+
+    public async Task<bool> SendEmail(Guid userId, string subject, string body)
+    {
+        var user = await _context.UserData
+            .Include(x => x.User)
+            .FirstOrDefaultAsync(x => x.Id.Equals(userId));
+
+        if (user?.User == null || string.IsNullOrEmpty(user.User.Email))
+        {
+            return false;
+        }
+
+        await _mailer.Send(new MailSettings
+        {
+            Recipient = new MailSettings.UserData
+            {
+                Address = user.User.Email,
+                Name = $"{user.LastName}, {user.FirstName}"
+            },
+            Subject = subject,
+            Body = body
+        });
+
+        return true;
     }
 
     public async Task<IEnumerable<BookingObject>> GetBooking(int year, int month)
@@ -50,9 +79,22 @@ public class BookingManager : IBookingManager
             .ToArrayAsync();
 
         return bookings
+            .Where(x =>
+            {
+                var service = _registry.GetActivatedServiceInstance(x.MainServiceId);
+                if (service == null)
+                {
+                    return false;
+                }
+
+                return x.MainServiceConfiguration.GetCalculationParams() != null;
+            })
             .Select(x =>
             {
                 var mainService = _registry.GetActivatedServiceInstance(x.MainServiceId)!;
+                var mainServiceParams = x.MainServiceConfiguration.GetCalculationParams()!;
+                var mainServiceCalculation = mainService.Calculate(mainServiceParams);
+                
                 var mainServiceDetail = new ServiceDetailConfig
                 {
                     Service = new ServiceDetails
@@ -62,35 +104,17 @@ public class BookingManager : IBookingManager
                         Id = mainService.GetId(),
                         Type = mainService.GetServiceType()
                     },
-                    Configuration = x.MainServiceConfiguration
+                    BookingDescriptor = mainServiceCalculation.Descriptors,
+                    Calculated = mainServiceCalculation.CalculatedValue
                 };
 
-                var addons = x.Addons.Keys
-                    .Where(id => _registry.GetActivatedServiceInstance(id)?.GetServiceType() == ServiceType.Addons)
-                    .Select(y =>
-                    {
-                        var service = _registry.GetActivatedServiceInstance(y)!;
-
-                        return new ServiceDetailConfig
-                        {
-                            Service = new ServiceDetails
-                            {
-                                Name = service.GetName(),
-                                Description = service.GetDescription(),
-                                Id = service.GetId(),
-                                Type = service.GetServiceType()
-                            },
-                            Configuration = x.Addons[y]
-                        };
-                    })
-                    .ToList();
+                var addons = MapAddons(x);
 
                 var user = new User
                 {
-                    Email = x.User.User?.Email ?? "",
                     FirstName = x.User.FirstName,
                     LastName = x.User.LastName,
-                    UserId = x.Id
+                    UserId = x.User.Id
                 };
 
                 var address = new Address
@@ -107,6 +131,43 @@ public class BookingManager : IBookingManager
                 
                 return new BookingObject(x.Id, x.Schedule, mainServiceDetail, addons, status, user, address, x.FinalPrice);
             });
+    }
+
+    private List<ServiceDetailConfig> MapAddons(Booking booking)
+    {
+        return booking.Addons
+            .Where(data =>
+            {
+                var instance = _registry.GetActivatedServiceInstance(data.Key);
+                if (instance == null)
+                {
+                    return false;
+                }
+
+                return instance.GetServiceType() == ServiceType.Addons &&
+                       data.Value.GetCalculationParams() != null;
+            })
+            .Select(data =>
+            {
+                var service = _registry.GetActivatedServiceInstance(data.Key)!;
+                var config = data.Value.GetCalculationParams()!;
+
+                var calculation = service.Calculate(config);
+
+                return new ServiceDetailConfig
+                {
+                    Service = new ServiceDetails
+                    {
+                        Name = service.GetName(),
+                        Description = service.GetDescription(),
+                        Id = service.GetId(),
+                        Type = service.GetServiceType(),
+                    },
+                    BookingDescriptor = calculation.Descriptors,
+                    Calculated = calculation.CalculatedValue
+                };
+            })
+            .ToList();
     }
 
     public Task<IEnumerable<DateTime>> GetAnonymizedBookingDetails(int year, int month)

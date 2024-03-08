@@ -1,4 +1,5 @@
-﻿using System.Text;
+﻿using System.Globalization;
+using System.Text;
 
 namespace SpotlessSolutions.Web.Services.Services.Addons;
 
@@ -52,19 +53,37 @@ public class AirconCleaning : AddOnStandalone, IService
         };
     }
 
-    public override float Calculate(float[] values)
+    public override ServiceCalculationDescriptor Calculate(float[] values)
     {
         var size = values[0];
         var type = ParseType(values[1]);
         var count = values[2];
 
         var (window, splitBlower, splitFull) = GetBasePriceFromSize(size);
-        return type switch
+        var price = type switch
         {
             AirconTypes.Window => window * count,
             AirconTypes.SplitTypeBlower => splitBlower * count,
             AirconTypes.SplitTypeFull => splitFull * count,
             _ => throw new ArgumentOutOfRangeException(nameof(values))
+        };
+
+        var cleanDescriptor = type switch
+        {
+            AirconTypes.Window => "Window",
+            AirconTypes.SplitTypeBlower => "Split Type Aircon (Blower Only)",
+            AirconTypes.SplitTypeFull => "Split Type Aircon (Full Cleaning)",
+            _ => throw new ArgumentOutOfRangeException(nameof(values))
+        };
+
+        return new ServiceCalculationDescriptor
+        {
+            CalculatedValue = price,
+            Descriptors =
+            [
+                [ $"{size.ToString(CultureInfo.InvariantCulture)} hp" ],
+                [ cleanDescriptor, $"x{count.ToString(CultureInfo.InvariantCulture)}" ]
+            ]
         };
     }
 
