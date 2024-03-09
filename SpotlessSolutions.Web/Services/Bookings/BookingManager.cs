@@ -1,9 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using SpotlessSolutions.Web.Data;
 using SpotlessSolutions.Web.Data.Models;
-using SpotlessSolutions.Web.Extensions;
 using SpotlessSolutions.Web.Services.Mailer;
-using SpotlessSolutions.Web.Services.Services;
 
 namespace SpotlessSolutions.Web.Services.Bookings;
 
@@ -11,13 +9,11 @@ public class BookingManager : IBookingManager
 {
     private readonly DataContext _context;
     private readonly IMailer _mailer;
-    private readonly IServiceRegistry _registry;
 
-    public BookingManager(DataContext context, IMailer mailer, IServiceRegistry registry)
+    public BookingManager(DataContext context, IMailer mailer)
     {
         _context = context;
         _mailer = mailer;
-        _registry = registry;
     }
 
     public async Task<bool> UpdateBookingState(Guid id, BookingStatus targetState)

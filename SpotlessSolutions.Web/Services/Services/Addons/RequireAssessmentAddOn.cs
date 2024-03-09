@@ -11,11 +11,6 @@ public abstract class RequireAssessmentAddOn : IService
         return Id;
     }
 
-    public bool IsStandalone()
-    {
-        return false;
-    }
-
     public string GetDescription()
     {
         return Description;
@@ -51,6 +46,8 @@ public abstract class RequireAssessmentAddOn : IService
             Type = ServiceType.Addons
         };
     }
+
+    public abstract List<ServiceFieldObject> GetSpecificFieldObjects();
 
     public ServiceType GetServiceType()
     {

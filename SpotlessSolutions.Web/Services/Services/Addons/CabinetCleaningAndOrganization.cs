@@ -13,4 +13,21 @@ public class CabinetCleaningAndOrganization : RequireAssessmentAddOn
         Name = name;
         Description = description;
     }
+
+    public override List<ServiceFieldObject> GetSpecificFieldObjects()
+    {
+        return
+        [
+            new ServiceFieldObject
+            {
+                Id = "cco-count",
+                Label = "Number of Cabinets",
+                Type = ServiceFieldType.InputNumeric,
+                Restrictions = new Dictionary<string, string>
+                {
+                    { "min", "1" }
+                }
+            }
+        ];
+    }
 }

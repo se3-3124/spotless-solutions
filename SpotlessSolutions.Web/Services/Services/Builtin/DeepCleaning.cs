@@ -2,17 +2,20 @@
 
 namespace SpotlessSolutions.Web.Services.Services.Builtin;
 
-public class DeepCleaning : IService
+public class DeepCleaning : BuiltinService, IService
 {
-    private const string Id = "service.main.deepcleaning";
-    private string _name = "Deep Cleaning";
-    private string _description = "";
-    
     private float _minimumThreshold = 35;
     private float _defaultBasePrice = 949;
     private float _defaultIncrementPerExceedingValue = 28;
 
-    public ServiceCalculationDescriptor Calculate(float[] value)
+    public DeepCleaning()
+    {
+        Id = "service.main.deepcleaning";
+        Name = "Deep Cleaning";
+        Description = "";
+    }
+
+    public override ServiceCalculationDescriptor Calculate(float[] value)
     {
         if (value[0] < 0)
         {
@@ -41,23 +44,13 @@ public class DeepCleaning : IService
         };
     }
 
-    public string GetId()
-    {
-        return Id;
-    }
-
-    public string GetDescription()
-    {
-        return _description;
-    }
-
-    public ServiceExportObject ToExportObject()
+    public override ServiceExportObject ToExportObject()
     {
         var export = new ServiceExportObject
         {
             Id = Id,
-            Name = _name,
-            Description = _description,
+            Name = Name,
+            Description = Description,
             Editable = true,
             Type = ServiceType.Main,
             Config =
@@ -67,10 +60,10 @@ public class DeepCleaning : IService
         return export;
     }
 
-    public void UpdateConfig(string name, string description, string config)
+    public override void UpdateConfig(string name, string description, string config)
     {
-        _name = name;
-        _description = description;
+        Name = name;
+        Description = description;
 
         var overrides = config.Split(",");
         foreach (var configOverride in overrides)
@@ -107,13 +100,8 @@ public class DeepCleaning : IService
         }
     }
 
-    public string GetName()
+    public override List<ServiceFieldObject> GetSpecificFieldObjects()
     {
-        return _name;
-    }
-
-    public ServiceType GetServiceType()
-    {
-        return ServiceType.Main;
+        return [];
     }
 }

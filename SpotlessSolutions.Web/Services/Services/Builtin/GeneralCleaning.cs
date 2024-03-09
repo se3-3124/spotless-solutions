@@ -2,17 +2,20 @@
 
 namespace SpotlessSolutions.Web.Services.Services.Builtin;
 
-public class GeneralCleaning : IService
+public class GeneralCleaning : BuiltinService, IService
 {
-    private const string Id = "service.main.general-cleaning";
-    private string _name = "General Cleaning";
-    private string _description = "";
-
     private float _base = 399;
     private float _perHourTick = 289;
     private float _cleaners = 150;
+
+    public GeneralCleaning()
+    {
+        Id = "service.main.general-cleaning";
+        Name = "General Cleaning";
+        Description = "";
+    }
     
-    public ServiceCalculationDescriptor Calculate(float[] value)
+    public override ServiceCalculationDescriptor Calculate(float[] value)
     {
         if (value.Length < 2)
         {
@@ -35,23 +38,13 @@ public class GeneralCleaning : IService
         };
     }
 
-    public string GetId()
-    {
-        return Id;
-    }
-
-    public string GetDescription()
-    {
-        return _description;
-    }
-
-    public ServiceExportObject ToExportObject()
+    public override ServiceExportObject ToExportObject()
     {
         var export = new ServiceExportObject
         {
             Id = Id,
-            Name = _name,
-            Description = _description,
+            Name = Name,
+            Description = Description,
             Editable = true,
             Type = ServiceType.Main,
             Config = $"base:float:{_base},cleaners:float:{_cleaners},next:float:{_perHourTick}"
@@ -60,10 +53,38 @@ public class GeneralCleaning : IService
         return export;
     }
 
-    public void UpdateConfig(string name, string description, string config)
+    public override List<ServiceFieldObject> GetSpecificFieldObjects()
     {
-        _name = name;
-        _description = description;
+        return
+        [
+            new ServiceFieldObject
+            {
+                Id = "gc-hours",
+                Label = "Target Hours",
+                Type = ServiceFieldType.InputNumeric,
+                Restrictions = new Dictionary<string, string>
+                {
+                    { "min", "2" }
+                }
+            },
+
+            new ServiceFieldObject
+            {
+                Id = "gc-cleaners-count",
+                Label = "Amount of Cleaners",
+                Type = ServiceFieldType.InputNumeric,
+                Restrictions = new Dictionary<string, string>()
+                {
+                    { "min", "2" }
+                }
+            }
+        ];
+    }
+
+    public override void UpdateConfig(string name, string description, string config)
+    {
+        Name = name;
+        Description = description;
 
         var overrides = config.Split(",");
         foreach (var configOverride in overrides)
@@ -98,15 +119,5 @@ public class GeneralCleaning : IService
                 }
             }
         }
-    }
-
-    public string GetName()
-    {
-        return _name;
-    }
-    
-    public ServiceType GetServiceType()
-    {
-        return ServiceType.Main;
     }
 }

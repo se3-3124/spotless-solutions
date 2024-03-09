@@ -2,17 +2,20 @@
 
 namespace SpotlessSolutions.Web.Services.Services.Builtin;
 
-public class PostConstructionCleaning : IService
+public class PostConstructionCleaning : BuiltinService, IService
 {
-    private const string Id = "service.main.post-construction-cleaning";
-    private string _name = "Post Construction Cleaning";
-    private string _description = "";
-
     private float _base = 1500;
     private float _min = 35;
     private float _next = 30;
 
-    public ServiceCalculationDescriptor Calculate(float[] values)
+    public PostConstructionCleaning()
+    {
+        Id = "service.main.post-construction-cleaning";
+        Name = "Post Construction Cleaning";
+        Description = "";
+    }
+
+    public override ServiceCalculationDescriptor Calculate(float[] values)
     {
         float calculated;
         if (values[0] <= _min)
@@ -34,33 +37,28 @@ public class PostConstructionCleaning : IService
         };
     }
 
-    public string GetId()
-    {
-        return Id;
-    }
-
-    public string GetDescription()
-    {
-        return _description;
-    }
-
-    public ServiceExportObject ToExportObject()
+    public override ServiceExportObject ToExportObject()
     {
         return new ServiceExportObject
         {
             Id = Id,
-            Name = _name,
-            Description = _description,
+            Name = Name,
+            Description = Description,
             Type = ServiceType.Main,
             Editable = true,
             Config = $"base:float:{_base},min:float:{_min},next:float:{_next}"
         };
     }
 
-    public void UpdateConfig(string name, string description, string config)
+    public override List<ServiceFieldObject> GetSpecificFieldObjects()
     {
-        _name = name;
-        _description = description;
+        return [];
+    }
+
+    public override void UpdateConfig(string name, string description, string config)
+    {
+        Name = name;
+        Description = description;
 
         var overrides = config.Split(",");
         foreach (var configOverride in overrides)
@@ -95,15 +93,5 @@ public class PostConstructionCleaning : IService
                 }
             }
         }
-    }
-
-    public string GetName()
-    {
-        return _name;
-    }
-    
-    public ServiceType GetServiceType()
-    {
-        return ServiceType.Main;
     }
 }

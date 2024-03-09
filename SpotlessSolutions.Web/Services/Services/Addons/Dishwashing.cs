@@ -13,4 +13,9 @@ public class Dishwashing : RequireAssessmentAddOn
         Name = name;
         Description = description;
     }
+
+    public override List<ServiceFieldObject> GetSpecificFieldObjects()
+    {
+        return [];
+    }
 }

@@ -144,6 +144,56 @@ public class AirconCleaning : AddOnStandalone, IService
         };
     }
 
+    public override List<ServiceFieldObject> GetSpecificFieldObjects()
+    {
+        return
+        [
+            new ServiceFieldObject
+            {
+                Id = "ac-type",
+                Label = "Aircon Type",
+                Type = ServiceFieldType.Select,
+                SupportedValues =
+                [
+                    [ "w", "Window" ],
+                    [ "st", "Split Type"]
+                ]
+            },
+            new ServiceFieldObject
+            {
+                Id = "ac-size",
+                Label = "Aircon Size",
+                Type = ServiceFieldType.InputNumeric,
+                Restrictions = new Dictionary<string, string>
+                {
+                    { "min", "0.75" },
+                    { "max", "2.5" }
+                }
+            },
+            new ServiceFieldObject
+            {
+                Id = "ac-clean-type",
+                Label = "Type of Cleaning",
+                Type = ServiceFieldType.Select,
+                SupportedValues = 
+                [
+                    [ "b", "Blower Only" ],
+                    [ "f", "Full Cleaning" ]
+                ]
+            },
+            new ServiceFieldObject
+            {
+                Id = "ac-count",
+                Label = "Number of aircons to be cleaned",
+                Type = ServiceFieldType.InputNumeric,
+                Restrictions = new Dictionary<string, string>
+                {
+                    { "min", "1" }
+                }
+            }
+        ];
+    }
+
     private static AirconTypes ParseType(float value)
     {
         return value switch

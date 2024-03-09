@@ -85,4 +85,21 @@ public class SofaDeepCleaning : AddOnStandalone, IService
             Config = $"restriction:float:{_restrictionValue},base:float:{_base}"
         };
     }
+
+    public override List<ServiceFieldObject> GetSpecificFieldObjects()
+    {
+        return
+        [
+            new ServiceFieldObject
+            {
+                Id = "sdc-count",
+                Label = "Number of Seaters",
+                Type = ServiceFieldType.InputNumeric,
+                Restrictions = new Dictionary<string, string>
+                {
+                    { "min", "1" }
+                }
+            }
+        ];
+    }
 }

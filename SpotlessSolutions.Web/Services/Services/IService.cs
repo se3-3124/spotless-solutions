@@ -42,6 +42,12 @@ public interface IService
     ServiceExportObject ToExportObject();
 
     /// <summary>
+    /// Gets the forms specific to the service
+    /// </summary>
+    /// <returns></returns>
+    List<ServiceFieldObject> GetSpecificFieldObjects();
+
+    /// <summary>
     /// Get the service type
     /// </summary>
     /// <returns></returns>

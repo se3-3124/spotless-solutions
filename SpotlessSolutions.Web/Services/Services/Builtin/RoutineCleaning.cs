@@ -3,12 +3,8 @@ using System.Text;
 
 namespace SpotlessSolutions.Web.Services.Services.Builtin;
 
-public class RoutineCleaning : IService
+public class RoutineCleaning : BuiltinService, IService
 {
-    private const string Id = "service.main.routine-cleaning";
-    private string _name = "Routine Cleaning";
-    private string _description = "";
-
     private float _weeklyBase = 550;
     private float _weeklyTick = 25;
     private float _biMonthlyBase = 650;
@@ -17,10 +13,18 @@ public class RoutineCleaning : IService
     private float _monthlyTick = 25;
     private float _min = 35;
 
-    public ServiceCalculationDescriptor Calculate(float[] values)
+    public RoutineCleaning()
+    {
+        Id = "service.main.routine-cleaning";
+        Name = "Routine Cleaning";
+        Description = "";
+    }
+
+    public override ServiceCalculationDescriptor Calculate(float[] values)
     {
         var type = ParseType(values[0]);
-        var value = values[1];
+        var serviceType = ParseServiceType(values[1]);
+        var value = values[2];
 
         var calculated = type switch
         {
@@ -42,8 +46,19 @@ public class RoutineCleaning : IService
             Descriptors =
             [
                 [ descriptorName ],
+                [ serviceType ],
                 [ "Area Size", $"{value.ToString(CultureInfo.InvariantCulture)} sq. meters" ]
             ]
+        };
+    }
+
+    private string ParseServiceType(float value)
+    {
+        return value switch
+        {
+            >= 1 and < 2 => "Deep cleaning",
+            >= 2 and < 3 => "Post Construction Cleaning",
+            _ => throw new ArgumentOutOfRangeException(nameof(value))
         };
     }
 
@@ -68,17 +83,7 @@ public class RoutineCleaning : IService
         };
     }
 
-    public string GetId()
-    {
-        return Id;
-    }
-
-    public string GetDescription()
-    {
-        return _description;
-    }
-
-    public ServiceExportObject ToExportObject()
+    public override ServiceExportObject ToExportObject()
     {
         var config = new StringBuilder();
         config.Append($"weekly_base:float:{_weeklyBase},");
@@ -92,18 +97,56 @@ public class RoutineCleaning : IService
         return new ServiceExportObject
         {
             Id = Id,
-            Name = _name,
-            Description = _description,
+            Name = Name,
+            Description = Description,
             Editable = true,
             Type = ServiceType.Main,
             Config = config.ToString()
         };
     }
 
-    public void UpdateConfig(string name, string description, string config)
+    public override List<ServiceFieldObject> GetSpecificFieldObjects()
     {
-        _name = name;
-        _description = description;
+        return
+        [
+            new ServiceFieldObject
+            {
+                Id = "rc-last-req-date",
+                Label = "Last Cleaning Date",
+                Type = ServiceFieldType.InputDate,
+                Restrictions = new Dictionary<string, string>
+                {
+                    { "date-accepts", "<30d" }
+                }
+            },
+            new ServiceFieldObject
+            {
+                Id = "rc-service-sel",
+                Label = "Pick a Routine Service",
+                Type = ServiceFieldType.Select,
+                SupportedValues = [
+                    [ "1", "Deep Cleaning" ],
+                    [ "2", "Post Construction Cleaning" ]
+                ]
+            },
+            new ServiceFieldObject
+            {
+                Id = "rc-service-interval",
+                Label = "Interval",
+                Type = ServiceFieldType.Select,
+                SupportedValues = [
+                    [ "1", "Weekly" ],
+                    [ "2", "Bi-Monthly" ],
+                    [ "3", "Monthly" ]
+                ]
+            }
+        ];
+    }
+
+    public override void UpdateConfig(string name, string description, string config)
+    {
+        Name = name;
+        Description = description;
 
         var overrides = config.Split(",");
         foreach (var configOverride in overrides)
@@ -150,15 +193,5 @@ public class RoutineCleaning : IService
                 }
             }
         }
-    }
-
-    public string GetName()
-    {
-        return _name;
-    }
-    
-    public ServiceType GetServiceType()
-    {
-        return ServiceType.Main;
     }
 }

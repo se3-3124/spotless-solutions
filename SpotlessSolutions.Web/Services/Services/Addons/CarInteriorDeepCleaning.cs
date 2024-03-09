@@ -129,6 +129,49 @@ public class CarInteriorDeepCleaning : AddOnStandalone, IService
         };
     }
 
+    public override List<ServiceFieldObject> GetSpecificFieldObjects()
+    {
+        return
+        [
+            new ServiceFieldObject
+            {
+                Id = "cdc-car-type-sel",
+                Label = "Car Type",
+                Type = ServiceFieldType.Select,
+                SupportedValues =
+                [
+                    [ "1", "Hatchback" ],
+                    [ "2", "Sedan" ],
+                    [ "3", "MPV" ],
+                    [ "4", "SUV" ],
+                    [ "5", "Pick-up" ],
+                    [ "6", "Van" ]
+                ]
+            },
+            new ServiceFieldObject
+            {
+                Id = "cdc-clean-type-sel",
+                Label = "Cleaning Type",
+                Type = ServiceFieldType.Select,
+                SupportedValues =
+                [
+                    [ "1", "Carwash with Shampoo" ],
+                    [ "2", "Interior Deep Cleaning" ]
+                ]
+            },
+            new ServiceFieldObject
+            {
+                Id = "cdc-count",
+                Label = "Amount of vehicles to clean",
+                Type = ServiceFieldType.InputNumeric,
+                Restrictions = new Dictionary<string, string>
+                {
+                    { "min", "1" }
+                }
+            }
+        ];
+    }
+
     private float GetBasePrice(string key, CarServiceType type)
     {
         var tier = _pricingConfig[key];

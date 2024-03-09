@@ -10,15 +10,14 @@ public abstract class AddOnStandalone : IService
     {
         return Id;
     }
-
-    public bool IsStandalone()
-    {
-        return true;
-    }
     
     public abstract ServiceCalculationDescriptor Calculate(float[] values);
+
     public abstract void UpdateConfig(string name, string description, string serviceConfig);
+
     public abstract ServiceExportObject ToExportObject();
+
+    public abstract List<ServiceFieldObject> GetSpecificFieldObjects();
 
     public string GetDescription()
     {

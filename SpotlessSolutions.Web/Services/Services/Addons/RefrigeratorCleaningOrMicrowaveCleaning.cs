@@ -13,4 +13,21 @@ public class RefrigeratorCleaningOrMicrowaveCleaning : RequireAssessmentAddOn
         Name = name;
         Description = description;
     }
+
+    public override List<ServiceFieldObject> GetSpecificFieldObjects()
+    {
+        return
+        [
+            new ServiceFieldObject
+            {
+                Id = "rom-count",
+                Label = "Number of Refrigerators or Microwaves",
+                Type = ServiceFieldType.InputNumeric,
+                Restrictions = new Dictionary<string, string>
+                {
+                    { "min", "1" }
+                }
+            }
+        ];
+    }
 }

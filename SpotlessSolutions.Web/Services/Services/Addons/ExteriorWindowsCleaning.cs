@@ -13,4 +13,17 @@ public class ExteriorWindowsCleaning : RequireAssessmentAddOn
         Name = name;
         Description = description;
     }
+
+    public override List<ServiceFieldObject> GetSpecificFieldObjects()
+    {
+        return
+        [
+            new ServiceFieldObject
+            {
+                Id = "ewc-photo",
+                Label = "Photo of your Window",
+                Type = ServiceFieldType.FileUpload
+            }
+        ];
+    }
 }

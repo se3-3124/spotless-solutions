@@ -13,4 +13,23 @@ public class LawnTrimming : RequireAssessmentAddOn
         Name = name;
         Description = description;
     }
+
+    public override List<ServiceFieldObject> GetSpecificFieldObjects()
+    {
+        return
+        [
+            new ServiceFieldObject
+            {
+                Id = "lt-photo",
+                Label = "Lawn Photo",
+                Type = ServiceFieldType.FileUpload
+            },
+            new ServiceFieldObject
+            {
+                Id = "lt-comment-box",
+                Label = "Specify work needs to be done",
+                Type = ServiceFieldType.InputTextBox
+            }
+        ];
+    }
 }

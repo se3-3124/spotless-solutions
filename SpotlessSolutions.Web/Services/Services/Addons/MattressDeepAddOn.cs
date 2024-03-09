@@ -111,6 +111,37 @@ public class MattressDeepAddOn : AddOnStandalone, IService
         };
     }
 
+    public override List<ServiceFieldObject> GetSpecificFieldObjects()
+    {
+        return
+        [
+            new ServiceFieldObject
+            {
+                Id = "md-ad-size-sel",
+                Label = "Mattress Size",
+                Type = ServiceFieldType.Select,
+                SupportedValues =
+                [
+                    [ "30", "Single (30in.)" ],
+                    [ "48", "Semi-Double (48in.)"],
+                    [ "54", "Double (54in.)" ],
+                    [ "60", "Queen (60in.)" ],
+                    [ "72", "King Size (72in.)" ]
+                ]
+            },
+            new ServiceFieldObject
+            {
+                Id = "md-ad-count",
+                Label = "Amount of mattress",
+                Type = ServiceFieldType.InputNumeric,
+                Restrictions = new Dictionary<string, string>
+                {
+                    { "min", "1" }
+                }
+            }
+        ];
+    }
+
     private MattressDeepSize ParseSize(float value)
     {
         return value switch
