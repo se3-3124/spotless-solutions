@@ -4,6 +4,6 @@ namespace SpotlessSolutions.Web.Contracts.V1.Requests;
 
 public class BookingUpdateDetails
 {
-    public required Guid Id { get; set; } = Guid.Empty;
-    public required BookingStatus State { get; set; } = BookingStatus.Pending;
+    public required Guid Id { get; init; } = Guid.Empty;
+    public required BookingStatus State { get; init; } = BookingStatus.Pending;
 }

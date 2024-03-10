@@ -1,4 +1,6 @@
-﻿using SpotlessSolutions.ServiceLibrarySdk.ReturnTypes;
+﻿// ReSharper disable UnusedAutoPropertyAccessor.Global
+
+using SpotlessSolutions.ServiceLibrarySdk.ReturnTypes;
 
 namespace SpotlessSolutions.Web.Services.Services;
 
