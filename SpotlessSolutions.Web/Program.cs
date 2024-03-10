@@ -1,5 +1,6 @@
 using FluentValidation;
 using Microsoft.AspNetCore.Identity;
+using SpotlessSolutions.Web.Contracts.V1;
 using SpotlessSolutions.Web.Data;
 using SpotlessSolutions.Web.Data.Seeding;
 using SpotlessSolutions.Web.Extensions;
@@ -44,6 +45,7 @@ builder.Host.UseWolverine(opts =>
     }).AutoProvision();
 });
 
+builder.Services.InjectAutoMapper();
 builder.Services.AddControllersWithViews();
 builder.Services.AddValidatorsFromAssemblyContaining<Program>();
 builder.Services.InstallDataContexts(builder.Configuration);

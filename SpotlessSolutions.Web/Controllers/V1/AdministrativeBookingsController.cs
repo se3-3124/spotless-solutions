@@ -1,10 +1,11 @@
+using AutoMapper;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using SpotlessSolutions.Web.Contracts.V1.Requests;
-using SpotlessSolutions.Web.Contracts.V1.ResponseMappers;
 using SpotlessSolutions.Web.Contracts.V1.Responses;
 using SpotlessSolutions.Web.Data.Models;
+using SpotlessSolutions.Web.Extensions;
 using SpotlessSolutions.Web.Services.Bookings;
 
 namespace SpotlessSolutions.Web.Controllers.V1;
@@ -15,11 +16,15 @@ public class AdministrativeBookingsController : ControllerBase
 {
     private readonly IBookingManager _bookingManager;
     private readonly IBookingQuery _bookingQuery;
+    private readonly IMapper _mapper;
 
-    public AdministrativeBookingsController(IBookingManager bookingManager, IBookingQuery bookingQuery)
+    public AdministrativeBookingsController(IBookingManager bookingManager,
+        IBookingQuery bookingQuery,
+        IMapper mapper)
     {
         _bookingManager = bookingManager;
         _bookingQuery = bookingQuery;
+        _mapper = mapper;
     }
 
     [HttpGet("monthly")]
@@ -28,9 +33,7 @@ public class AdministrativeBookingsController : ControllerBase
     public async Task<IActionResult> GetBookingsByMonth([FromQuery] int year, [FromQuery] int month)
     {
         // Check for role
-        var userRole = HttpContext.User.Claims.Single(x => x.Type == "user_role")
-            .Value;
-        if (userRole != UserRoles.Administrator.ToString())
+        if (HttpContext.IsAdministrator())
         {
             return Unauthorized(new ErrorException
             {
@@ -40,12 +43,10 @@ public class AdministrativeBookingsController : ControllerBase
         }
 
         var result = await _bookingQuery.GetBooking(year, month);
-        var bookingObjects = result.ToList();
-        var data = bookingObjects.Select(x => x.ToBookingDetails());
         return Ok(new BookingResult
         {
             Success = true,
-            Data = data
+            Data = result.Select(_mapper.Map<BookingDetailsDto>)
         });
     }
 
@@ -55,9 +56,7 @@ public class AdministrativeBookingsController : ControllerBase
     public async Task<IActionResult> GetBookingsByDateRange([FromQuery] DateTime start, [FromQuery] DateTime end)
     {
         // Check for role
-        var userRole = HttpContext.User.Claims.Single(x => x.Type == "user_role")
-            .Value;
-        if (userRole != UserRoles.Administrator.ToString())
+        if (HttpContext.IsAdministrator())
         {
             return Unauthorized(new ErrorException
             {
@@ -67,12 +66,10 @@ public class AdministrativeBookingsController : ControllerBase
         }
         
         var result = await _bookingQuery.GetBooking(start, end);
-        var bookingObjects = result as BookingObject[] ?? result.ToArray();
-        var data = bookingObjects.Select(x => x.ToBookingDetails());
         return Ok(new BookingResult
         {
             Success = true,
-            Data = data
+            Data = result.Select(_mapper.Map<BookingDetailsDto>)
         });
     }
 
@@ -83,9 +80,7 @@ public class AdministrativeBookingsController : ControllerBase
     public async Task<IActionResult> UpdateBookingState([FromBody] BookingUpdateDetails details)
     {
         // Check the role
-        var userRole = HttpContext.User.Claims.Single(x => x.Type == "user_role")
-            .Value;
-        if (userRole != UserRoles.Administrator.ToString())
+        if (HttpContext.IsAdministrator())
         {
             return Unauthorized(new ErrorException
             {
@@ -134,9 +129,7 @@ public class AdministrativeBookingsController : ControllerBase
     public async Task<IActionResult> SendEmail([FromBody] EmailDetails details)
     {
         // Check the role
-        var userRole = HttpContext.User.Claims.Single(x => x.Type == "user_role")
-            .Value;
-        if (userRole != UserRoles.Administrator.ToString())
+        if (HttpContext.IsAdministrator())
         {
             return Unauthorized(new ErrorException
             {

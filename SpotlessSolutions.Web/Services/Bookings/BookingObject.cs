@@ -27,12 +27,14 @@ public class Address
     public required string Province { get; set; }
 }
 
-public record BookingObject(
-    Guid Id,
-    DateTime Schedule,
-    ServiceDetailConfig MainService,
-    List<ServiceDetailConfig> AddOns,
-    BookingStatus Status,
-    User User,
-    Address Address,
-    float TotalPrice);
+public class BookingObject
+{
+    public required Guid Id { get; init; }
+    public required DateTime Schedule { get; init; }
+    public required ServiceDetailConfig MainService { get; init; }
+    public required List<ServiceDetailConfig> Addons { get; init; }
+    public required BookingStatus Status { get; init; }
+    public required User User { get; init; }
+    public required Address Address { get; init; }
+    public required float TotalPrice { get; init; }
+}

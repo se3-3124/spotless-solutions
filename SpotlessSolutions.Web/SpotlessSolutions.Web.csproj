@@ -16,6 +16,8 @@
   </PropertyGroup>
 
     <ItemGroup>
+        <PackageReference Include="AutoMapper" Version="13.0.1" />
+        <PackageReference Include="AutoMapper.Extensions.EnumMapping" Version="3.2.0" />
         <PackageReference Include="Bogus" Version="35.4.0" />
         <PackageReference Include="FluentValidation" Version="11.8.1" />
         <PackageReference Include="FluentValidation.DependencyInjectionExtensions" Version="11.8.1" />
@@ -73,7 +75,7 @@
         <!-- Include the newly-built files in the publish output -->
         <ItemGroup>
             <DistFiles Include="$(SpaRoot)build\**" />
-            <ResolvedFileToPublish Include="@(DistFiles-&gt;'%(FullPath)')" Exclude="@(ResolvedFileToPublish)">
+            <ResolvedFileToPublish Include="@(DistFiles->'%(FullPath)')" Exclude="@(ResolvedFileToPublish)">
                 <RelativePath>wwwroot\%(RecursiveDir)%(FileName)%(Extension)</RelativePath>
                 <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
                 <ExcludeFromSingleFile>true</ExcludeFromSingleFile>

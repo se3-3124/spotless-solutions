@@ -17,7 +17,7 @@ public class BookingQuery : IBookingQuery
         _registry = registry;
     }
 
-    public async Task<IEnumerable<BookingObject>> GetBooking(int year, int month)
+    public async Task<List<BookingObject>> GetBooking(int year, int month)
     {
         var start = new DateTime(year, month, 1).ToUniversalTime();
         var end = new DateTime(year, month, DateTime.DaysInMonth(year, month))
@@ -27,7 +27,7 @@ public class BookingQuery : IBookingQuery
         return result;
     }
 
-    public async Task<IEnumerable<BookingObject>> GetBooking(DateTime start, DateTime end)
+    public async Task<List<BookingObject>> GetBooking(DateTime start, DateTime end)
     {
         var bookings = await _context.Bookings
             .Include(x => x.User.User)
@@ -70,8 +70,19 @@ public class BookingQuery : IBookingQuery
 
                 var status = x.Status;
                 
-                return new BookingObject(x.Id, x.Schedule, mainServiceDetail, addons, status, user, address, x.FinalPrice);
-            });
+                return new BookingObject
+                {
+                    Id = x.Id,
+                    Schedule = x.Schedule,
+                    MainService = mainServiceDetail,
+                    Addons = addons,
+                    Status = status,
+                    User = user,
+                    Address = address,
+                    TotalPrice = x.FinalPrice
+                };
+            })
+            .ToList();
     }
 
     /// <summary>

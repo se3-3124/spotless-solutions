@@ -1,7 +1,7 @@
 ﻿// ReSharper disable UnusedAutoPropertyAccessor.Global
 namespace SpotlessSolutions.Web.Contracts.V1.Responses;
 
-public class ServiceDetails
+public class ServiceDetailsDto
 {
     public required ServiceObjectType Type { get; init; }
     public required string Id { get; init; }

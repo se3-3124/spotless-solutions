@@ -1,26 +1,27 @@
-﻿using FluentValidation;
+﻿using AutoMapper;
+using FluentValidation;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using SpotlessSolutions.Web.Contracts.V1.ResponseMappers;
+using SpotlessSolutions.Web.Contracts.V1.Requests;
 using SpotlessSolutions.Web.Contracts.V1.Responses;
-using SpotlessSolutions.Web.Data.Models;
+using SpotlessSolutions.Web.Extensions;
 using SpotlessSolutions.Web.Services.Services;
-using ServiceConfig = SpotlessSolutions.Web.Contracts.V1.Requests.ServiceConfig;
-using ServiceDetails = SpotlessSolutions.Web.Contracts.V1.Responses.ServiceDetails;
 
 namespace SpotlessSolutions.Web.Controllers.V1;
 
 [Route("/api/v1/services")]
 public class ServiceController : ControllerBase
 {
+    private readonly IMapper _mapper;
     private readonly IServiceRegistry _registry;
     private readonly IServiceManager _manager;
-    private readonly IValidator<ServiceConfig> _serviceConfigValidator;
+    private readonly IValidator<ServiceConfigDto> _serviceConfigValidator;
 
-    public ServiceController(IServiceRegistry registry, IServiceManager manager,
-        IValidator<ServiceConfig> serviceConfigValidator)
+    public ServiceController(IMapper mapper, IServiceRegistry registry, IServiceManager manager,
+        IValidator<ServiceConfigDto> serviceConfigValidator)
     {
+        _mapper = mapper;
         _registry = registry;
         _manager = manager;
         _serviceConfigValidator = serviceConfigValidator;
@@ -31,19 +32,10 @@ public class ServiceController : ControllerBase
     public IActionResult GetAllServices()
     {
         var services = _registry.GetAllServices();
-
-        var data = services.Select(x => new ServiceDetails
-        {
-            Id = x.Id,
-            Description = x.Description,
-            Name = x.Name,
-            Type = x.Type == ServiceType.Main ? ServiceObjectType.Main : ServiceObjectType.Addon
-        });
-
         return Ok(new ServiceListResponse
         {
             Success = true,
-            Data = data
+            Data = services.Select(_mapper.Map<ServiceDetailsDto>)
         });
     }
 
@@ -55,9 +47,7 @@ public class ServiceController : ControllerBase
     public IActionResult GetServiceDetail([FromQuery] string id)
     {
         // Check for role
-        var userRole = HttpContext.User.Claims.Single(x => x.Type == "user_role")
-            .Value;
-        if (userRole != UserRoles.Administrator.ToString())
+        if (HttpContext.IsAdministrator())
         {
             return Unauthorized(new ErrorException
             {
@@ -76,10 +66,11 @@ public class ServiceController : ControllerBase
             });
         }
 
+        var exported = _mapper.Map<ServiceData>(services.ToExportObject());
         return Ok(new ServiceDataResponse
         {
             Success = true,
-            Result = services.ToExportObject().ToServiceData()
+            Result = exported
         });
     }
 
@@ -88,12 +79,10 @@ public class ServiceController : ControllerBase
     [ProducesResponseType(typeof(ErrorException), 400)]
     [ProducesResponseType(typeof(ErrorException), 401)]
     [ProducesResponseType(typeof(GenericOkResult), 200)]
-    public async Task<IActionResult> UpdateServiceDetails([FromBody] ServiceConfig config)
+    public async Task<IActionResult> UpdateServiceDetails([FromBody] ServiceConfigDto configDto)
     {
         // Check for role
-        var userRole = HttpContext.User.Claims.Single(x => x.Type == "user_role")
-            .Value;
-        if (userRole != UserRoles.Administrator.ToString())
+        if (HttpContext.IsAdministrator())
         {
             return Unauthorized(new ErrorException
             {
@@ -102,7 +91,7 @@ public class ServiceController : ControllerBase
             });
         }
         
-        var validation = await _serviceConfigValidator.ValidateAsync(config);
+        var validation = await _serviceConfigValidator.ValidateAsync(configDto);
         if (!validation.IsValid)
         {
             var messages = validation.Errors
@@ -115,21 +104,14 @@ public class ServiceController : ControllerBase
             });
         }
 
-        var updateConfig = new Services.Services.ServiceConfig
-        {
-            TargetingServiceId = config.TargetingServiceId,
-            Config = config.Config,
-            Description = config.Description,
-            Name = config.Name
-        };
-
+        var updateConfig = _mapper.Map<ServiceConfig>(configDto);
         var result = await _manager.UpdateServiceConfiguration(updateConfig);
         if (!result)
         {
             return BadRequest(new ErrorException
             {
                 Error = true,
-                Messages = ["Updating of service failed. Maybe you are editing a unconfigurable service."]
+                Messages = ["Updating of service failed."]
             });
         }
 

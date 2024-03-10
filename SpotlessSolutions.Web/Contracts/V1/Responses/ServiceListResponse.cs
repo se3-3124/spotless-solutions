@@ -3,5 +3,5 @@
 public class ServiceListResponse
 {
     public bool Success { get; init; }
-    public IEnumerable<ServiceDetails> Data { get; init; } = Array.Empty<ServiceDetails>();
+    public IEnumerable<ServiceDetailsDto> Data { get; init; } = Array.Empty<ServiceDetailsDto>();
 }
