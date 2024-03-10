@@ -53,6 +53,9 @@
     </ItemGroup>
 
     <ItemGroup>
+      <ProjectReference Include="..\SpotlessSolutions.ServiceLibrary.Addons.Bundle\SpotlessSolutions.ServiceLibrary.Addons.Bundle.csproj" />
+      <ProjectReference Include="..\SpotlessSolutions.ServiceLibrarySdk\SpotlessSolutions.ServiceLibrarySdk.csproj" />
+      <ProjectReference Include="..\SpotlessSolutions.ServicesLibrary.Main.Bundle\SpotlessSolutions.ServiceLibrary.Main.Bundle.csproj" />
       <ProjectReference Include="..\SpotlessSolutions.Worker.MessageContracts\SpotlessSolutions.Worker.MessageContracts.csproj" />
     </ItemGroup>
 

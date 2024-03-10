@@ -1,7 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using SpotlessSolutions.ServiceLibrarySdk.ReturnTypes;
 using SpotlessSolutions.Web.Data;
 using SpotlessSolutions.Web.Data.Models;
-using SpotlessSolutions.Web.Extensions;
 using SpotlessSolutions.Web.Services.Services;
 
 namespace SpotlessSolutions.Web.Services.Bookings;
@@ -44,7 +44,7 @@ public class BookingQuery : IBookingQuery
                     return false;
                 }
 
-                return x.MainServiceConfiguration.GetCalculationParams() != null;
+                return service.TryCalculate(x.MainServiceConfiguration, out _);
             })
             .Select(x =>
             {
@@ -107,13 +107,12 @@ public class BookingQuery : IBookingQuery
             return null;
         }
 
-        var serviceParams = configuration.GetCalculationParams();
-        if (serviceParams == null)
+        var isCalculated = service.TryCalculate(configuration, out var calculated);
+        if (!isCalculated || calculated == null)
         {
             return null;
         }
 
-        var calculated = service.Calculate(serviceParams);
         return new ServiceDetailConfig
         {
             Service = new ServiceDetails
@@ -140,7 +139,7 @@ public class BookingQuery : IBookingQuery
                 }
 
                 return instance.GetServiceType() == ServiceType.Addons &&
-                       data.Value.GetCalculationParams() != null;
+                       instance.TryCalculate(data.Value, out _);
             })
             .Select(x => ParseConfigFromContext(x.Key, x.Value, ServiceType.Addons)!)
             .ToList();

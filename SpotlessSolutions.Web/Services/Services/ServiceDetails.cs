@@ -1,4 +1,6 @@
-﻿namespace SpotlessSolutions.Web.Services.Services;
+﻿using SpotlessSolutions.ServiceLibrarySdk.ReturnTypes;
+
+namespace SpotlessSolutions.Web.Services.Services;
 
 public class ServiceDetails
 {
