@@ -4,7 +4,6 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using SpotlessSolutions.Web.Contracts.V1.Requests;
 using SpotlessSolutions.Web.Contracts.V1.Responses;
-using SpotlessSolutions.Web.Data.Models;
 using SpotlessSolutions.Web.Extensions;
 using SpotlessSolutions.Web.Services.Bookings;
 
