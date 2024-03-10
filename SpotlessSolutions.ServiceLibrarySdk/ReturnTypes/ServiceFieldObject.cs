@@ -1,4 +1,6 @@
-﻿namespace SpotlessSolutions.ServiceLibrarySdk.ReturnTypes;
+﻿// ReSharper disable UnusedAutoPropertyAccessor.Global
+
+namespace SpotlessSolutions.ServiceLibrarySdk.ReturnTypes;
 
 public class ServiceFieldObject
 {

@@ -1,5 +1,6 @@
-﻿using System.Globalization;
-using OneOf;
+﻿// ReSharper disable UnusedType.Global
+
+using System.Globalization;
 using SpotlessSolutions.ServiceLibrary.Main.Bundle.InternalTypes;
 using SpotlessSolutions.ServiceLibrarySdk;
 using SpotlessSolutions.ServiceLibrarySdk.ReturnTypes;

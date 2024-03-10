@@ -1,4 +1,6 @@
-﻿using SpotlessSolutions.ServiceLibrary.Addons.Bundle.InternalTypes;
+﻿// ReSharper disable UnusedType.Global
+
+using SpotlessSolutions.ServiceLibrary.Addons.Bundle.InternalTypes;
 using SpotlessSolutions.ServiceLibrarySdk;
 using SpotlessSolutions.ServiceLibrarySdk.ReturnTypes;
 
@@ -103,8 +105,7 @@ public class CarInteriorDeepCleaning : BaseAddon, IService
                 continue;
             }
 
-            var values = value.Substring(1, value.Length - 1)
-                .Split("|");
+            var values = value[1..].Split("|");
             if (values.Length != 2)
             {
                 continue;

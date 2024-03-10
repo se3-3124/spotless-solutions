@@ -1,4 +1,6 @@
-﻿using System.Globalization;
+﻿// ReSharper disable UnusedType.Global
+
+using System.Globalization;
 using System.Text;
 using SpotlessSolutions.ServiceLibrary.Main.Bundle.InternalTypes;
 using SpotlessSolutions.ServiceLibrarySdk;

@@ -1,4 +1,6 @@
-﻿namespace SpotlessSolutions.ServiceLibrary.Main.Bundle.InternalTypes;
+﻿// ReSharper disable UnusedMember.Global
+
+namespace SpotlessSolutions.ServiceLibrary.Main.Bundle.InternalTypes;
 
 internal enum RoutineCleaningTypes
 {

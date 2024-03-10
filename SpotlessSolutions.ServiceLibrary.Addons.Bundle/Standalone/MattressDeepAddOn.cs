@@ -1,4 +1,6 @@
-﻿using SpotlessSolutions.ServiceLibrary.Addons.Bundle.InternalTypes;
+﻿// ReSharper disable UnusedType.Global
+
+using SpotlessSolutions.ServiceLibrary.Addons.Bundle.InternalTypes;
 using SpotlessSolutions.ServiceLibrarySdk;
 using SpotlessSolutions.ServiceLibrarySdk.ReturnTypes;
 
@@ -147,18 +149,5 @@ public class MattressDeepAddOn : BaseAddon, IService
                 }
             }
         ];
-    }
-
-    private MattressDeepSize ParseSize(float value)
-    {
-        return value switch
-        {
-            >= 29 and < 31 => MattressDeepSize.Single,
-            >= 47 and < 49 => MattressDeepSize.SemiDouble,
-            >= 53 and < 55 => MattressDeepSize.Double,
-            >= 59 and < 61 => MattressDeepSize.Queen,
-            >= 71 and < 73 => MattressDeepSize.KingSize,
-            _ => throw new ArgumentOutOfRangeException(nameof(value))
-        };
     }
 }

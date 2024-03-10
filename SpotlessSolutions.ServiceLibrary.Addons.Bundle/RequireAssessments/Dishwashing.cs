@@ -1,4 +1,6 @@
-﻿using SpotlessSolutions.ServiceLibrarySdk;
+﻿// ReSharper disable UnusedType.Global
+
+using SpotlessSolutions.ServiceLibrarySdk;
 using SpotlessSolutions.ServiceLibrarySdk.ReturnTypes;
 
 namespace SpotlessSolutions.ServiceLibrary.Addons.Bundle.RequireAssessments;

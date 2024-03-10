@@ -39,7 +39,7 @@ public abstract class BaseAddon : IService
         }
         catch
         {
-            return default(T);
+            return default;
         }
     }
 

@@ -1,3 +1,5 @@
+// ReSharper disable UnusedType.Global
+
 using SpotlessSolutions.ServiceLibrary.Addons.Bundle.InternalTypes;
 using SpotlessSolutions.ServiceLibrarySdk;
 using SpotlessSolutions.ServiceLibrarySdk.ReturnTypes;
