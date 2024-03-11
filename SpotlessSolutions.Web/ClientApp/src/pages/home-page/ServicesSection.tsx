@@ -39,10 +39,10 @@ const servicesData = [
 
 function ServicesSection () {
   const ref = useRef<HTMLDivElement | null>(null)
-  const [hoveredIndex, setHoveredIndex] = useState(-1)
-  const [isVisible, setIsVisible] = useState(false)
+  const [hoveredIndex, setHoveredIndex] = useState<number>(-1)
+  const [isVisible, setIsVisible] = useState<boolean>(false)
 
-  const handleMouseEnter = (index) => {
+  const handleMouseEnter = (index: number) => {
     setHoveredIndex(index)
   }
 
