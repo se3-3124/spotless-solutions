@@ -1,13 +1,13 @@
-import * as React from 'react';
-import Drawer from '@mui/material/Drawer';
-import Button from '@mui/material/Button';
+import * as React from 'react'
+import Drawer from '@mui/material/Drawer'
+import Button from '@mui/material/Button'
 
-export default function SampleDrawer() {
-  const [open, setOpen] = React.useState(false);
+export default function SampleDrawer () {
+  const [open, setOpen] = React.useState(false)
 
   const toggleDrawer = () => {
-    setOpen(prev => !prev);
-  };
+    setOpen(prev => !prev)
+  }
 
   return (
     <div className='md:flex'>
@@ -43,5 +43,5 @@ export default function SampleDrawer() {
         </div>
       </Drawer>
     </div>
-  );
+  )
 }
