@@ -16,6 +16,7 @@ import Dashboard from './pages/dashboard/Dashboard.tsx'
 import DashboardBookingCalendarView from './pages/dashboard/DashboardBookingCalendarView.tsx'
 import History from './pages/dashboard/history-page/history.tsx'
 import Home from './pages/home-page/home-page.tsx'
+import AboutUs from './pages/aboutUs/aboutUs-page.tsx'
 import LogInPage from './pages/authentication/LoginPage.tsx'
 import LogoutFlowPage from './pages/authentication/LogoutFlowPage.tsx'
 import RegistrationPage from './pages/authentication/RegistrationPage.tsx'
@@ -161,9 +162,10 @@ function Main () {
                       <Route path="/dashboard/calendar-workflow" element={<DashboardBookingsWorkflowView />} />
                       <Route path="/dashboard/service-management" element={<DashboardServiceManagementView />} />
 
+                      {/* Core PAges */}
                       <Route path="/" element={<Home />} />
+                      <Route path="/aboutUs" element={<AboutUs />} />
                       <Route path="/services" element={<ServicesPage />} />
-
                     </Routes>
                   </BrowserRouter>
                 </NotificationsContext.Provider>
