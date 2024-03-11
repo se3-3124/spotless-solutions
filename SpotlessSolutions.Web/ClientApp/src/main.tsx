@@ -30,7 +30,7 @@ import DashboardBookingsWorkflowView from './pages/dashboard/DashboardBookingsWo
 import NotificationsContext, { NotificationSeverity } from './contexts/NotificationsContext.tsx'
 import { type NotificationStateType } from './types/MainStateTypes.tsx'
 import DashboardServiceManagementView from './pages/dashboard/DashboardServiceManagementView.tsx'
-import ExampleAccordion from './pages/user-booking-page/services-accordion.tsx'
+import ServicesAccordion from './pages/user-booking-page/service-accordion2.tsx'
 
 const theme = createTheme({
   palette: {
@@ -166,7 +166,7 @@ function Main () {
                       <Route path="/services" element={<ServicesPage />} />
 
                       {/* User */}
-                      <Route path="/user/booking-page" element={<ExampleAccordion />}/>
+                      <Route path="/user/booking-page" element={<ServicesAccordion />}/>
 
                     </Routes>
                   </BrowserRouter>
