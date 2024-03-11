@@ -3,6 +3,7 @@ using FluentValidation;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using SpotlessSolutions.ServiceLibrarySdk.ReturnTypes;
 using SpotlessSolutions.Web.Contracts.V1.Requests;
 using SpotlessSolutions.Web.Contracts.V1.Responses;
 using SpotlessSolutions.Web.Extensions;
@@ -118,6 +119,55 @@ public class ServiceController : ControllerBase
         return Ok(new GenericOkResult
         {
             Success = true
+        });
+    }
+
+    [HttpPost("calculator")]
+    [ProducesResponseType(typeof(ErrorException), 401)]
+    [ProducesResponseType(typeof(ServiceCalculationResult), 200)]
+    public IActionResult CalculatePrice([FromBody] CalculationRequestDto? request)
+    {
+        if (request == null)
+        {
+            return BadRequest(new ErrorException
+            {
+                Error = true,
+                Messages = [ "Invalid Request" ]
+            });
+        }
+
+        var receipt = new List<ServiceCalculationDescriptor>();
+        foreach (var (key, value) in request.Items)
+        {
+            var service = _registry.GetActivatedServiceInstance(key);
+            if (service == null)
+            {
+                return BadRequest(new ErrorException
+                {
+                    Error = true,
+                    Messages = [$"Service ID of \"{key}\" does not exist."]
+                });
+            }
+
+            var isCalculated = service.TryCalculate(value, out var calculated);
+            if (!isCalculated || calculated == null)
+            {
+                return BadRequest(new ErrorException
+                {
+                    Error = true,
+                    Messages = [ $"Invalid service calculation object on ID: {key}" ]
+                });
+            }
+                
+            receipt.Add(calculated);
+        }
+
+        var totalPrice = receipt.Sum(item => item.CalculatedValue);
+        return Ok(new ServiceCalculationResult
+        {
+            Success = true,
+            Items = receipt.Select(_mapper.Map<ServiceCalculationDescriptorDto>),
+            TotalPrice = totalPrice
         });
     }
 }

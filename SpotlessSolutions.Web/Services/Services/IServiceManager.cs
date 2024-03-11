@@ -1,3 +1,5 @@
+using SpotlessSolutions.ServiceLibrarySdk.ReturnTypes;
+
 namespace SpotlessSolutions.Web.Services.Services;
 
 public interface IServiceManager

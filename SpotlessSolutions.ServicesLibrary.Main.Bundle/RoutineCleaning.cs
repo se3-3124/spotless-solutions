@@ -67,7 +67,7 @@ public class RoutineCleaning : BuiltinService, IService
             [
                 [ descriptorName ],
                 [ serviceType ],
-                [ "Area Size", $"{value.ToString(CultureInfo.InvariantCulture)} sq. meters" ]
+                [ "Area Size", $"{parameters.Area.ToString(CultureInfo.InvariantCulture)} sq. meters" ]
             ]
         };
 

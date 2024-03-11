@@ -1,19 +1,25 @@
 using Microsoft.EntityFrameworkCore;
+using SpotlessSolutions.ServiceLibrarySdk.ReturnTypes;
 using SpotlessSolutions.Web.Data;
 using SpotlessSolutions.Web.Data.Models;
 using SpotlessSolutions.Web.Services.Mailer;
+using SpotlessSolutions.Web.Services.Services;
 
 namespace SpotlessSolutions.Web.Services.Bookings;
 
 public class BookingManager : IBookingManager
 {
     private readonly DataContext _context;
+    private readonly ILogger<BookingManager> _logger;
     private readonly IMailer _mailer;
+    private readonly IServiceRegistry _registry;
 
-    public BookingManager(DataContext context, IMailer mailer)
+    public BookingManager(DataContext context, ILogger<BookingManager> logger, IMailer mailer, IServiceRegistry registry)
     {
         _context = context;
+        _logger = logger;
         _mailer = mailer;
+        _registry = registry;
     }
 
     public async Task<bool> UpdateBookingState(Guid id, BookingStatus targetState)
@@ -56,21 +62,86 @@ public class BookingManager : IBookingManager
         return true;
     }
 
-    public Task<IEnumerable<DateTime>> GetAnonymizedBookingDetails(int year, int month)
+    public async Task<bool> ScheduleBooking(Guid userId, BookingRequestObject bookingRequest)
     {
-        var start = new DateTime(year, month, 1).ToUniversalTime();
-        var end = new DateTime(year, month, DateTime.DaysInMonth(year, month))
-            .ToUniversalTime();
+        var user = await _context.UserData
+            .FirstOrDefaultAsync(x => x.Id.Equals(userId));
+        if (user == null)
+        {
+            _logger.LogWarning("Booking requested with ID that doesn't exist: {id}", userId);
+            return false;
+        }
 
-        return GetAnonymizedBookingDetails(start, end);
+        var address = await _context.Addresses
+            .FirstOrDefaultAsync(x => x.Id.Equals(bookingRequest.AddressId) && x.UserDataId.Equals(userId));
+        if (address == null)
+        {
+            _logger.LogWarning("Booking requested with address ID that doesn't exist: {id} on user id {userId}",
+                bookingRequest.AddressId,
+                userId);
+            return false;
+        }
+
+        var service = GetDescriptor(bookingRequest.MainServiceId, bookingRequest.MainServiceConfig);
+        if (service == null)
+        {
+            return false;
+        }
+
+        var receipts = new List<ServiceCalculationDescriptor>();
+        foreach (var (key, value) in bookingRequest.Addons)
+        {
+            var item = GetDescriptor(key, value);
+            if (item == null)
+            {
+                return false;
+            }
+            
+            receipts.Add(item);
+        }
+
+        var total = receipts.Sum(x => x.CalculatedValue);
+
+        try
+        {
+            await _context.Bookings.AddAsync(new Booking
+            {
+                MainServiceId = bookingRequest.MainServiceId,
+                MainServiceConfiguration = bookingRequest.MainServiceConfig,
+                Addons = bookingRequest.Addons,
+                Schedule = bookingRequest.Schedule
+                    .ToUniversalTime(),
+                FinalPrice = total,
+                UserId = userId,
+                AddressId = bookingRequest.AddressId,
+                Status = BookingStatus.Pending
+            });
+            await _context.SaveChangesAsync();
+
+            return true;
+        }
+        catch
+        {
+            return false;
+        }
     }
 
-    public async Task<IEnumerable<DateTime>> GetAnonymizedBookingDetails(DateTime start, DateTime end)
+    private ServiceCalculationDescriptor? GetDescriptor(string id, string config)
     {
-        var bookings = await _context.Bookings
-            .Where(x => x.Schedule >= start && x.Schedule <= end)
-            .ToArrayAsync();
+        var service = _registry.GetActivatedServiceInstance(id);
+        if (service == null)
+        {
+            _logger.LogWarning("Service ID does not exist: {id}", id);
+            return null;
+        }
 
-        return bookings.Select(x => x.Schedule);
+        var isCalculated = service.TryCalculate(config, out var calculated);
+        if (isCalculated && calculated != null)
+        {
+            return calculated;
+        }
+        
+        _logger.LogWarning("Calculation configuration is invalid: {config}", config);
+        return null;
     }
 }

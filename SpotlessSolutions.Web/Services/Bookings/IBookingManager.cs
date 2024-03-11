@@ -20,4 +20,11 @@ public interface IBookingManager
     /// <param name="body"></param>
     /// <returns></returns>
     Task<bool> SendEmail(Guid userId, string subject, string body);
+
+    /// <summary>
+    /// Schedule a booking
+    /// </summary>
+    /// <param name="bookingRequest"></param>
+    /// <returns></returns>
+    Task<bool> ScheduleBooking(Guid userId, BookingRequestObject bookingRequest);
 }

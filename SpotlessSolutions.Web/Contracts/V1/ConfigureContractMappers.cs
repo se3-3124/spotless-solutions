@@ -1,8 +1,10 @@
 ﻿using AutoMapper;
 using AutoMapper.Extensions.EnumMapping;
+using JasperFx.Core.Reflection;
 using SpotlessSolutions.ServiceLibrarySdk.ReturnTypes;
 using SpotlessSolutions.Web.Contracts.V1.Requests;
 using SpotlessSolutions.Web.Contracts.V1.Responses;
+using SpotlessSolutions.Web.Services.Accounts;
 using SpotlessSolutions.Web.Services.Authentication;
 using SpotlessSolutions.Web.Services.Bookings;
 using SpotlessSolutions.Web.Services.Services;
@@ -42,6 +44,10 @@ public static class ConfigureContractMappers
 
             cfg.CreateMap<ServiceConfigDto, ServiceConfig>();
             cfg.CreateMap<ServiceConfig, ServiceConfigDto>();
+            cfg.CreateMap<ServiceCalculationDescriptor, ServiceCalculationDescriptorDto>();
+            cfg.CreateMap<BookingAppointmentDto, BookingRequestObject>();
+            cfg.CreateMap<AddressDetails, UserAddressResponseDto>();
+            cfg.CreateMap<AddressCreateRequestDto, CreateAddressDetails>();
         });
 
         serviceCollection.AddSingleton(mapper.CreateMapper());

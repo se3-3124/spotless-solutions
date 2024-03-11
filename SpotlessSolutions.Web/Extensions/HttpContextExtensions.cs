@@ -16,4 +16,23 @@ public static class HttpContextExtensions
             return false;
         }
     }
+
+    public static Guid GetCurrentSessionUserDataId(this HttpContext context)
+    {
+        try
+        {
+            var userId = context.User.Claims.SingleOrDefault(x => x.Type == "cid");
+            if (userId?.Value == null)
+            {
+                return Guid.Empty;
+            }
+
+            var didParsed = Guid.TryParse(userId.Value, out var id);
+            return !didParsed ? Guid.Empty : id;
+        }
+        catch
+        {
+            return Guid.Empty;
+        }
+    }
 }
