@@ -7,7 +7,10 @@ import MuiAccordionSummary, {
 } from '@mui/material/AccordionSummary'
 import MuiAccordionDetails from '@mui/material/AccordionDetails'
 import Typography from '@mui/material/Typography'
-import { Box, Checkbox } from '@mui/material'
+import { Box, Checkbox, Stack } from '@mui/material'
+import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider'
+import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs'
+import { StaticDateTimePicker } from '@mui/x-date-pickers/StaticDateTimePicker'
 
 const Accordion = styled((props: AccordionProps) => (
   <MuiAccordion disableGutters elevation={0} square {...props} />
@@ -48,14 +51,13 @@ const AccordionDetails = styled(MuiAccordionDetails)(({ theme }) => ({
 export default function ExampleAccordion () {
   const [expanded, setExpanded] = React.useState<string | false>('panel1')
 
-  const handleChange =
-    (panel: string) => (event: React.SyntheticEvent, newExpanded: boolean) => {
-      setExpanded(newExpanded ? panel : false)
-    }
+  const handleChange = (panel: string) => (event: React.SyntheticEvent, newExpanded: boolean) => {
+    setExpanded(newExpanded ? panel : false)
+  }
 
   return (
     <>
-        <div>
+      <div>
         <Accordion expanded={expanded === 'panel1'} onChange={handleChange('panel1')}>
             <AccordionSummary aria-controls="panel1d-content" id="panel1d-header">
             <Typography>Select a Main Service</Typography>
@@ -442,7 +444,29 @@ export default function ExampleAccordion () {
             </Typography>
             </AccordionDetails>
         </Accordion>
-        </div>
+
+        <Accordion expanded={expanded === 'panel3'} onChange={handleChange('panel3')}>
+            <AccordionSummary aria-controls="panel3d-content" id="panel3d-header">
+            <Typography>Select a Main Service</Typography>
+            </AccordionSummary>
+            <AccordionDetails>
+            <Typography>
+            <div className='sm:flex flex-row p-5'>
+              <Stack>
+                <LocalizationProvider dateAdapter={AdapterDayjs}>
+                  <StaticDateTimePicker
+                  orientation="portrait"
+                  // label="Schedule Your Booking"
+                  // value={value}
+                  // onChange={setValue}
+                />
+                </LocalizationProvider>
+              </Stack>
+            </div>
+            </Typography>
+            </AccordionDetails>
+        </Accordion>
+      </div>
     </>
   )
 }
