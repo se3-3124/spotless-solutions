@@ -1,15 +1,16 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useState, useRef } from 'react'
 import { PiStarFourFill } from 'react-icons/pi'
 import { FaCheck } from 'react-icons/fa'
 import peoplecleaning from '../../assets/peoplecleaning.png'
 
 function WhyUsSection () {
+  const ref = useRef<HTMLDivElement | null>(null)
   const [isVisible, setIsVisible] = useState(false)
 
   useEffect(() => {
     const handleScroll = () => {
-      const element = document.querySelector('.line2')
-      if (element) {
+      const element = ref.current
+      if (element !== null) {
         const top = element.getBoundingClientRect().top
         const windowHeight = window.innerHeight
         setIsVisible(top < windowHeight)
@@ -39,7 +40,7 @@ function WhyUsSection () {
           <p className="flex items-center mt-2 md:mt-8 text-lg text-blue-500 md:text-2xl mb-2 font-kaushan">
             why us
             <PiStarFourFill size={15} className="ml-4 mr-4 text-[#ff8e2c]" />
-            <span className={`line2 ${isVisible ? 'animate' : ''}`}></span>
+            <span ref={ref} className={`line2 ${isVisible ? 'animate' : ''}`}></span>
           </p>
           <p className="text-2xl font-bold text-blue-900 md:text-4xl mb-6">
             What set us apart
