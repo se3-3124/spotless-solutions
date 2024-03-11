@@ -451,17 +451,13 @@ export default function ExampleAccordion () {
             </AccordionSummary>
             <AccordionDetails>
             <Typography>
-            <div className='sm:flex flex-row p-5'>
-              <Stack>
-                <LocalizationProvider dateAdapter={AdapterDayjs}>
-                  <StaticDateTimePicker
-                  orientation="portrait"
-                  // label="Schedule Your Booking"
-                  // value={value}
-                  // onChange={setValue}
-                />
+            <div className='flex p-5'>
+              <LocalizationProvider dateAdapter={AdapterDayjs}>
+                <StaticDateTimePicker
+                orientation="portrait"
+                disablePast={true}
+              />
                 </LocalizationProvider>
-              </Stack>
             </div>
             </Typography>
             </AccordionDetails>
