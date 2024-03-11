@@ -11,7 +11,7 @@ const Footer = () => {
       <div className="flex flex-col justify-between md:flex-row px-10">
         {/* 1st Section */}
         <div className="mb-10 md:mb-4 flex flex-col items-center">
-          <p className="text-white font-bold text-2xl mb-2">
+          <p className="text-white font-bold text-xl sm:text-2xl mb-2">
             TopDown Cleaning Services
           </p>
           <p className="font-kaushan">for Ilonggos, by Ilonggos</p>
@@ -55,7 +55,9 @@ const Footer = () => {
         </div>
       </div>
       <hr className="border-gray-300 my-2 mx-10 mb-6" />
-      <p className="text-center">© {currentYear} TOPDOWN Services. All Rights Reserved.</p>
+      <p className="text-center">
+        © {currentYear} TOPDOWN Services. All Rights Reserved.
+      </p>
     </footer>
   )
 }
