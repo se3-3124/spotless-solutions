@@ -32,7 +32,7 @@ export default function SampleDrawer () {
             </div>
             <div className='flex mt-1'>
               <h1 className='text-lg font-semibold mr-32'>20% Downpayment</h1>
-              <span className='text-xl font-bold ml-2.5'>₱ 1,999</span>
+              <span className='text-xl font-bold ml-2.5'>₱ 199</span>
             </div>
           </div>
           <div className='flex flex-col items-center justify-center'>
