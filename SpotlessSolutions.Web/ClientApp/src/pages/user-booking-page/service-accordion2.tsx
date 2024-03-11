@@ -105,7 +105,7 @@ const services = [
   // Add more services as neededS
 ]
 
-export default function ExampleAccordion () {
+export default function ServicesAccordion () {
   const [expanded, setExpanded] = React.useState<string | false>('panel1')
 
   const handleChange = (panel: string) => (event: React.SyntheticEvent, newExpanded: boolean) => {
