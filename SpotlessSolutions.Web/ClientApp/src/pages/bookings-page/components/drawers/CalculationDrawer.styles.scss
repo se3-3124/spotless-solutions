@@ -1,0 +1,67 @@
+﻿@use 'tailwindcss/base.css';
+@use 'tailwindcss/components.css';
+@use 'tailwindcss/utilities.css';
+
+.bookings-drawer-root {
+  @apply py-8 px-8 h-full flex flex-col border-l border-l-gray-300;
+  
+  & .drawer-heading {
+    @apply text-3xl mb-8 font-bold;
+  }
+  
+  & .drawer-section {
+    @apply flex flex-col mb-2;
+    
+    & .section-heading {
+      @apply font-semibold text-xl;
+    }
+
+    & .section-group {
+      @apply flex mb-1;
+      
+      & .left-heading-text {
+        @apply flex-grow text-xs;
+      }
+
+      & .right-value {
+        @apply text-xs;
+      }
+    }
+  }
+  
+  & .drawer-flex-separator {
+    @apply flex-grow;
+  }
+  
+  & .grand-total {
+    @apply flex justify-center align-middle;
+    
+    & .left-heading-text {
+      @apply flex-grow font-semibold text-lg;
+    }
+    
+    & .right-value {
+      @apply text-3xl font-bold;
+    }
+    
+    &.subtle {
+      @apply mb-4;
+      
+      & .right-value {
+        @apply text-xl font-bold;
+      }
+    }
+  }
+  
+  & .btn-book-now {
+    @apply py-2 px-8 w-full text-black font-bold overflow-hidden bg-yellow-300 rounded-lg relative;
+    @apply text-center border border-yellow-500;
+    
+    transition: ease-out 0.3s;
+    
+    &:hover {
+      transition: ease-in 0.3s;
+      @apply bg-yellow-500 cursor-pointer shadow-gray-400 drop-shadow-xl;
+    }
+  }
+}

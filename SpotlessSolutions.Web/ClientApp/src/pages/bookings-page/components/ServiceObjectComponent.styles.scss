@@ -1,0 +1,27 @@
+﻿@use 'tailwindcss/base.css';
+@use 'tailwindcss/components.css';
+@use 'tailwindcss/utilities.css';
+
+.service-object-component {
+  @apply w-full p-2 border border-gray-300 flex overflow-hidden relative justify-center bg-white;
+  
+  &.disabled {
+    @apply opacity-50;
+    
+    &:hover {
+      @apply cursor-default bg-white;
+    }
+  }
+  
+  & .service-object-contents {
+    @apply flex-grow ml-4 flex flex-col justify-center;
+    
+    & .service-name {
+      font-weight: bold;
+    }
+  }
+  
+  &:hover {
+    @apply cursor-pointer bg-gray-50;
+  }
+}

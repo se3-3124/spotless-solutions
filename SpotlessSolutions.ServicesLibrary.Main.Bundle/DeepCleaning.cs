@@ -42,18 +42,22 @@ public class DeepCleaning : BuiltinService, IService
         }
         else
         {
-            calculatedPrice = _defaultBasePrice + value[0] * _defaultIncrementPerExceedingValue;
+            calculatedPrice = _defaultBasePrice + parameters.Area * _defaultIncrementPerExceedingValue;
         }
 
         calculationDescriptor = new ServiceCalculationDescriptor
         {
+            Id = Id,
+            Name = Name,
             CalculatedValue = calculatedPrice,
             Descriptors =
             [
                 [
-                    "Area Size", $"{value[0].ToString(CultureInfo.InvariantCulture)} sq. meters"
+                    "Area Size", $"{parameters.Area} sq. meters"
                 ]
-            ]
+            ],
+            SensitiveDescriptors = [],
+            RequiresAssessment = false
         };
 
         return true;

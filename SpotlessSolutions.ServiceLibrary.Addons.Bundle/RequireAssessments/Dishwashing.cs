@@ -17,11 +17,15 @@ public class Dishwashing : BaseAddon, IService
     {
         calculationDescriptor = new ServiceCalculationDescriptor
         {
+            Id = Id,
+            Name = Name,
             CalculatedValue = 0,
             Descriptors =
             [
                 [ "Requires In-person Assessment" ]
-            ]
+            ],
+            SensitiveDescriptors = [],
+            RequiresAssessment = true
         };
 
         return true;

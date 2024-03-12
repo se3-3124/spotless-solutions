@@ -51,7 +51,7 @@ export default function NavigationBar (props: NavigationBarProps) {
               <Link to="/about-us">About Us</Link>
             </li>
             <li>
-              <Link to="/services">Services</Link>
+              <Link to="/appointment">Services</Link>
             </li>
             <li>
               <Link to="/faqs">FAQs</Link>

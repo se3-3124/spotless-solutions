@@ -62,13 +62,17 @@ public class RoutineCleaning : BuiltinService, IService
 
         calculationDescriptor = new ServiceCalculationDescriptor
         {
+            Id = Id,
+            Name = Name,
             CalculatedValue = calculated,
             Descriptors =
             [
                 [ descriptorName ],
                 [ serviceType ],
                 [ "Area Size", $"{parameters.Area.ToString(CultureInfo.InvariantCulture)} sq. meters" ]
-            ]
+            ],
+            SensitiveDescriptors = [],
+            RequiresAssessment = false
         };
 
         return true;
@@ -114,6 +118,7 @@ public class RoutineCleaning : BuiltinService, IService
             {
                 Id = "rc-last-req-date",
                 Label = "Last Cleaning Date",
+                ConfigId = "last_schedule",
                 Type = ServiceFieldType.InputDate,
                 Restrictions = new Dictionary<string, string>
                 {
@@ -124,21 +129,23 @@ public class RoutineCleaning : BuiltinService, IService
             {
                 Id = "rc-service-sel",
                 Label = "Pick a Routine Service",
+                ConfigId = "service_type",
                 Type = ServiceFieldType.Select,
                 SupportedValues = [
-                    [ "1", "Deep Cleaning" ],
-                    [ "2", "Post Construction Cleaning" ]
+                    [ "0", "Deep Cleaning" ],
+                    [ "1", "Post Construction Cleaning" ]
                 ]
             },
             new ServiceFieldObject
             {
                 Id = "rc-service-interval",
                 Label = "Interval",
+                ConfigId = "type",
                 Type = ServiceFieldType.Select,
                 SupportedValues = [
-                    [ "1", "Weekly" ],
-                    [ "2", "Bi-Monthly" ],
-                    [ "3", "Monthly" ]
+                    [ "0", "Weekly" ],
+                    [ "1", "Bi-Monthly" ],
+                    [ "2", "Monthly" ]
                 ]
             }
         ];

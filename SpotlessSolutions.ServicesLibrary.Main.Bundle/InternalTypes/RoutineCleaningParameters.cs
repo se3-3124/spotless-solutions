@@ -8,6 +8,9 @@ namespace SpotlessSolutions.ServiceLibrary.Main.Bundle.InternalTypes;
 
 internal class RoutineCleaningParameters
 {
+    [JsonPropertyName("last_schedule")]
+    public DateTime LastSchedule { get; init; }
+    
     [JsonPropertyName("type")]
     public RoutineCleaningTypes Type { get; init; }
 

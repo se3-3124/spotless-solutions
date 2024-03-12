@@ -60,11 +60,15 @@ public class MattressDeepAddOn : BaseAddon, IService
 
         calculationDescriptor = new ServiceCalculationDescriptor
         {
+            Id = Id,
+            Name = Name,
             CalculatedValue = basePrice * parameters.Count,
             Descriptors =
             [
                 [ bedSizeDescriptor, $"x{parameters.Count}" ]
-            ]
+            ],
+            SensitiveDescriptors = [],
+            RequiresAssessment = false
         };
 
         return true;
@@ -128,6 +132,7 @@ public class MattressDeepAddOn : BaseAddon, IService
             {
                 Id = "md-ad-size-sel",
                 Label = "Mattress Size",
+                ConfigId = "size",
                 Type = ServiceFieldType.Select,
                 SupportedValues =
                 [
@@ -142,6 +147,7 @@ public class MattressDeepAddOn : BaseAddon, IService
             {
                 Id = "md-ad-count",
                 Label = "Amount of mattress",
+                ConfigId = "count",
                 Type = ServiceFieldType.InputNumeric,
                 Restrictions = new Dictionary<string, string>
                 {

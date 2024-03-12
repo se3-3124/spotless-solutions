@@ -158,7 +158,7 @@ public class ServiceController : ControllerBase
                     Messages = [ $"Invalid service calculation object on ID: {key}" ]
                 });
             }
-                
+
             receipt.Add(calculated);
         }
 

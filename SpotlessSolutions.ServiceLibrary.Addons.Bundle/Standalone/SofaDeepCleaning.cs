@@ -29,11 +29,15 @@ public class SofaDeepCleaning : BaseAddon, IService
 
         calculationDescriptor = new ServiceCalculationDescriptor
         {
+            Id = Id,
+            Name = Name,
             CalculatedValue = calculation,
             Descriptors =
             [
                 [ "Amount of Seaters", $"x{parameters.Seaters}" ]
-            ]
+            ],
+            SensitiveDescriptors = [],
+            RequiresAssessment = false
         };
 
         return true;
@@ -95,6 +99,7 @@ public class SofaDeepCleaning : BaseAddon, IService
             {
                 Id = "sdc-count",
                 Label = "Number of Seaters",
+                ConfigId = "seaters",
                 Type = ServiceFieldType.InputNumeric,
                 Restrictions = new Dictionary<string, string>
                 {

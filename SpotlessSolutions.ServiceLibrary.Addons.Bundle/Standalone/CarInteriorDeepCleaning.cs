@@ -71,12 +71,16 @@ public class CarInteriorDeepCleaning : BaseAddon, IService
 
         calculationDescriptor = new ServiceCalculationDescriptor
         {
+            Id = Id,
+            Name = Name,
             CalculatedValue = calculatedPrice,
             Descriptors =
             [
                 [ carTypeDescriptor ],
                 [ serviceTypeDescriptor, $"x{parameters.Count}" ]
-            ]
+            ],
+            SensitiveDescriptors = [],
+            RequiresAssessment = false
         };
 
         return true;
@@ -148,32 +152,35 @@ public class CarInteriorDeepCleaning : BaseAddon, IService
             {
                 Id = "cdc-car-type-sel",
                 Label = "Car Type",
+                ConfigId = "car_type",
                 Type = ServiceFieldType.Select,
                 SupportedValues =
                 [
-                    [ "1", "Hatchback" ],
-                    [ "2", "Sedan" ],
-                    [ "3", "MPV" ],
-                    [ "4", "SUV" ],
-                    [ "5", "Pick-up" ],
-                    [ "6", "Van" ]
+                    [ "0", "Hatchback" ],
+                    [ "1", "Sedan" ],
+                    [ "2", "MPV" ],
+                    [ "3", "SUV" ],
+                    [ "4", "Pick-up" ],
+                    [ "5", "Van" ]
                 ]
             },
             new ServiceFieldObject
             {
                 Id = "cdc-clean-type-sel",
                 Label = "Cleaning Type",
+                ConfigId = "service_type",
                 Type = ServiceFieldType.Select,
                 SupportedValues =
                 [
-                    [ "1", "Carwash with Shampoo" ],
-                    [ "2", "Interior Deep Cleaning" ]
+                    [ "0", "Carwash with Shampoo" ],
+                    [ "1", "Interior Deep Cleaning" ]
                 ]
             },
             new ServiceFieldObject
             {
                 Id = "cdc-count",
                 Label = "Amount of vehicles to clean",
+                ConfigId = "count",
                 Type = ServiceFieldType.InputNumeric,
                 Restrictions = new Dictionary<string, string>
                 {

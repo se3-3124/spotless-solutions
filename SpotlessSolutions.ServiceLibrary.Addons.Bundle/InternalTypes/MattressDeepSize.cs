@@ -4,9 +4,9 @@ namespace SpotlessSolutions.ServiceLibrary.Addons.Bundle.InternalTypes;
 
 internal enum MattressDeepSize
 {
-    Single,
-    SemiDouble,
-    Double,
-    Queen,
-    KingSize
+    Single = 30,
+    SemiDouble = 48,
+    Double = 54,
+    Queen = 60,
+    KingSize = 72
 }

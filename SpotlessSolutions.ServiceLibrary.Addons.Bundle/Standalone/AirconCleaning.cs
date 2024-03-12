@@ -88,12 +88,16 @@ public class AirconCleaning : BaseAddon, IService
 
         calculationDescriptor = new ServiceCalculationDescriptor
         {
+            Id = Id,
+            Name = Name,
             CalculatedValue = basePrice * parameters.Count,
             Descriptors =
             [
                 [ $"{parameters.HorsePower} hp" ],
                 [ cleanDescriptor, $"x{parameters.Count}" ]
-            ]
+            ],
+            SensitiveDescriptors = [],
+            RequiresAssessment = false
         };
 
         return true;
@@ -164,17 +168,19 @@ public class AirconCleaning : BaseAddon, IService
             {
                 Id = "ac-type",
                 Label = "Aircon Type",
+                ConfigId = "type",
                 Type = ServiceFieldType.Select,
                 SupportedValues =
                 [
-                    [ "w", "Window" ],
-                    [ "st", "Split Type"]
+                    [ "0", "Window" ],
+                    [ "1", "Split Type"]
                 ]
             },
             new ServiceFieldObject
             {
                 Id = "ac-size",
                 Label = "Aircon Size",
+                ConfigId = "horsepower",
                 Type = ServiceFieldType.InputNumeric,
                 Restrictions = new Dictionary<string, string>
                 {
@@ -186,17 +192,19 @@ public class AirconCleaning : BaseAddon, IService
             {
                 Id = "ac-clean-type",
                 Label = "Type of Cleaning",
+                ConfigId = "cleaning_type",
                 Type = ServiceFieldType.Select,
                 SupportedValues =
                 [
-                    [ "b", "Blower Only" ],
-                    [ "f", "Full Cleaning" ]
+                    [ "0", "Blower Only" ],
+                    [ "1", "Full Cleaning" ]
                 ]
             },
             new ServiceFieldObject
             {
                 Id = "ac-count",
                 Label = "Number of aircons to be cleaned",
+                ConfigId = "count",
                 Type = ServiceFieldType.InputNumeric,
                 Restrictions = new Dictionary<string, string>
                 {

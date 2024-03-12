@@ -41,11 +41,15 @@ public class PostConstructionCleaning : BuiltinService, IService
 
         calculationDescriptor = new ServiceCalculationDescriptor
         {
+            Id = Id,
+            Name = Name,
             CalculatedValue = calculated,
             Descriptors =
             [
                 [ "Area size", $"{parameters.Area.ToString(CultureInfo.InvariantCulture)} sq. meters" ]
-            ]
+            ],
+            SensitiveDescriptors = [],
+            RequiresAssessment = false
         };
 
         return true;

@@ -31,12 +31,17 @@ public class CarpetDeepCleaning : BaseAddon, IService
 
         calculationDescriptor = new ServiceCalculationDescriptor
         {
+            Id = Id,
+            Name = Name,
             CalculatedValue = 0,
             Descriptors =
             [
-                [ "Photo Attachment" ],
                 [ "Size", $"{parameters.Size}" ]
-            ]
+            ],
+            SensitiveDescriptors = [
+                [ "Photo Attachment" ]
+            ],
+            RequiresAssessment = true
         };
 
         return true;
@@ -68,12 +73,14 @@ public class CarpetDeepCleaning : BaseAddon, IService
             {
                 Id = "cr-dc-photo",
                 Label = "Photo of the Carpet",
+                ConfigId = "internal_photo_address",
                 Type = ServiceFieldType.FileUpload
             },
             new ServiceFieldObject
             {
                 Id = "cr-dc-size",
                 Label = "Size of the carpet",
+                ConfigId = "size",
                 Type = ServiceFieldType.InputNumeric,
                 Restrictions = new Dictionary<string, string>
                 {

@@ -32,12 +32,16 @@ public class LawnTrimming : BaseAddon, IService
 
         calculationDescriptor = new ServiceCalculationDescriptor
         {
+            Id = Id,
+            Name = Name,
             CalculatedValue = 0,
-            Descriptors =
+            Descriptors = [],
+            SensitiveDescriptors =
             [
                 [ "Photo Attachment" ],
                 [ "Job Comment", parameters.JobComment ],
-            ]
+            ],
+            RequiresAssessment = true
         };
         return true;
     }
@@ -68,12 +72,14 @@ public class LawnTrimming : BaseAddon, IService
             {
                 Id = "lt-photo",
                 Label = "Lawn Photo",
+                ConfigId = "internal_photo_address",
                 Type = ServiceFieldType.FileUpload
             },
             new ServiceFieldObject
             {
                 Id = "lt-comment-box",
                 Label = "Specify work needs to be done",
+                ConfigId = "job_comment",
                 Type = ServiceFieldType.InputTextBox
             }
         ];

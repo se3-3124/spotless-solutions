@@ -36,12 +36,16 @@ public class GeneralCleaning : BuiltinService, IService
 
         calculationDescriptor = new ServiceCalculationDescriptor
         {
+            Id = Id,
+            Name = Name,
             CalculatedValue = calculated,
             Descriptors =
             [
                 [ "Hours specified", $"{hours.ToString(CultureInfo.InvariantCulture)} hours" ],
                 [ "Cleaners", $"x{cleaners.ToString(CultureInfo.CurrentCulture)}" ]
-            ]
+            ],
+            SensitiveDescriptors = [],
+            RequiresAssessment = false
         };
 
         return true;
@@ -70,6 +74,7 @@ public class GeneralCleaning : BuiltinService, IService
             {
                 Id = "gc-hours",
                 Label = "Target Hours",
+                ConfigId = "hours",
                 Type = ServiceFieldType.InputNumeric,
                 Restrictions = new Dictionary<string, string>
                 {
@@ -81,6 +86,7 @@ public class GeneralCleaning : BuiltinService, IService
             {
                 Id = "gc-cleaners-count",
                 Label = "Amount of Cleaners",
+                ConfigId = "cleaners",
                 Type = ServiceFieldType.InputNumeric,
                 Restrictions = new Dictionary<string, string>()
                 {

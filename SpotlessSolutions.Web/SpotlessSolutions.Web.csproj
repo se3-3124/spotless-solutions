@@ -38,18 +38,20 @@
 
     <ItemGroup>
         <!-- Don't publish the SPA source files, but do show them in the project files list -->
+        <Compile Remove="ClientApp\src\styles\**" />
         <Content Remove="$(SpaRoot)**" />
+        <Content Remove="ClientApp\src\styles\**" />
+        <EmbeddedResource Remove="ClientApp\src\styles\**" />
         <Content Include="..\.dockerignore">
           <Link>.dockerignore</Link>
         </Content>
         <None Remove="$(SpaRoot)**" />
+        <None Remove="ClientApp\src\styles\**" />
         <None Include="$(SpaRoot)**" Exclude="$(SpaRoot)node_modules\**" />
     </ItemGroup>
 
     <ItemGroup>
       <Folder Include="ClientApp\src\components\footer\" />
-      <Folder Include="ClientApp\src\components\inputs\" />
-      <Folder Include="ClientApp\src\styles\" />
     </ItemGroup>
 
     <ItemGroup>

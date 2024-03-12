@@ -25,11 +25,15 @@ public class ExteriorWindowsCleaning : BaseAddon, IService
 
         calculationDescriptor = new ServiceCalculationDescriptor
         {
+            Id = Id,
+            Name = Name,
             CalculatedValue = 0,
-            Descriptors =
+            Descriptors = [],
+            SensitiveDescriptors =
             [
-                [ "Photo Attached. Requires In-person Assessment" ]
-            ]
+                [ "Photo Attached." ]
+            ],
+            RequiresAssessment = true
         };
         return true;
     }
@@ -60,6 +64,7 @@ public class ExteriorWindowsCleaning : BaseAddon, IService
             {
                 Id = "ewc-photo",
                 Label = "Photo of your Window",
+                ConfigId = "internal_photo_address",
                 Type = ServiceFieldType.FileUpload
             }
         ];

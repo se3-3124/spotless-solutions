@@ -31,11 +31,15 @@ public class CabinetCleaningAndOrganization : BaseAddon, IService
 
         calculationDescriptor = new ServiceCalculationDescriptor
         {
+            Id = Id,
+            Name = Name,
             CalculatedValue = 0,
             Descriptors =
             [
                 [ "Total Cabinets", $"x{parameters.Count}" ]
-            ]
+            ],
+            SensitiveDescriptors = [],
+            RequiresAssessment = true
         };
 
         return true;
@@ -67,6 +71,7 @@ public class CabinetCleaningAndOrganization : BaseAddon, IService
             {
                 Id = "cco-count",
                 Label = "Number of Cabinets",
+                ConfigId = "count",
                 Type = ServiceFieldType.InputNumeric,
                 Restrictions = new Dictionary<string, string>
                 {

@@ -31,11 +31,15 @@ public class RefrigeratorCleaningOrMicrowaveCleaning : BaseAddon, IService
 
         calculationDescriptor = new ServiceCalculationDescriptor
         {
+            Id = Id,
+            Name = Name,
             CalculatedValue = 0,
             Descriptors =
             [
                 [ "Number of Refrigerators/Microwaves:", $"x{parameters.Count}" ]
-            ]
+            ],
+            SensitiveDescriptors = [],
+            RequiresAssessment = true
         };
         return true;
     }
@@ -67,6 +71,7 @@ public class RefrigeratorCleaningOrMicrowaveCleaning : BaseAddon, IService
                 Id = "rom-count",
                 Label = "Number of Refrigerators or Microwaves",
                 Type = ServiceFieldType.InputNumeric,
+                ConfigId = "count",
                 Restrictions = new Dictionary<string, string>
                 {
                     { "min", "1" }

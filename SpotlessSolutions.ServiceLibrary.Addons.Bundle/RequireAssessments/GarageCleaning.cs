@@ -31,12 +31,15 @@ public class GarageCleaning : BaseAddon, IService
 
         calculationDescriptor = new ServiceCalculationDescriptor
         {
+            Id = Id,
+            Name = Name,
             CalculatedValue = 0,
             Descriptors =
             [
-                [ "Requires Assessment" ],
                 [ "Area Size", $"{parameters.Area} sq. meters" ]
-            ]
+            ],
+            SensitiveDescriptors = [],
+            RequiresAssessment = true
         };
 
         return true;
@@ -68,6 +71,7 @@ public class GarageCleaning : BaseAddon, IService
             {
                 Id = "gcc-area",
                 Label = "Garage Area Size (in sq. meters)",
+                ConfigId = "area",
                 Type = ServiceFieldType.InputNumeric,
                 Restrictions = new Dictionary<string, string>
                 {
