@@ -1,4 +1,4 @@
-﻿import { type AxiosInstance } from 'axios'
+import { type AxiosInstance } from 'axios'
 import { useContext, useEffect, useState } from 'react'
 
 import AuthContext from '../../../../contexts/AuthContext.ts'

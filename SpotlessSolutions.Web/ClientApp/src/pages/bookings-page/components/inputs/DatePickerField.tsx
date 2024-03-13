@@ -1,4 +1,4 @@
-﻿import { DateTime } from 'luxon'
+import { DateTime } from 'luxon'
 import { type SyntheticEvent, useEffect, useState } from 'react'
 import Popover from '@mui/material/Popover'
 import { AdapterLuxon } from '@mui/x-date-pickers/AdapterLuxon'

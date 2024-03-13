@@ -1,4 +1,4 @@
-﻿import type { ServiceInputFieldObjectType } from '../../types/ServiceInputFieldObjectType.ts'
+import type { ServiceInputFieldObjectType } from '../../types/ServiceInputFieldObjectType.ts'
 
 interface FileUploadFieldProps {
   object: ServiceInputFieldObjectType

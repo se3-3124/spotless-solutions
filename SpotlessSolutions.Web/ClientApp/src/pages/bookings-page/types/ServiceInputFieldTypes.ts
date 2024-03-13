@@ -1,4 +1,4 @@
-﻿export enum ServiceInputFieldTypes {
+export enum ServiceInputFieldTypes {
   InputNumeric,
   InputDate,
   InputTextBox,

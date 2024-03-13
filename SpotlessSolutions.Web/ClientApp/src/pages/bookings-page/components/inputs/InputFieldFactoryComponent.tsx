@@ -1,4 +1,4 @@
-﻿import DatePickerField from './DatePickerField.tsx'
+import DatePickerField from './DatePickerField.tsx'
 import FileUploadField from './FileUploadField.tsx'
 import InputNumericField from './InputNumericField.tsx'
 import InputTextFieldBox from './InputTextBoxField.tsx'

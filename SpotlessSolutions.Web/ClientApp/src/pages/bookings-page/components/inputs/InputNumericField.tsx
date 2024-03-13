@@ -1,4 +1,4 @@
-﻿import { type SyntheticEvent, useEffect, useState } from 'react'
+import { type SyntheticEvent, useEffect, useState } from 'react'
 import type { ServiceInputFieldObjectType } from '../../types/ServiceInputFieldObjectType.ts'
 
 interface InputNumericFieldProps {

@@ -1,4 +1,4 @@
-﻿export interface CalculationItemResult {
+export interface CalculationItemResult {
   id: string
   name: string
   calculatedValue: number

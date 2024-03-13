@@ -1,4 +1,4 @@
-﻿import { useEffect, useState, type ReactNode } from 'react'
+import { useEffect, useState, type ReactNode } from 'react'
 import Accordion from '@mui/material/Accordion'
 import AccordionDetails from '@mui/material/AccordionDetails'
 import AccordionSummary from '@mui/material/AccordionSummary'
@@ -23,7 +23,7 @@ interface AccordionComponentProps {
 export default function AccordionComponent (props: AccordionComponentProps) {
   const [accordionId] = useState<number>(Math.floor(Math.random() * 10_000))
   const [active, setActive] = useState<boolean>(false)
-  
+
   useEffect(() => {
     if (props.defaultActive === true) {
       setActive(true)

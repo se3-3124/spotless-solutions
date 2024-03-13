@@ -1,4 +1,4 @@
-﻿import { type ServicesDataObject } from '../../../types/ServicesDataObject.tsx'
+import { type ServicesDataObject } from '../../../types/ServicesDataObject.tsx'
 import { type ServiceInputFieldObjectType } from './ServiceInputFieldObjectType.ts'
 
 export interface OrganizedServicesType {
@@ -34,6 +34,7 @@ export interface ServiceFields {
 export interface ServiceConfigurationType {
   area: number
   runEstimator: boolean
+  addressId: string
   optionalValues: OptionalCalculationObjectType
   services: Record<string, Record<string, ServiceFields>>
 }

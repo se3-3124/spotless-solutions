@@ -1,4 +1,4 @@
-﻿import { type SyntheticEvent, useEffect, useRef, useState } from 'react'
+import { type SyntheticEvent, useEffect, useRef, useState } from 'react'
 import Checkbox from '@mui/material/Checkbox'
 import TouchRipple, { type TouchRippleActions } from '@mui/material/ButtonBase/TouchRipple'
 

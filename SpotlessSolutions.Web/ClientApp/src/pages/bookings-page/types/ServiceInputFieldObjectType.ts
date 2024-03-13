@@ -1,4 +1,4 @@
-﻿import { type ServiceInputFieldTypes } from './ServiceInputFieldTypes.ts'
+import { type ServiceInputFieldTypes } from './ServiceInputFieldTypes.ts'
 
 export interface ServiceInputFieldObjectType {
   id: string

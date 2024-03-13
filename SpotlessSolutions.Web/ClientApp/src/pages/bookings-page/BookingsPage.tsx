@@ -1,9 +1,13 @@
-﻿import { type AxiosInstance } from 'axios'
+import { type AxiosInstance } from 'axios'
 import { type ReactNode, useContext, useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 
 import AccordionComponent from './components/AccordionComponent.tsx'
+import AddressForm from './components/forms/AddressForm.tsx'
+import { type AddressRequest } from './types/AddressRequest.ts'
+import { type AddressResult } from './types/AddressResult.ts'
 import AuthContext from '../../contexts/AuthContext.ts'
+import CalculationDrawer from './components/drawers/CalculationDrawer.tsx'
 import FooterV2 from '../../components/footerv2/FooterV2.tsx'
 import InputFieldFactoryComponent from './components/inputs/InputFieldFactoryComponent.tsx'
 import NavigationBar from '../../components/navigation/NavigationBar.tsx'
@@ -12,21 +16,22 @@ import {
   type OptionalCalculationObjectType,
   type OrganizedServicesType,
   type SelectedServicesType,
-  type ServiceConfigurationType, type ServiceFields
+  type ServiceConfigurationType,
+  type ServiceFields
 } from './types/BookingsPageStateTypes.ts'
 import { type ServicesDataObject, ServiceType } from '../../types/ServicesDataObject.tsx'
+import { ServiceInputFieldTypes } from './types/ServiceInputFieldTypes.ts'
 import { type ServiceInputFieldObjectType } from './types/ServiceInputFieldObjectType.ts'
 import ServiceObjectComponent from './components/ServiceObjectComponent.tsx'
 
 import './BookingsPage.styles.scss'
-import { ServiceInputFieldTypes } from './types/ServiceInputFieldTypes.ts'
-import CalculationDrawer from './components/drawers/CalculationDrawer.tsx'
 
 export default function BookingsPage () {
   const authContext = useContext(AuthContext)
   const notificationContext = useContext(NotificationsContext)
   const navigate = useNavigate()
 
+  const [userAddresses, setUserAddresses] = useState<AddressResult[]>([])
   const [services, setServices] = useState<OrganizedServicesType>({
     mainServices: [],
     addOns: []
@@ -38,6 +43,7 @@ export default function BookingsPage () {
   const [serviceConfiguration, setServiceConfiguration] = useState<ServiceConfigurationType>({
     area: 1,
     runEstimator: false,
+    addressId: '',
     optionalValues: {
       bedroom: {
         id: 'bedroom_field',
@@ -73,6 +79,12 @@ export default function BookingsPage () {
     services: {}
   })
 
+  const getAddresses = async (req: AxiosInstance) => {
+    const response = await req
+      .get<{ success: true, result: AddressResult[] }>('/api/v1/user/address/all')
+    setUserAddresses(response.data.result)
+  }
+
   useEffect(() => {
     if (authContext.user === null || authContext.request === null) {
       notificationContext.notify(NotificationSeverity.Error, 'You are not signed in!')
@@ -85,6 +97,7 @@ export default function BookingsPage () {
         .get<{ success: true, data: ServicesDataObject[] }>('/api/v1/services/all')
       return result.data.data
     }
+
     fetchAllServices(authContext.request)
       .then(r => {
         setServices({
@@ -92,7 +105,13 @@ export default function BookingsPage () {
           addOns: r.filter(x => x.type === ServiceType.Addon)
         })
       })
-      .catch(console.error)
+      .catch(() => {
+        notificationContext.notify(NotificationSeverity.Error, 'Unable to fetch services.')
+      })
+
+    getAddresses(authContext.request).catch(() => {
+      notificationContext.notify(NotificationSeverity.Error, 'Unable to fetch addresses.')
+    })
   }, [])
 
   const triggerFormCaching = (id: string) => {
@@ -215,6 +234,29 @@ export default function BookingsPage () {
     setServiceConfiguration(t => ({ ...t, runEstimator: !t.runEstimator }))
   }
 
+  const onAddressSelect = (id: string) => {
+    setServiceConfiguration(p => ({
+      ...p,
+      addressId: id
+    }))
+  }
+
+  const onAddressCreate = (config: AddressRequest) => {
+    async function requestor (req: AxiosInstance, config: AddressRequest) {
+      await req.post<{ success: true }>('/api/v1/user/address/create', config)
+    }
+
+    const req = authContext.request
+    if (req !== null) {
+      requestor(req, config)
+        .then(function () {
+          notificationContext.notify(NotificationSeverity.Success, 'Entry Added!')
+          getAddresses(req).catch(() => console.error)
+        })
+        .catch(() => { notificationContext.notify(NotificationSeverity.Error, 'Unable to add entry.') })
+    }
+  }
+
   return (
     <>
       <NavigationBar user={authContext.user} />
@@ -266,8 +308,13 @@ export default function BookingsPage () {
 
                 {/* Specify Area Size Section */}
                 <div className="col-span-12">
-                  <h1 className="section-title">Address Dimensions</h1>
+                  <h1 className="section-title">Your Place</h1>
                 </div>
+                <AddressForm
+                  userAddresses={userAddresses}
+                  onSelect={onAddressSelect}
+                  onCreate={onAddressCreate}
+                />
                 <div className="col-span-12 booking-input-container">
                   <label htmlFor="area_size">Area</label>
                   <input
@@ -312,6 +359,7 @@ export default function BookingsPage () {
                   })
                 }
               </div>
+
               {/* Autogenerated sections according to services booked */}
               {
                 selectedServices.mainService !== null
