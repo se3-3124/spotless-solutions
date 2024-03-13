@@ -115,4 +115,102 @@ public class BookingController : ControllerBase
             Result = fields
         });
     }
+
+    [HttpPost("appointment/upload")]
+    [ProducesResponseType(typeof(FileUploadResult), 200)]
+    [ProducesResponseType(typeof(ErrorException), 400)]
+    [ProducesResponseType(typeof(ErrorException), 500)]
+    public async Task<IActionResult> UploadFile(IFormFile file)
+    {
+        var userId = HttpContext.GetCurrentSessionUserDataId();
+        if (userId.Equals(Guid.Empty))
+        {
+            return Unauthorized(new ErrorException
+            {
+                Error = true,
+                Messages = [ "Invalid User Session. Try logging in again." ]
+            });
+        }
+        
+        if (file.Length > 10485760)
+        {
+            return BadRequest(new ErrorException
+            {
+                Error = true,
+                Messages = [ "File exceeds the maximum file size of 10MB." ]
+            });
+        }
+
+        if (!MimeTypes.TryGetMimeType(file.FileName, out var type))
+        {
+            return BadRequest(new ErrorException
+            {
+                Error = true,
+                Messages = [ "Invalid file." ]
+            });
+        }
+
+        if (!type.StartsWith("image/"))
+        {
+            return BadRequest(new ErrorException
+            {
+                Error = true,
+                Messages = [ "Invalid file." ]
+            });
+        }
+
+        var result = await _booking.UploadAttachment(userId, file.FileName, file.OpenReadStream());
+        if (result == Guid.Empty)
+        {
+            return StatusCode(500, new ErrorException
+            {
+                Error = true,
+                Messages = [ "An unknown error occured." ]
+            });
+        }
+
+        return Ok(new FileUploadResult
+        {
+            Success = true,
+            AttachmentId = result
+        });
+    }
+
+    [HttpGet("attachments")]
+    [ProducesResponseType(typeof(ErrorException), 404)]
+    public async Task<IActionResult> ReadAttachedFile([FromQuery] Guid userId, [FromQuery] Guid attachmentId)
+    {
+        // Check for role
+        if (HttpContext.IsAdministrator())
+        {
+            return Unauthorized(new ErrorException
+            {
+                Error = true,
+                Messages = ["Not allowed"]
+            });
+        }
+
+        try
+        {
+            var result = await _booking.GetAttachment(userId, attachmentId);
+            if (result == null)
+            {
+                return NotFound(new ErrorException
+                {
+                    Error = true,
+                    Messages = ["Specified resource cannot be found"]
+                });
+            }
+
+            return PhysicalFile(result.TemporaryStoredPath, result.ContentType);
+        }
+        catch
+        {
+            return NotFound(new ErrorException
+            {
+                Error = true,
+                Messages = ["Not found"]
+            });
+        }
+    }
 }

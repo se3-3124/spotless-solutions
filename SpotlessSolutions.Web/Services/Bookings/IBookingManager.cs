@@ -1,3 +1,4 @@
+using SpotlessSolutions.DataBucketSdk;
 using SpotlessSolutions.Web.Data.Models;
 
 namespace SpotlessSolutions.Web.Services.Bookings;
@@ -24,7 +25,25 @@ public interface IBookingManager
     /// <summary>
     /// Schedule a booking
     /// </summary>
+    /// <param name="userId"></param>
     /// <param name="bookingRequest"></param>
     /// <returns></returns>
     Task<bool> ScheduleBooking(Guid userId, BookingRequestObject bookingRequest);
+
+    /// <summary>
+    /// Upload a file for booking
+    /// </summary>
+    /// <param name="userId"></param>
+    /// <param name="objectName"></param>
+    /// <param name="fileUploadStream"></param>
+    /// <returns></returns>
+    Task<Guid> UploadAttachment(Guid userId, string objectName, Stream fileUploadStream);
+
+    /// <summary>
+    /// Retrieves the bucket data
+    /// </summary>
+    /// <param name="userId"></param>
+    /// <param name="attachmentId"></param>
+    /// <returns></returns>
+    Task<PullResult?> GetAttachment(Guid userId, Guid attachmentId);
 }

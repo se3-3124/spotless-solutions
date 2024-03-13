@@ -72,11 +72,19 @@
     }
   }
   
-  & input[type="file"] {
-    @apply block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50;
+  & .file-upload-field {
+    @apply flex w-full;
+
+    & input[type="file"] {
+      @apply flex-grow block text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50;
+
+      &::file-selector-button {
+        @apply p-2 text-white bg-gray-800 font-medium text-sm px-5 py-2.5 me-2 border-0;
+      }
+    }
     
-    &::file-selector-button {
-      @apply p-2 text-white bg-gray-800 font-medium text-sm px-5 py-2.5 me-2 border-0;
+    & .checkmark {
+      @apply ml-2;
     }
   }
   

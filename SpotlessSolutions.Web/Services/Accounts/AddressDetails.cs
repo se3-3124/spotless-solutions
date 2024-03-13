@@ -1,4 +1,6 @@
-﻿namespace SpotlessSolutions.Web.Services.Accounts;
+﻿// ReSharper disable UnusedAutoPropertyAccessor.Global
+
+namespace SpotlessSolutions.Web.Services.Accounts;
 
 public class AddressDetails
 {

@@ -7,10 +7,10 @@ namespace SpotlessSolutions.Web.Data.Models;
 
 public class FileUploadBucket
 {
-    [Required]
+    [Key]
     public Guid Id { get; set; }
-    
-    public Guid BucketPath { get; set; }
+
+    public string BucketId { get; set; }
     public long FileSize { get; set; }
     public DateTime TimeUploaded { get; init; }
     

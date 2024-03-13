@@ -1,5 +1,6 @@
 using FluentValidation;
 using Microsoft.AspNetCore.Identity;
+using SpotlessSolutions.DataBuckets.BlobStorage;
 using SpotlessSolutions.Web.Contracts.V1;
 using SpotlessSolutions.Web.Data;
 using SpotlessSolutions.Web.Data.Seeding;
@@ -51,6 +52,7 @@ builder.Services.AddValidatorsFromAssemblyContaining<Program>();
 builder.Services.InstallDataContexts(builder.Configuration);
 builder.Services.InstallGoogleConfig(builder.Configuration);
 builder.Services.InstallSwaggerDocumentation();
+builder.Services.InstallBlobStorageDataBucket();
 builder.Services.InstallServices();
 
 var app = builder.Build();
