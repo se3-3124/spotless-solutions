@@ -1,4 +1,5 @@
-﻿namespace SpotlessSolutions.Web.Contracts.V1.Responses;
+﻿// ReSharper disable CollectionNeverUpdated.Global
+namespace SpotlessSolutions.Web.Contracts.V1.Responses;
 
 public class ServiceCalculationDescriptorDto
 {
