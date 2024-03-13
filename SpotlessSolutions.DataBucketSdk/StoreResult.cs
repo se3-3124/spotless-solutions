@@ -1,4 +1,6 @@
-﻿namespace SpotlessSolutions.DataBucketSdk;
+﻿// ReSharper disable UnusedAutoPropertyAccessor.Global
+
+namespace SpotlessSolutions.DataBucketSdk;
 
 public class StoreResult
 {

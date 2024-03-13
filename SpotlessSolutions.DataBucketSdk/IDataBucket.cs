@@ -1,6 +1,4 @@
-﻿using System.Net.Mime;
-
-namespace SpotlessSolutions.DataBucketSdk;
+﻿namespace SpotlessSolutions.DataBucketSdk;
 
 public interface IDataBucket
 {

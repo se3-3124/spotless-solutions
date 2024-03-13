@@ -1,6 +1,5 @@
 ﻿using AutoMapper;
 using AutoMapper.Extensions.EnumMapping;
-using JasperFx.Core.Reflection;
 using SpotlessSolutions.ServiceLibrarySdk.ReturnTypes;
 using SpotlessSolutions.Web.Contracts.V1.Requests;
 using SpotlessSolutions.Web.Contracts.V1.Responses;

@@ -2,6 +2,6 @@
 
 public class PullResult
 {
-    public string ContentType { get; init; }
-    public string TemporaryStoredPath { get; init; }
+    public required string ContentType { get; init; }
+    public required string TemporaryStoredPath { get; init; }
 }
