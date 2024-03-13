@@ -9,6 +9,7 @@ public class ServiceDetailConfig
 {
     public required ServiceDetails Service { get; init; }
     public required IEnumerable<string[]> BookingDescriptor { get; init; }
+    public bool RequiresAssessment { get; init; }
     public required float Calculated { get; init; }
 }
 

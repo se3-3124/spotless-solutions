@@ -1,4 +1,5 @@
 import { type AxiosInstance } from 'axios'
+import { DateTime } from 'luxon'
 import { type ReactNode, useContext, useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 
@@ -6,9 +7,12 @@ import AccordionComponent from './components/AccordionComponent.tsx'
 import AddressForm from './components/forms/AddressForm.tsx'
 import { type AddressRequest } from './types/AddressRequest.ts'
 import { type AddressResult } from './types/AddressResult.ts'
+import { type AppointmentRequest } from './types/AppointmentRequest.ts'
 import AuthContext from '../../contexts/AuthContext.ts'
 import CalculationDrawer from './components/drawers/CalculationDrawer.tsx'
 import FooterV2 from '../../components/footerv2/FooterV2.tsx'
+import GenericDatePickerField from './components/inputs/GenericDatePickerField.tsx'
+import GenericTimePickerField from './components/inputs/GenericTimePickerField.tsx'
 import InputFieldFactoryComponent from './components/inputs/InputFieldFactoryComponent.tsx'
 import NavigationBar from '../../components/navigation/NavigationBar.tsx'
 import NotificationsContext, { NotificationSeverity } from '../../contexts/NotificationsContext.tsx'
@@ -40,6 +44,7 @@ export default function BookingsPage () {
     mainService: null,
     addOns: {}
   })
+  const [schedule, setSchedule] = useState<DateTime>(DateTime.now())
   const [serviceConfiguration, setServiceConfiguration] = useState<ServiceConfigurationType>({
     area: 1,
     runEstimator: false,
@@ -257,6 +262,76 @@ export default function BookingsPage () {
     }
   }
 
+  const changeDateSchedule = (date: DateTime) => {
+    setSchedule(p => {
+      return p
+        .set({ year: date.year, month: date.month, day: date.day })
+    })
+  }
+
+  const changeTimeSchedule = (date: DateTime) => {
+    setSchedule(p => {
+      return p
+        .set({ hour: date.hour, minute: date.minute })
+    })
+  }
+
+  const getConfigrationValueOf = (id: string): string => {
+    const service: string[] = Object.keys(serviceConfiguration.services)
+      .filter(x => x === id)
+    if (service[0] === undefined) {
+      return ''
+    }
+
+    const values = serviceConfiguration.services[id]
+    if (values === undefined || values === null) {
+      return ''
+    }
+
+    const bodyValues: Record<string, string | number> = {
+      area: serviceConfiguration.area <= 0 ? 1 : serviceConfiguration.area
+    }
+    for (const _key of Object.keys(values)) {
+      bodyValues[_key] = values[_key].value
+    }
+
+    return JSON.stringify(bodyValues)
+  }
+
+  const bookAppointment = () => {
+    async function runBooker (req: AxiosInstance, appointment: AppointmentRequest) {
+      await req.post('/api/v1/bookings/appointment', appointment)
+    }
+
+    const stringSchedule = schedule.toISO()
+    const selectedMainService = selectedServices.mainService
+    if (authContext.request === null || stringSchedule === null || selectedMainService === null) {
+      return
+    }
+
+    const appointmentDetails: AppointmentRequest = {
+      schedule: stringSchedule,
+      addressId: serviceConfiguration.addressId,
+      mainServiceId: selectedMainService,
+      mainServiceConfig: getConfigrationValueOf(selectedMainService),
+      addons: {}
+    }
+
+    const activeAddons = Object.keys(serviceConfiguration.services)
+      .filter(x => selectedServices.addOns[x])
+    for (const key of activeAddons) {
+      appointmentDetails.addons[key] = getConfigrationValueOf(key)
+    }
+
+    runBooker(authContext.request, appointmentDetails)
+      .then(() => {
+        notificationContext.notify(NotificationSeverity.Success, 'Booking successful!')
+      })
+      .catch(() => {
+        notificationContext.notify(NotificationSeverity.Error, 'Unable to book due to an exception.')
+      })
+  }
+
   return (
     <>
       <NavigationBar user={authContext.user} />
@@ -436,13 +511,27 @@ export default function BookingsPage () {
 
             {/* Schedule */}
             <AccordionComponent title="Select Schedule">
-              4
+              <div className="fields-grid-container">
+                <div className="col-span-6">
+                  <GenericDatePickerField
+                    onChange={changeDateSchedule}
+                    value={schedule}
+                  />
+                </div>
+                <div className="col-span-6">
+                  <GenericTimePickerField
+                    onChange={changeTimeSchedule}
+                    value={schedule}
+                  />
+                </div>
+              </div>
             </AccordionComponent>
           </div>
           <div className="bookings-sidebar-container">
             <CalculationDrawer
               selectedServices={selectedServices}
               serviceConfiguration={serviceConfiguration}
+              bookEvent={bookAppointment}
             />
           </div>
         </div>

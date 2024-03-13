@@ -39,7 +39,7 @@ public class CarpetDeepCleaning : BaseAddon, IService
                 [ "Size", $"{parameters.Size}" ]
             ],
             SensitiveDescriptors = [
-                [ "Photo Attachment" ]
+                [ "Photo Attachment", parameters.InternalPhotoAddress ]
             ],
             RequiresAssessment = true
         };

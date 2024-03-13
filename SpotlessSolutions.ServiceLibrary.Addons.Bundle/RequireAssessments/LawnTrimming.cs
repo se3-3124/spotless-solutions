@@ -38,8 +38,8 @@ public class LawnTrimming : BaseAddon, IService
             Descriptors = [],
             SensitiveDescriptors =
             [
-                [ "Photo Attachment" ],
-                [ "Job Comment", parameters.JobComment ],
+                [ "Photo Attachment", parameters.InternalPhotoAddress ],
+                [ "Job Comment: ", parameters.JobComment ],
             ],
             RequiresAssessment = true
         };

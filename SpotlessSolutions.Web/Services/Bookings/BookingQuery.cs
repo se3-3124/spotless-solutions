@@ -23,8 +23,7 @@ public class BookingQuery : IBookingQuery
         var end = new DateTime(year, month, DateTime.DaysInMonth(year, month))
             .ToUniversalTime();
 
-        var result = (await GetBooking(start, end)).ToList();
-        return result;
+        return await GetBooking(start, end);
     }
 
     public async Task<List<BookingObject>> GetBooking(DateTime start, DateTime end)
@@ -113,6 +112,8 @@ public class BookingQuery : IBookingQuery
             return null;
         }
 
+        var descriptors = calculated.SensitiveDescriptors;
+        descriptors.AddRange(calculated.Descriptors);
         return new ServiceDetailConfig
         {
             Service = new ServiceDetails
@@ -122,8 +123,9 @@ public class BookingQuery : IBookingQuery
                 Type = service.GetServiceType(),
                 Description = service.GetDescription()
             },
-            BookingDescriptor = calculated.Descriptors,
-            Calculated = calculated.CalculatedValue
+            BookingDescriptor = descriptors,
+            Calculated = calculated.CalculatedValue,
+            RequiresAssessment = calculated.RequiresAssessment
         };
     }
 

@@ -7,24 +7,17 @@ import { StaticDatePicker } from '@mui/x-date-pickers/StaticDatePicker'
 
 import { BsCalendar2 } from 'react-icons/bs'
 
-import type { ServiceInputFieldObjectType } from '../../types/ServiceInputFieldObjectType.ts'
-
-interface DatePickerFieldProps {
-  object: ServiceInputFieldObjectType
-  onChange: (key: string, value: string | number) => void
-  value: string | number
+interface GenericDatePickerFieldProps {
+  onChange: (value: DateTime) => void
+  value: DateTime
 }
 
-export default function DatePickerField (props: DatePickerFieldProps) {
+export default function GenericDatePickerField (props: GenericDatePickerFieldProps) {
   const [activeDate, setActiveDate] = useState<DateTime>(DateTime.now())
   const [anchor, setAnchor] = useState<HTMLButtonElement | null>(null)
 
   useEffect(() => {
-    try {
-      setActiveDate(DateTime.fromJSDate(new Date(props.value)))
-    } catch (_) {
-      setActiveDate(DateTime.now())
-    }
+    setActiveDate(props.value)
   }, [props.value])
 
   const handleOpen = (e: SyntheticEvent<HTMLButtonElement>) => {
@@ -36,17 +29,12 @@ export default function DatePickerField (props: DatePickerFieldProps) {
   }
 
   const handleDateChange = (date: DateTime) => {
-    const result = date.toISODate()
-    if (result === null) {
-      return
-    }
-
-    props.onChange(props.object.configId, result)
+    props.onChange(date)
   }
 
   return (
     <div className="booking-input-container">
-      <label htmlFor={props.object.id}>{props.object.label}</label>
+      <label htmlFor="date-picker-schedule-1">Date</label>
       <div className="date-picker-container">
         <input type="text" value={activeDate.toFormat('LLLL dd yyyy')} disabled />
         <button className="btn-picker" onClick={handleOpen}>

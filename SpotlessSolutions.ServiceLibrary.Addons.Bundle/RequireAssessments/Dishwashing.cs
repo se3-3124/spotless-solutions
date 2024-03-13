@@ -20,10 +20,7 @@ public class Dishwashing : BaseAddon, IService
             Id = Id,
             Name = Name,
             CalculatedValue = 0,
-            Descriptors =
-            [
-                [ "Requires In-person Assessment" ]
-            ],
+            Descriptors = [],
             SensitiveDescriptors = [],
             RequiresAssessment = true
         };

@@ -42,10 +42,11 @@ public class AdministrativeBookingsController : ControllerBase
         }
 
         var result = await _bookingQuery.GetBooking(year, month);
+        var data = result.Select(_mapper.Map<BookingDetailsDto>);
         return Ok(new BookingResult
         {
             Success = true,
-            Data = result.Select(_mapper.Map<BookingDetailsDto>)
+            Data = data
         });
     }
 
@@ -63,7 +64,7 @@ public class AdministrativeBookingsController : ControllerBase
                 Messages = ["Not allowed"]
             });
         }
-        
+
         var result = await _bookingQuery.GetBooking(start, end);
         return Ok(new BookingResult
         {

@@ -1,4 +1,5 @@
 // ReSharper disable UnusedAutoPropertyAccessor.Global
+// ReSharper disable UnusedMember.Global
 
 using SpotlessSolutions.Web.Data.Models;
 
@@ -10,13 +11,14 @@ public class BookingDetailsDto
     {
         public string FirstName { get; init; } = string.Empty;
         public string LastName { get; init; } = string.Empty;
-        public Guid Id { get; init; }
+        public Guid UserId { get; init; }
     }
     
     public class ServiceDetailConfig
     {
         public required ServiceDetailsDto Service { get; init; }
         public required IEnumerable<string[]> BookingDescriptor { get; init; }
+        public bool RequiresAssessment { get; init; }
         public required float Calculated { get; init; }
     }
 

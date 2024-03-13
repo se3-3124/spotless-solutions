@@ -34,6 +34,9 @@ public class BookingController : ControllerBase
     }
 
     [HttpPost("appointment")]
+    [ProducesResponseType(typeof(GenericOkResult), 200)]
+    [ProducesResponseType(typeof(ErrorException), 400)]
+    [ProducesResponseType(typeof(ErrorException), 401)]
     public async Task<IActionResult> BookAppointment([FromBody] BookingAppointmentDto appointment)
     {
         var validator = await _bookingAppointmentDtoValidator.ValidateAsync(appointment);

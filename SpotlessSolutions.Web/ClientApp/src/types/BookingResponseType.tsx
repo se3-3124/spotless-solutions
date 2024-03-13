@@ -13,6 +13,7 @@ export interface ServiceBooked {
   }
   bookingDescriptor: string[][]
   calculated: number
+  requiresAssessment: boolean
 }
 
 export interface BookingResponseType {
@@ -28,7 +29,7 @@ export interface BookingResponseType {
     province: string
   }
   user: {
-    id: string
+    userId: string
     firstName: string
     lastName: string
   }

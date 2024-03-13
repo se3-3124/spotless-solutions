@@ -113,7 +113,8 @@ public class BookingManager : IBookingManager
             receipts.Add(item);
         }
 
-        var total = receipts.Sum(x => x.CalculatedValue);
+        var total = receipts.Sum(x => x.CalculatedValue)
+            + service.CalculatedValue;
 
         try
         {

@@ -10,6 +10,7 @@ import './CalculationDrawer.styles.scss'
 interface CalculationDrawerProps {
   selectedServices: SelectedServicesType
   serviceConfiguration: ServiceConfigurationType
+  bookEvent: () => void
 }
 
 interface CalculationResultState {
@@ -17,7 +18,7 @@ interface CalculationResultState {
   total: number
 }
 
-export default function CalculationDrawer ({ selectedServices, serviceConfiguration }: CalculationDrawerProps) {
+export default function CalculationDrawer ({ selectedServices, serviceConfiguration, bookEvent }: CalculationDrawerProps) {
   const authContext = useContext(AuthContext)
   const [calculationResult, setCalculationResult] = useState<CalculationResultState>({
     result: [],
@@ -119,7 +120,7 @@ export default function CalculationDrawer ({ selectedServices, serviceConfigurat
         <h1 className="left-heading-text">20% Down-payment</h1>
         <p className="right-value">P{(calculationResult.total * 0.20).toFixed(2)}</p>
       </div>
-      <div className="btn-book-now">
+      <div className="btn-book-now" onClick={bookEvent}>
         Book Now
       </div>
     </div>

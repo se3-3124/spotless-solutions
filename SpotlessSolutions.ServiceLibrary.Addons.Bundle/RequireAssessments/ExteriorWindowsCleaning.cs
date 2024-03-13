@@ -31,7 +31,7 @@ public class ExteriorWindowsCleaning : BaseAddon, IService
             Descriptors = [],
             SensitiveDescriptors =
             [
-                [ "Photo Attached." ]
+                [ "Photo Attachment", parameters.InternalPhotoAddress ]
             ],
             RequiresAssessment = true
         };

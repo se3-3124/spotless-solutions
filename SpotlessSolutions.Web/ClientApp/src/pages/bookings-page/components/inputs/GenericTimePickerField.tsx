@@ -3,28 +3,21 @@ import { type SyntheticEvent, useEffect, useState } from 'react'
 import Popover from '@mui/material/Popover'
 import { AdapterLuxon } from '@mui/x-date-pickers/AdapterLuxon'
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider'
-import { StaticDatePicker } from '@mui/x-date-pickers/StaticDatePicker'
+import { StaticTimePicker } from '@mui/x-date-pickers/StaticTimePicker'
 
 import { BsCalendar2 } from 'react-icons/bs'
 
-import type { ServiceInputFieldObjectType } from '../../types/ServiceInputFieldObjectType.ts'
-
-interface DatePickerFieldProps {
-  object: ServiceInputFieldObjectType
-  onChange: (key: string, value: string | number) => void
-  value: string | number
+interface GenericTimePickerFieldProps {
+  onChange: (value: DateTime) => void
+  value: DateTime
 }
 
-export default function DatePickerField (props: DatePickerFieldProps) {
+export default function GenericTimePickerField (props: GenericTimePickerFieldProps) {
   const [activeDate, setActiveDate] = useState<DateTime>(DateTime.now())
   const [anchor, setAnchor] = useState<HTMLButtonElement | null>(null)
 
   useEffect(() => {
-    try {
-      setActiveDate(DateTime.fromJSDate(new Date(props.value)))
-    } catch (_) {
-      setActiveDate(DateTime.now())
-    }
+    setActiveDate(props.value)
   }, [props.value])
 
   const handleOpen = (e: SyntheticEvent<HTMLButtonElement>) => {
@@ -35,20 +28,15 @@ export default function DatePickerField (props: DatePickerFieldProps) {
     setAnchor(null)
   }
 
-  const handleDateChange = (date: DateTime) => {
-    const result = date.toISODate()
-    if (result === null) {
-      return
-    }
-
-    props.onChange(props.object.configId, result)
+  const handleTimeChange = (date: DateTime) => {
+    props.onChange(date)
   }
 
   return (
     <div className="booking-input-container">
-      <label htmlFor={props.object.id}>{props.object.label}</label>
+      <label htmlFor="time-picker-sched-1">Time</label>
       <div className="date-picker-container">
-        <input type="text" value={activeDate.toFormat('LLLL dd yyyy')} disabled />
+        <input type="text" value={activeDate.toFormat('hh:mm a')} disabled />
         <button className="btn-picker" onClick={handleOpen}>
           <BsCalendar2 />
         </button>
@@ -67,9 +55,9 @@ export default function DatePickerField (props: DatePickerFieldProps) {
             horizontal: 'center'
           }}
         >
-          <StaticDatePicker
+          <StaticTimePicker
             value={activeDate}
-            onChange={n => { handleDateChange(n ?? DateTime.now()) }}
+            onChange={n => { handleTimeChange(n ?? DateTime.now()) }}
             onAccept={handleClose}
           />
         </Popover>
