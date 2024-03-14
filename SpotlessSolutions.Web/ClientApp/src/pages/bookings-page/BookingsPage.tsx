@@ -532,6 +532,8 @@ export default function BookingsPage () {
               selectedServices={selectedServices}
               serviceConfiguration={serviceConfiguration}
               bookEvent={bookAppointment}
+              schedule={schedule}
+              area={serviceConfiguration.area}
             />
           </div>
         </div>
