@@ -1,22 +1,23 @@
 export enum BookingStatus {
   Approved,
-  Done,
   Pending,
-  Denied
+  Rejected,
+  Completed
+}
+
+export interface ServiceBooked {
+  service: {
+    id: string
+    description: string
+    name: string
+  }
+  bookingDescriptor: string[][]
+  calculated: number
 }
 
 export interface BookingResponseType {
   id: string
-  issuedDate: string
-  config: {
-    homeSize: number
-    bedroomCount: number
-    comfortRoomCount: number
-    kitchenCount: number
-    livingRoomCount: number
-    storageCount: number
-    floorCount: number
-  }
+  schedule: string
   status: BookingStatus
   address: {
     street: string
@@ -26,25 +27,12 @@ export interface BookingResponseType {
     city: string
     province: string
   }
-  transportFee: number
-  transportNeedsAssessment: boolean
   user: {
     id: string
     firstName: string
     lastName: string
-    email: string
   }
-  servicesBooked: Array<{
-    id: string
-    serviceId: string
-    name: string
-    totalCalculation: number
-  }>
-  addOnsBooked: Array<{
-    id: string
-    addOnId: string
-    name: string
-    totalCalculation: number
-  }>
-  totalComputed: number
+  mainService: ServiceBooked
+  addons: ServiceBooked[]
+  totalPrice: number
 }

@@ -2,6 +2,7 @@ import { DateTime } from 'luxon'
 
 import Grid from '@mui/material/Grid'
 
+import BookingCard from '../cards/BookingCard.tsx'
 import { type BookingResponseType } from '../../types/BookingResponseType.tsx'
 import { isToday } from '../../utils/date-utils.ts'
 
@@ -52,11 +53,34 @@ export default function WeeklyCalendarComponent ({ date, handleOpen, events }: W
     return calendar
   }
 
+  const createTimeFrameList = () => {
+    const time = DateTime.fromObject({
+      year: 2024,
+      month: 1,
+      day: 1
+    })
+
+    const times: Array<{ time: string, object: { hour: number, minute: number } }> = []
+    for (let i = 0; i < 24; i++) {
+      const active = time.plus({ hours: i })
+      times.push({
+        time: active.toFormat('hh\':\'mm a'),
+        object: {
+          hour: active.hour,
+          minute: active.minute
+        }
+      })
+    }
+
+    return times
+  }
+
   return (
     <Grid container>
+      <Grid item xs={1.5} />
       {
         ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'].map((w, i) => (
-          <Grid item xs={1.7} key={`wkn-${i}`}>
+          <Grid item xs={1.5} key={`wkn-${i}`}>
             <div className="weekly-calendar-week-field">
               <p>{w}</p>
             </div>
@@ -64,25 +88,37 @@ export default function WeeklyCalendarComponent ({ date, handleOpen, events }: W
         ))
       }
       {
-        makeWeekCalendar().map((d, i) => (
-          <Grid item xs={1.7} key={`wkc-${i}`}>
-            <div className={`weekly-component${d.isToday ? ' today' : ''}`}>
-              <p>{d.date.getDate()}</p>
-              {
-                events.filter(x => {
-                  const issued = new Date(x.issuedDate)
-                  return issued.getFullYear() === d.date.getFullYear() &&
-                    issued.getMonth() === d.date.getMonth() &&
-                    issued.getDate() === d.date.getDate()
-                }).map((x, ii) => (
-                  <div key={`d-${ii}`} onClick={() => {
-                    handleOpen(x)
-                  }}>
-                    {x.servicesBooked[0].name}
+        createTimeFrameList().map((xx, ii) => (
+          <Grid container key={ii}>
+            <Grid item xs={1.5}>
+              <div className="weekly-component-timeframe">
+                <p className="time">
+                  {xx.time}
+                </p>
+              </div>
+            </Grid>
+            {
+              makeWeekCalendar().map((d, i) => (
+                <Grid item xs={1.5} key={`wkc-${i}`}>
+                  <div className={`weekly-component${d.isToday ? ' today' : ''}`}>
+                    {
+                      ii === 0 && (<p>{d.date.getDate()}</p>)
+                    }
+                    {
+                      events.filter(x => {
+                        const issued = new Date(x.schedule)
+                        return issued.getFullYear() === d.date.getFullYear() &&
+                          issued.getMonth() === d.date.getMonth() &&
+                          issued.getDate() === d.date.getDate() &&
+                          issued.getHours() === xx.object.hour
+                      }).map((x, ii) => (
+                        <BookingCard key={ii} handleClick={handleOpen} booking={x}/>
+                      ))
+                    }
                   </div>
-                ))
-              }
-            </div>
+                </Grid>
+              ))
+            }
           </Grid>
         ))
       }

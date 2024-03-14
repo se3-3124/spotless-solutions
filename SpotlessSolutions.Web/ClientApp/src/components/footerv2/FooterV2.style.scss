@@ -1,0 +1,21 @@
+@use 'tailwindcss/base.css';
+@use 'tailwindcss/components.css';
+@use 'tailwindcss/utilities.css';
+
+.footerv2 {
+  @apply w-full font-sans;
+  
+  & .footer-container {
+    @apply bg-[#05132F] text-white p-10 flex flex-col md:flex-row justify-between;
+  
+    & .flex-footer-container {
+      @apply flex items-center mb-4 md:mb-0;
+    }
+  }
+
+  & div {
+    & .copyright {
+      @apply flex justify-center text-sm md:flex text-white bg-[#05132F] py-4 border-t-2;
+    }
+  }
+}

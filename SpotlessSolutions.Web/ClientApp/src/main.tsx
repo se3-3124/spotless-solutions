@@ -27,10 +27,11 @@ import PasswordRecoveryPage from './pages/authentication/PasswordRecoveryPage.ts
 import PasswordRecoveryWizardPage from './pages/authentication/PasswordRecoveryWizardPage.tsx'
 import ServicesPage from './pages/services-page/services-page.tsx'
 
-import './index.css'
 import DashboardBookingsWorkflowView from './pages/dashboard/DashboardBookingsWorkflowVew.tsx'
 import NotificationsContext, { NotificationSeverity } from './contexts/NotificationsContext.tsx'
 import { type NotificationStateType } from './types/MainStateTypes.tsx'
+import DashboardServiceManagementView from './pages/dashboard/DashboardServiceManagementView.tsx'
+import ServicesAccordion from './pages/user-booking-page/service-accordion.tsx'
 
 const theme = createTheme({
   palette: {
@@ -160,10 +161,14 @@ function Main () {
                       <Route path="/dashboard/calendar" element={<DashboardBookingCalendarView />} />
                       <Route path="/dashboard/history" element={<History />} />
                       <Route path="/dashboard/calendar-workflow" element={<DashboardBookingsWorkflowView />} />
+                      <Route path="/dashboard/service-management" element={<DashboardServiceManagementView />} />
 
                       {/* <Route path="/" element={<Home />} /> */}
                       <Route path="/" element={<Home2 />} />
                       <Route path="/services" element={<ServicesPage />} />
+
+                      {/* User */}
+                      <Route path="/user/booking-page" element={<ServicesAccordion />}/>
 
                     </Routes>
                   </BrowserRouter>

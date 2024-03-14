@@ -3,37 +3,63 @@
 @use 'tailwindcss/utilities.css';
 
 .modal-container {
-  @apply p-8;
-
-  & .modal-header {
-    @apply flex justify-between;
-
-    & h2 {
-      @apply text-lg font-bold;
+  @apply p-8 w-full;
+  
+  & .modal-header-group {
+    @apply w-full flex justify-center items-center mb-4;
+    
+    & .job-id {
+      @apply flex-grow;
     }
   }
-
+  
   & .modal-contents {
-    @apply flex;
-
-    & .modal-information {
-      @apply flex-1 lg:flex-auto ml-3 py-3 text-gray-700;
-
-      & p {
-        @apply py-2;
+    @apply w-full;
+    
+    & .job-description-group {
+      @apply w-full mb-4;
+      
+      & .job-title {
+        @apply font-medium text-2xl;
       }
     }
-  }
-
-  & .modal-bottom {
-    @apply flex-1 lg:flex-col;
-
-    & p {
-      @apply mt-4;
+    
+    & .modal-content-small-header {
+      font-size: 16px;
+      @apply font-bold mb-2;
     }
+    
+    & .right-side-container {
+      @apply p-4 w-full border border-gray-200 overflow-hidden mb-4;
+      
+      & .detail-header {
+        @apply font-bold mb-4;
+      }
+      
+      & .detail-contents-container {
+        @apply grid grid-cols-2 gap-4;
+        
+        & .detail-contents-field-name {
+          @apply flex justify-items-center align-middle;
+          
+          & p {
+            @apply font-bold flex-grow;
+            font-size: 13px;
+          }
+        }
+        
+        & .detail-contents-value {
+          font-size: 13px;
+          overflow-wrap: anywhere;
 
-    & button {
-      @apply flex mt-4 px-2 py-2 text-sm font-medium text-white bg-midnightblue rounded-md;
+          & select {
+            @apply -ml-1;
+          }
+        }
+        
+        & .detail-message-field-wrapper {
+        }
+      }
     }
   }
 }

@@ -1,0 +1,7 @@
+@use 'tailwindcss/base.css';
+@use 'tailwindcss/components.css';
+@use 'tailwindcss/utilities.css';
+
+.main-wrapper {
+  @apply p-3 flex;
+}
