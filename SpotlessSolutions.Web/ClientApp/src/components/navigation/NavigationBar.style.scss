@@ -21,7 +21,7 @@
       }
 
       & span {
-        @apply self-center text-2xl font-semibold whitespace-nowrap dark:text-white;
+        @apply self-center text-2xl font-semibold whitespace-nowrap text-white;
       }
     }
 
@@ -88,7 +88,7 @@
         @apply dark:bg-transparent md:md:bg-[#05132F] dark:border-gray-700;
 
         & .nav-link {
-          @apply block py-2 px-3 text-gray-900 md:hover:bg-transparent md:hover:text-[#EFA25D] md:p-0 dark:text-white;
+          @apply block py-2 px-3 text-gray-900 md:hover:bg-transparent md:hover:text-[#EFA25D] md:p-0 text-white;
         }
       }
     }
