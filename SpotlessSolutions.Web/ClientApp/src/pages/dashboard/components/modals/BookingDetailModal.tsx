@@ -51,7 +51,10 @@ function PhotoRender (props: { userId: string, attachmentId: string }) {
       })
 
       const data = new Uint8Array(response.data)
-      const raw = String.fromCharCode.apply(null, [...data])
+      let raw = ''
+      for (let i = 0; i < data.length; i++) {
+        raw += String.fromCharCode(data[i])
+      }
       return btoa(raw)
     }
 
@@ -65,7 +68,7 @@ function PhotoRender (props: { userId: string, attachmentId: string }) {
   }
 
   return (
-    <img width="130" src={image} alt="Attachment photo" style={{ marginBottom: '8px' }} />
+    <img width="360" src={image} alt="Attachment photo" style={{ marginBottom: '8px' }} />
   )
 }
 
