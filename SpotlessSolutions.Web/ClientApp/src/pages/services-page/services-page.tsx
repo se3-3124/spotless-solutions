@@ -6,7 +6,7 @@ import CircularProgress from '@mui/material/CircularProgress'
 import AddOnServicesCard from '../../components/cards/AddOnServicesCard.tsx'
 import AuthContext from '../../contexts/AuthContext'
 import CardServices from '../../components/cards/CardServices.tsx'
-import FooterV2 from '../../components/footerv2/FooterV2.tsx'
+import FooterComponent from '../../components/footer/FooterComponent.tsx'
 import NavigationBar from '../../components/navigation/NavigationBar'
 import NotificationsContext, { NotificationSeverity } from '../../contexts/NotificationsContext.tsx'
 import { type ServicesDataObject, ServiceType } from '../../types/ServicesDataObject.tsx'
@@ -71,7 +71,7 @@ export default function ServicesPage () {
           </div>
             )
       }
-      <FooterV2/>
+      <FooterComponent />
     </>
   )
 }

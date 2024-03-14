@@ -9,6 +9,10 @@ export default {
       colors: {
         'midnightblue': '#05132E',
         'fruityorange': '#EFA25D',
+      }, 
+      fontFamily: {
+        kaushan: ['"Kaushan Script"', "cursive"],
+        roboto: ['"Roboto"', "Roboto"],
       }
     },
   },
