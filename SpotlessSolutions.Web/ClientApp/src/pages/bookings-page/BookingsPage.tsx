@@ -10,7 +10,7 @@ import { type AddressResult } from './types/AddressResult.ts'
 import { type AppointmentRequest } from './types/AppointmentRequest.ts'
 import AuthContext from '../../contexts/AuthContext.ts'
 import CalculationDrawer from './components/drawers/CalculationDrawer.tsx'
-import FooterV2 from '../../components/footerv2/FooterV2.tsx'
+import FooterComponent from '../../components/footer/FooterComponent.tsx'
 import GenericDatePickerField from './components/inputs/GenericDatePickerField.tsx'
 import GenericTimePickerField from './components/inputs/GenericTimePickerField.tsx'
 import InputFieldFactoryComponent from './components/inputs/InputFieldFactoryComponent.tsx'
@@ -536,7 +536,7 @@ export default function BookingsPage () {
           </div>
         </div>
       </div>
-      <FooterV2 />
+      <FooterComponent />
     </>
   )
 }

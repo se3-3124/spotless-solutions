@@ -3,7 +3,7 @@
 @use 'tailwindcss/utilities.css';
 
 .bookings-page-wrapper {
-  @apply w-full;
+  @apply w-full mt-24;
   
   & .bookings-grid-container {
     @apply grid grid-cols-12 w-full gap-2;
