@@ -17,4 +17,5 @@ public class DataContext : IdentityDbContext
     
     public DbSet<ServiceConfig> ServiceConfigs { get; set; }
     public DbSet<Booking> Bookings { get; set; }
+    public DbSet<FileUploadBucket> Bucket { get; set; }
 }

@@ -1,4 +1,4 @@
-﻿using System.Reflection;
+﻿using SpotlessSolutions.ServiceLibrarySdk;
 
 namespace SpotlessSolutions.Web.Services.Services;
 
@@ -26,13 +26,27 @@ public class ServiceRegistry : IServiceRegistry
 
     private static Dictionary<string, IService> GetAllExportedServices()
     {
-        var assemblies = Assembly.GetExecutingAssembly().GetExportedTypes()
+        var bundleAddon = typeof(ServiceLibrary.Addons.Bundle.BaseAddon)
+            .Assembly
+            .GetExportedTypes();
+        var bundleMain = typeof(ServiceLibrary.Main.Bundle.BuiltinService)
+            .Assembly
+            .GetExportedTypes();
+
+        var bundleAssemblies = new List<IService>();
+        bundleAssemblies.AddRange(GetAssembliesFromExportedTypes(bundleAddon));
+        bundleAssemblies.AddRange(GetAssembliesFromExportedTypes(bundleMain));
+
+        return bundleAssemblies.ToDictionary(service => service.GetId());
+    }
+
+    private static IEnumerable<IService> GetAssembliesFromExportedTypes(Type[] types)
+    {
+        return types
             .Where(x => !x.IsAbstract && x is { IsInterface: false, IsClass: true } &&
                         typeof(IService).IsAssignableFrom(x))
             .Select(Activator.CreateInstance)
             .Cast<IService>()
             .ToList();
-
-        return assemblies.ToDictionary(service => service.GetId());
     }
 }

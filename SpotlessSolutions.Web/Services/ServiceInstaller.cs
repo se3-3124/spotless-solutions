@@ -1,3 +1,4 @@
+using SpotlessSolutions.Web.Services.Accounts;
 using SpotlessSolutions.Web.Services.Authentication;
 using SpotlessSolutions.Web.Services.Authentication.OAuth2;
 using SpotlessSolutions.Web.Services.Authentication.OAuth2.Google;
@@ -20,7 +21,9 @@ public static class ServiceInstaller
         serviceCollection.AddKeyedSingleton<IOAuth2Provider, GoogleOAuth2Provider>("GoogleOAuth2Provider");
 
         serviceCollection.AddSingleton<IServiceRegistry, ServiceRegistry>();
+        serviceCollection.AddScoped<IBookingQuery, BookingQuery>();
         serviceCollection.AddScoped<IBookingManager, BookingManager>();
         serviceCollection.AddScoped<IServiceManager, ServiceManager>();
+        serviceCollection.AddScoped<IUserAddressManagement, UserAddressManagement>();
     }
 }

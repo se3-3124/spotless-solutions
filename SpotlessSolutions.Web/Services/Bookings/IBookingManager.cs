@@ -1,39 +1,10 @@
+using SpotlessSolutions.DataBucketSdk;
 using SpotlessSolutions.Web.Data.Models;
 
 namespace SpotlessSolutions.Web.Services.Bookings;
 
 public interface IBookingManager
 {
-    /// <summary>
-    /// Gets the booking per month
-    /// </summary>
-    /// <param name="year"></param>
-    /// <param name="month"></param>
-    Task<IEnumerable<BookingObject>> GetBooking(int year, int month);
-    
-    /// <summary>
-    /// Gets the booking on DateTime range
-    /// </summary>
-    /// <param name="start"></param>
-    /// <param name="end"></param>
-    Task<IEnumerable<BookingObject>> GetBooking(DateTime start, DateTime end);
-
-    /// <summary>
-    /// Gets anonymized bookings
-    /// </summary>
-    /// <param name="year"></param>
-    /// <param name="month"></param>
-    /// <returns></returns>
-    Task<IEnumerable<DateTime>> GetAnonymizedBookingDetails(int year, int month);
-
-    /// <summary>
-    /// Get anonymized bookings from date range
-    /// </summary>
-    /// <param name="start"></param>
-    /// <param name="end"></param>
-    /// <returns></returns>
-    Task<IEnumerable<DateTime>> GetAnonymizedBookingDetails(DateTime start, DateTime end);
-
     /// <summary>
     /// Update booking state
     /// </summary>
@@ -50,4 +21,29 @@ public interface IBookingManager
     /// <param name="body"></param>
     /// <returns></returns>
     Task<bool> SendEmail(Guid userId, string subject, string body);
+
+    /// <summary>
+    /// Schedule a booking
+    /// </summary>
+    /// <param name="userId"></param>
+    /// <param name="bookingRequest"></param>
+    /// <returns></returns>
+    Task<bool> ScheduleBooking(Guid userId, BookingRequestObject bookingRequest);
+
+    /// <summary>
+    /// Upload a file for booking
+    /// </summary>
+    /// <param name="userId"></param>
+    /// <param name="objectName"></param>
+    /// <param name="fileUploadStream"></param>
+    /// <returns></returns>
+    Task<Guid> UploadAttachment(Guid userId, string objectName, Stream fileUploadStream);
+
+    /// <summary>
+    /// Retrieves the bucket data
+    /// </summary>
+    /// <param name="userId"></param>
+    /// <param name="attachmentId"></param>
+    /// <returns></returns>
+    Task<PullResult?> GetAttachment(Guid userId, Guid attachmentId);
 }

@@ -1,3 +1,4 @@
+using AutoMapper;
 using FluentValidation;
 using Microsoft.AspNetCore.Mvc;
 using SpotlessSolutions.Web.Contracts.V1.Requests;
@@ -11,18 +12,21 @@ namespace SpotlessSolutions.Web.Controllers.V1;
 public class AuthenticationController : ControllerBase
 {
     private readonly IAuthentication _auth;
+    private readonly IMapper _mapper;
     private readonly IValidator<LoginData> _loginDataValidator;
     private readonly IValidator<RegistrationData> _registrationDataValidator;
     private readonly IValidator<PasswordResetDetails> _passwordRequestResetValidator;
     private readonly IValidator<AccountRecoveryDetails> _accountRecoveryDetailsValidator;
 
     public AuthenticationController(IAuthentication auth,
+        IMapper mapper,
         IValidator<LoginData> loginDataValidator,
         IValidator<RegistrationData> registrationDataValidator,
         IValidator<PasswordResetDetails> passwordRequestResetValidator,
         IValidator<AccountRecoveryDetails> accountRecoveryDetailsValidator)
     {
         _auth = auth;
+        _mapper = mapper;
         _loginDataValidator = loginDataValidator;
         _registrationDataValidator = registrationDataValidator;
         _passwordRequestResetValidator = passwordRequestResetValidator;
@@ -57,11 +61,8 @@ public class AuthenticationController : ControllerBase
             });
         }
 
-        return Ok(new SessionResult
-        {
-            Token = result.Token,
-            RefreshToken = result.RefreshToken
-        });
+        var data = _mapper.Map<SessionResult>(result);
+        return Ok(data);
     }
 
     [HttpPost("register")]
@@ -82,14 +83,8 @@ public class AuthenticationController : ControllerBase
             });
         }
 
-        var result = await _auth.Register(new UserRegistrationData
-        {
-            FirstName = registrationData.FirstName,
-            LastName = registrationData.LastName,
-            Email = registrationData.Email,
-            Password = registrationData.Password,
-            PhoneNumber = registrationData.PhoneNumber
-        });
+        var mapped = _mapper.Map<UserRegistrationData>(registrationData);
+        var result = await _auth.Register(mapped);
         
         if (!result)
         {
@@ -117,17 +112,9 @@ public class AuthenticationController : ControllerBase
         }
 
         var result = await _auth.VerifyEmail(t);
-        if (!result)
-        {
-            // return BadRequest(new ErrorException
-            // {
-            //    Error = true,
-            //    Messages = ["Invalid verification token. It may be expired."]
-            // });
-            return Redirect($"{hostname}/verification/done?status=2");
-        }
-
-        return Redirect($"{hostname}/verification/done?status=1");
+        return Redirect(!result
+            ? $"{hostname}/verification/done?status=2"
+            : $"{hostname}/verification/done?status=1");
     }
 
     [HttpPost("recovery/request")]

@@ -1,4 +1,7 @@
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Caching.Distributed;
+using SpotlessSolutions.DataBucketSdk;
+using SpotlessSolutions.ServiceLibrarySdk.ReturnTypes;
 using SpotlessSolutions.Web.Data;
 using SpotlessSolutions.Web.Data.Models;
 using SpotlessSolutions.Web.Extensions;
@@ -9,13 +12,25 @@ namespace SpotlessSolutions.Web.Services.Bookings;
 
 public class BookingManager : IBookingManager
 {
+    private readonly IDataBucket _bucket;
+    private readonly IDistributedCache _cache;
     private readonly DataContext _context;
+    private readonly ILogger<BookingManager> _logger;
     private readonly IMailer _mailer;
     private readonly IServiceRegistry _registry;
 
-    public BookingManager(DataContext context, IMailer mailer, IServiceRegistry registry)
+    public BookingManager(
+        IDataBucket bucket,
+        IDistributedCache cache,
+        DataContext context,
+        ILogger<BookingManager> logger,
+        IMailer mailer,
+        IServiceRegistry registry)
     {
+        _bucket = bucket;
+        _cache = cache;
         _context = context;
+        _logger = logger;
         _mailer = mailer;
         _registry = registry;
     }
@@ -60,131 +75,150 @@ public class BookingManager : IBookingManager
         return true;
     }
 
-    public async Task<IEnumerable<BookingObject>> GetBooking(int year, int month)
+    public async Task<bool> ScheduleBooking(Guid userId, BookingRequestObject bookingRequest)
     {
-        var start = new DateTime(year, month, 1).ToUniversalTime();
-        var end = new DateTime(year, month, DateTime.DaysInMonth(year, month))
-            .ToUniversalTime();
+        var user = await _context.UserData
+            .FirstOrDefaultAsync(x => x.Id.Equals(userId));
+        if (user == null)
+        {
+            _logger.LogWarning("Booking requested with ID that doesn't exist: {id}", userId);
+            return false;
+        }
 
-        var result = (await GetBooking(start, end)).ToList();
+        var address = await _context.Addresses
+            .FirstOrDefaultAsync(x => x.Id.Equals(bookingRequest.AddressId) && x.UserDataId.Equals(userId));
+        if (address == null)
+        {
+            _logger.LogWarning("Booking requested with address ID that doesn't exist: {id} on user id {userId}",
+                bookingRequest.AddressId,
+                userId);
+            return false;
+        }
+
+        var service = GetDescriptor(bookingRequest.MainServiceId, bookingRequest.MainServiceConfig);
+        if (service == null)
+        {
+            return false;
+        }
+
+        var receipts = new List<ServiceCalculationDescriptor>();
+        foreach (var (key, value) in bookingRequest.Addons)
+        {
+            var item = GetDescriptor(key, value);
+            if (item == null)
+            {
+                return false;
+            }
+            
+            receipts.Add(item);
+        }
+
+        var total = receipts.Sum(x => x.CalculatedValue)
+            + service.CalculatedValue;
+
+        try
+        {
+            await _context.Bookings.AddAsync(new Booking
+            {
+                MainServiceId = bookingRequest.MainServiceId,
+                MainServiceConfiguration = bookingRequest.MainServiceConfig,
+                Addons = bookingRequest.Addons,
+                Schedule = bookingRequest.Schedule
+                    .ToUniversalTime(),
+                FinalPrice = total,
+                UserId = userId,
+                AddressId = bookingRequest.AddressId,
+                Status = BookingStatus.Pending
+            });
+            await _context.SaveChangesAsync();
+
+            return true;
+        }
+        catch
+        {
+            return false;
+        }
+    }
+
+    public async Task<Guid> UploadAttachment(Guid userId, string objectName, Stream fileUploadStream)
+    {
+        if (fileUploadStream.Length > 10485760)
+        {
+            return Guid.Empty;
+        }
+        
+        var user = await _context.UserData
+            .FirstOrDefaultAsync(x => x.Id.Equals(userId));
+        if (user == null)
+        {
+            _logger.LogWarning("File upload requested from user that doesn't exist: {id}", userId);
+            return Guid.Empty;
+        }
+
+        var result = await _bucket.StoreFileToBucket(fileUploadStream, objectName);
+        if (result == null)
+        {
+            return Guid.Empty;
+        }
+
+        var data = await _context.Bucket.AddAsync(new FileUploadBucket
+        {
+            BucketId = result.BucketId,
+            FileSize = fileUploadStream.Length,
+            OwnerId = user.Id
+        });
+
+        await _context.SaveChangesAsync();
+        return data.Entity.Id;
+    }
+
+    public async Task<PullResult?> GetAttachment(Guid userId, Guid attachmentId)
+    {
+        // Check cache first
+        var cache = await _cache.GetRecordAsync<PullResult>($"BucketReq_{userId}-b{attachmentId}");
+        if (cache != null)
+        {
+            if (File.Exists(cache.TemporaryStoredPath))
+            {
+                return cache;
+            }
+        }
+
+        var bucketData = await _context.Bucket
+            .FirstOrDefaultAsync(x => x.OwnerId == userId && x.Id == attachmentId);
+        if (bucketData == null)
+        {
+            return null;
+        }
+
+        var result = await _bucket.GetFileFromBucket(bucketData.BucketId);
+        if (result != null)
+        {
+            await _cache.SetRecordAsync(
+                $"BucketReq_{bucketData.OwnerId}-b{bucketData.Id}",
+                result,
+                absoluteExpireTime: TimeSpan.FromHours(10));
+        }
+
         return result;
     }
 
-    public async Task<IEnumerable<BookingObject>> GetBooking(DateTime start, DateTime end)
+    private ServiceCalculationDescriptor? GetDescriptor(string id, string config)
     {
-        var bookings = await _context.Bookings
-            .Include(x => x.User.User)
-            .Include(x => x.Address)
-            .Where(x => x.Schedule >= start && x.Schedule <= end)
-            .ToArrayAsync();
+        var service = _registry.GetActivatedServiceInstance(id);
+        if (service == null)
+        {
+            _logger.LogWarning("Service ID does not exist: {id}", id);
+            return null;
+        }
 
-        return bookings
-            .Where(x =>
-            {
-                var service = _registry.GetActivatedServiceInstance(x.MainServiceId);
-                if (service == null)
-                {
-                    return false;
-                }
-
-                return x.MainServiceConfiguration.GetCalculationParams() != null;
-            })
-            .Select(x =>
-            {
-                var mainService = _registry.GetActivatedServiceInstance(x.MainServiceId)!;
-                var mainServiceParams = x.MainServiceConfiguration.GetCalculationParams()!;
-                var mainServiceCalculation = mainService.Calculate(mainServiceParams);
-                
-                var mainServiceDetail = new ServiceDetailConfig
-                {
-                    Service = new ServiceDetails
-                    {
-                        Name = mainService.GetName(),
-                        Description = mainService.GetDescription(),
-                        Id = mainService.GetId(),
-                        Type = mainService.GetServiceType()
-                    },
-                    BookingDescriptor = mainServiceCalculation.Descriptors,
-                    Calculated = mainServiceCalculation.CalculatedValue
-                };
-
-                var addons = MapAddons(x);
-
-                var user = new User
-                {
-                    FirstName = x.User.FirstName,
-                    LastName = x.User.LastName,
-                    UserId = x.User.Id
-                };
-
-                var address = new Address
-                {
-                    Barangay = x.Address.Barangay,
-                    City = x.Address.City,
-                    District = x.Address.District,
-                    PostalCode = x.Address.PostalCode,
-                    Province = x.Address.Province,
-                    Street = x.Address.Street
-                };
-
-                var status = x.Status;
-                
-                return new BookingObject(x.Id, x.Schedule, mainServiceDetail, addons, status, user, address, x.FinalPrice);
-            });
-    }
-
-    private List<ServiceDetailConfig> MapAddons(Booking booking)
-    {
-        return booking.Addons
-            .Where(data =>
-            {
-                var instance = _registry.GetActivatedServiceInstance(data.Key);
-                if (instance == null)
-                {
-                    return false;
-                }
-
-                return instance.GetServiceType() == ServiceType.Addons &&
-                       data.Value.GetCalculationParams() != null;
-            })
-            .Select(data =>
-            {
-                var service = _registry.GetActivatedServiceInstance(data.Key)!;
-                var config = data.Value.GetCalculationParams()!;
-
-                var calculation = service.Calculate(config);
-
-                return new ServiceDetailConfig
-                {
-                    Service = new ServiceDetails
-                    {
-                        Name = service.GetName(),
-                        Description = service.GetDescription(),
-                        Id = service.GetId(),
-                        Type = service.GetServiceType(),
-                    },
-                    BookingDescriptor = calculation.Descriptors,
-                    Calculated = calculation.CalculatedValue
-                };
-            })
-            .ToList();
-    }
-
-    public Task<IEnumerable<DateTime>> GetAnonymizedBookingDetails(int year, int month)
-    {
-        var start = new DateTime(year, month, 1).ToUniversalTime();
-        var end = new DateTime(year, month, DateTime.DaysInMonth(year, month))
-            .ToUniversalTime();
-
-        return GetAnonymizedBookingDetails(start, end);
-    }
-
-    public async Task<IEnumerable<DateTime>> GetAnonymizedBookingDetails(DateTime start, DateTime end)
-    {
-        var bookings = await _context.Bookings
-            .Where(x => x.Schedule >= start && x.Schedule <= end)
-            .ToArrayAsync();
-
-        return bookings.Select(x => x.Schedule);
+        var isCalculated = service.TryCalculate(config, out var calculated);
+        if (isCalculated && calculated != null)
+        {
+            return calculated;
+        }
+        
+        _logger.LogWarning("Calculation configuration is invalid: {config}", config);
+        return null;
     }
 }

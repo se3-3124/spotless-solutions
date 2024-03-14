@@ -66,7 +66,7 @@ function Home () {
             for Ilonggos, by Ilonggos
           </p>
           <Link
-            to="/"
+            to="/appointment"
             type="button"
             className="book-now-btn"
             onMouseEnter={handleMouseEnter}

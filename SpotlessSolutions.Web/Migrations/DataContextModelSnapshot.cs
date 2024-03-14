@@ -325,6 +325,32 @@ namespace SpotlessSolutions.Web.Migrations
                     b.ToTable("Bookings");
                 });
 
+            modelBuilder.Entity("SpotlessSolutions.Web.Data.Models.FileUploadBucket", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<string>("BucketId")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<long>("FileSize")
+                        .HasColumnType("bigint");
+
+                    b.Property<Guid>("OwnerId")
+                        .HasColumnType("uuid");
+
+                    b.Property<DateTime>("TimeUploaded")
+                        .HasColumnType("timestamp without time zone");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("OwnerId");
+
+                    b.ToTable("Bucket");
+                });
+
             modelBuilder.Entity("SpotlessSolutions.Web.Data.Models.ServiceConfig", b =>
                 {
                     b.Property<Guid>("Id")
@@ -473,6 +499,17 @@ namespace SpotlessSolutions.Web.Migrations
                     b.Navigation("Address");
 
                     b.Navigation("User");
+                });
+
+            modelBuilder.Entity("SpotlessSolutions.Web.Data.Models.FileUploadBucket", b =>
+                {
+                    b.HasOne("SpotlessSolutions.Web.Data.Models.UserData", "Owner")
+                        .WithMany()
+                        .HasForeignKey("OwnerId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Owner");
                 });
 
             modelBuilder.Entity("SpotlessSolutions.Web.Data.Models.UserData", b =>

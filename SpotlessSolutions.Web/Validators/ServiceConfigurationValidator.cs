@@ -4,7 +4,7 @@ using SpotlessSolutions.Web.Contracts.V1.Requests;
 
 namespace SpotlessSolutions.Web.Validators;
 
-public class ServiceConfigurationValidator : AbstractValidator<ServiceConfig>
+public class ServiceConfigurationValidator : AbstractValidator<ServiceConfigDto>
 {
     public ServiceConfigurationValidator()
     {

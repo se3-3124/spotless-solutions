@@ -11,7 +11,6 @@ public static class DataContextSeed
         var scope = application.Services.CreateScope();
 
         var context = scope.ServiceProvider.GetRequiredService<DataContext>();
-        var registry = scope.ServiceProvider.GetRequiredService<IServiceRegistry>();
         var userAccount = scope.ServiceProvider.GetRequiredService<UserManager<IdentityUser>>();
         var logger = scope.ServiceProvider.GetRequiredService<ILogger<Program>>();
         
@@ -36,16 +35,6 @@ public static class DataContextSeed
             logger.LogCritical("Seeding failed for services config! Exception: {e}", ex);
         }
         
-        logger.LogInformation("Seeding booking details");
-        try
-        {
-            await context.PopulateScheduleWithMock(userAccount, registry);
-        }
-        catch (Exception ex)
-        {
-            logger.LogCritical("Seeding failed for booking! Exception: {ex}", ex);
-        }
-
         await context.SaveChangesAsync();
     }
 

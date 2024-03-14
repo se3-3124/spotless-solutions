@@ -1,4 +1,6 @@
-﻿namespace SpotlessSolutions.Web.Services.Services;
+﻿using SpotlessSolutions.ServiceLibrarySdk;
+
+namespace SpotlessSolutions.Web.Services.Services;
 
 public interface IServiceRegistry
 {
@@ -9,7 +11,7 @@ public interface IServiceRegistry
     IEnumerable<ServiceDetails> GetAllServices();
 
     /// <summary>
-    /// Get a activated instance of the service
+    /// Get an activated instance of the service
     /// </summary>
     /// <param name="id"></param>
     /// <returns></returns>

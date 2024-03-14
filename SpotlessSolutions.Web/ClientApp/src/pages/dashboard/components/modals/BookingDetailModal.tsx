@@ -1,5 +1,5 @@
 import { type AxiosInstance } from 'axios'
-import { type ChangeEvent, Fragment, useContext } from 'react'
+import { type ChangeEvent, Fragment, useContext, useEffect, useState } from 'react'
 import Dialog from '@mui/material/Dialog'
 import Grid from '@mui/material/Grid'
 import IconButton from '@mui/material/IconButton'
@@ -33,6 +33,43 @@ export interface BookingsDetailPropType {
    * Function to close the modal
    */
   onModalClose: () => void
+}
+
+function PhotoRender (props: { userId: string, attachmentId: string }) {
+  const [image, setImage] = useState<string | null>(null)
+  const authContext = useContext(AuthContext)
+
+  useEffect(() => {
+    if (authContext.request === null) {
+      return
+    }
+
+    async function requestImage (req: AxiosInstance) {
+      const response = await req
+        .get<ArrayBuffer>(`/api/v1/bookings/attachments?userId=${props.userId}&attachmentId=${props.attachmentId}`, {
+        responseType: 'arraybuffer'
+      })
+
+      const data = new Uint8Array(response.data)
+      let raw = ''
+      for (let i = 0; i < data.length; i++) {
+        raw += String.fromCharCode(data[i])
+      }
+      return btoa(raw)
+    }
+
+    requestImage(authContext.request)
+      .then(x => { setImage(`data:image;base64,${x}`) })
+      .catch(console.error)
+  }, [])
+
+  if (image === null) {
+    return (<p>Rendering photo...</p>)
+  }
+
+  return (
+    <img width="360" src={image} alt="Attachment photo" style={{ marginBottom: '8px' }} />
+  )
 }
 
 /**
@@ -106,7 +143,7 @@ export default function BookingsDetailModal (prop: BookingsDetailPropType) {
     }
 
     const mail: EmailDetailRequest = {
-      userId: prop.data.user.id,
+      userId: prop.data.user.userId,
       subject,
       body: data
     }
@@ -124,15 +161,16 @@ export default function BookingsDetailModal (prop: BookingsDetailPropType) {
       })
   }
 
-  if (prop.data === null) {
+  const data = prop.data
+  if (data === null) {
     return (<div />)
   }
 
   return (
-    <Dialog open={Boolean(prop.data)} onClose={prop.onModalClose} maxWidth="xl" fullWidth={true} scroll="body">
+    <Dialog open={Boolean(data)} onClose={prop.onModalClose} maxWidth="xl" fullWidth={true} scroll="body">
       <div className="modal-container">
         <div className="modal-header-group">
-          <p className="job-id">Job ID: {prop.data.id}</p>
+          <p className="job-id">Job ID: {data.id}</p>
           <Tooltip title="Queue Job" placement="top">
             <IconButton onClick={() => { updateBookingState('Approved') }}>
               <AssignmentTurnedInRoundedIcon />
@@ -157,17 +195,17 @@ export default function BookingsDetailModal (prop: BookingsDetailPropType) {
                 <p className="detail-header">Main Service Booking Quotation</p>
                 <div className="detail-contents-container">
                   <div className="detail-contents-field-name">
-                    <p>{prop.data.mainService.service.name}</p>
+                    <p>{data.mainService.service.name}</p>
                   </div>
                   <div className="detail-contents-value">
                     {
-                      prop.data.mainService.bookingDescriptor.map((x, i) => (
+                      data.mainService.bookingDescriptor.map((x, i) => (
                         <div key={i}>
                           {x.join(' ')}
                         </div>
                       ))
                     }
-                    <b>P{prop.data.mainService.calculated}</b>
+                    <b>P{data.mainService.calculated}</b>
                   </div>
                 </div>
               </div>
@@ -177,7 +215,7 @@ export default function BookingsDetailModal (prop: BookingsDetailPropType) {
                 <p className="detail-header">Addons Booking Information</p>
                 <div className="detail-contents-container">
                   {
-                    prop.data.addons.map((x, i) => (
+                    data.addons.map((x, i) => (
                       <Fragment key={i}>
                         <div className="detail-contents-field-name">
                           <p>{x.service.name}</p>
@@ -186,11 +224,17 @@ export default function BookingsDetailModal (prop: BookingsDetailPropType) {
                           {
                             x.bookingDescriptor.map((x, i) => (
                               <div key={i}>
-                                {x.join(' ')}
+                                {
+                                  x[0] === 'Photo Attachment'
+                                    ? (<PhotoRender userId={data.user.userId} attachmentId={x[1]} />)
+                                    : (<span>{x.join(' ')}</span>)
+                                }
                               </div>
                             ))
                           }
-                          <b>P{x.calculated}</b>
+                          <b>
+                            P{x.calculated} {x.requiresAssessment && '(Requires Assessment)'}
+                          </b>
                         </div>
                       </Fragment>
                     ))
@@ -209,30 +253,24 @@ export default function BookingsDetailModal (prop: BookingsDetailPropType) {
                     <p>Owner</p>
                   </div>
                   <div className="detail-contents-value">
-                    {prop.data.user.lastName}, {prop.data.user.firstName}
+                    {data.user.lastName}, {data.user.firstName}
                   </div>
                   <div className="detail-contents-field-name">
                     <p>Booking Schedule</p>
                   </div>
                   <div className="detail-contents-value">
-                    {formatDateToReadable(new Date(prop.data.schedule))}&nbsp;
-                    {formatTimeToReadable(new Date(prop.data.schedule))}
+                    {formatDateToReadable(new Date(data.schedule))}&nbsp;
+                    {formatTimeToReadable(new Date(data.schedule))}
                   </div>
                   <div className="detail-contents-field-name">
                     <p>Address</p>
                   </div>
                   <div className="detail-contents-value">
-                    {prop.data.address.barangay},&nbsp;
-                    {prop.data.address.district},&nbsp;
-                    {prop.data.address.city},&nbsp;
-                    {prop.data.address.province},&nbsp;
-                    {prop.data.address.postalCode}
-                  </div>
-                  <div className="detail-contents-field-name">
-                    <p>Area dimensions</p>
-                  </div>
-                  <div className="detail-contents-value">
-                    Unknown
+                    {data.address.barangay},&nbsp;
+                    {data.address.district},&nbsp;
+                    {data.address.city},&nbsp;
+                    {data.address.province},&nbsp;
+                    {data.address.postalCode}
                   </div>
                   <div className="detail-contents-field-name">
                     <p>Booking Status</p>
@@ -249,7 +287,7 @@ export default function BookingsDetailModal (prop: BookingsDetailPropType) {
                     <p>Total</p>
                   </div>
                   <div className="detail-contents-value">
-                    P{prop.data.totalPrice}
+                    P{data.totalPrice}
                   </div>
                 </div>
               </div>

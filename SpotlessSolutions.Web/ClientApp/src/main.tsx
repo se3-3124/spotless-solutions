@@ -11,6 +11,7 @@ import { createTheme, ThemeProvider } from '@mui/material/styles'
 import AuthContext from './contexts/AuthContext.ts'
 import { type UserData, UserRole } from './types/UserData.ts'
 
+import BookingsPage from './pages/bookings-page/BookingsPage.tsx'
 import EmailVerificationStaticStatusPage from './pages/authentication/EmailVerificationStaticStatusPage.tsx'
 import Dashboard from './pages/dashboard/Dashboard.tsx'
 import DashboardBookingCalendarView from './pages/dashboard/DashboardBookingCalendarView.tsx'
@@ -30,7 +31,6 @@ import DashboardBookingsWorkflowView from './pages/dashboard/DashboardBookingsWo
 import NotificationsContext, { NotificationSeverity } from './contexts/NotificationsContext.tsx'
 import { type NotificationStateType } from './types/MainStateTypes.tsx'
 import DashboardServiceManagementView from './pages/dashboard/DashboardServiceManagementView.tsx'
-import ServicesAccordion from './pages/user-booking-page/service-accordion.tsx'
 
 const theme = createTheme({
   palette: {
@@ -167,8 +167,7 @@ function Main () {
                       <Route path="/services" element={<ServicesPage />} />
 
                       {/* User */}
-                      <Route path="/user/booking-page" element={<ServicesAccordion />}/>
-
+                      <Route path="/appointment" element={<BookingsPage />}/>
                     </Routes>
                   </BrowserRouter>
                 </NotificationsContext.Provider>

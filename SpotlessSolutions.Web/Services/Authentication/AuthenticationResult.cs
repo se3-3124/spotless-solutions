@@ -1,3 +1,5 @@
+// ReSharper disable UnusedAutoPropertyAccessor.Global
+
 namespace SpotlessSolutions.Web.Services.Authentication;
 
 public class AuthenticationResult

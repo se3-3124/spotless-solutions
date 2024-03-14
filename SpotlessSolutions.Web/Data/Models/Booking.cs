@@ -1,4 +1,5 @@
 #pragma warning disable CS8618
+// ReSharper disable CollectionNeverUpdated.Global
 
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;

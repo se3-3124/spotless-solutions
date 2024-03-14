@@ -1,34 +1,35 @@
 // ReSharper disable UnusedAutoPropertyAccessor.Global
+// ReSharper disable UnusedMember.Global
 
 using SpotlessSolutions.Web.Data.Models;
 
 namespace SpotlessSolutions.Web.Contracts.V1.Responses;
 
-public class BookingDetails
+public class BookingDetailsDto
 {
     public class BookingUser
     {
         public string FirstName { get; init; } = string.Empty;
         public string LastName { get; init; } = string.Empty;
-        public string Email { get; init; } = string.Empty;
-        public Guid Id { get; init; }
+        public Guid UserId { get; init; }
     }
     
     public class ServiceDetailConfig
     {
-        public required ServiceDetails Service { get; init; }
+        public required ServiceDetailsDto Service { get; init; }
         public required IEnumerable<string[]> BookingDescriptor { get; init; }
+        public bool RequiresAssessment { get; init; }
         public required float Calculated { get; init; }
     }
 
     public class BookingAddress
     {
-        public string Street { get; set; } = string.Empty;
-        public string District { get; set; } = string.Empty;
-        public string Barangay { get; set; } = string.Empty;
-        public string PostalCode { get; set; } = string.Empty;
-        public string City { get; set; } = string.Empty;
-        public string Province { get; set; } = string.Empty;
+        public string Street { get; init; } = string.Empty;
+        public string District { get; init; } = string.Empty;
+        public string Barangay { get; init; } = string.Empty;
+        public string PostalCode { get; init; } = string.Empty;
+        public string City { get; init; } = string.Empty;
+        public string Province { get; init; } = string.Empty;
     }
     
     public Guid Id { get; init; }
@@ -44,5 +45,5 @@ public class BookingDetails
 public class BookingResult
 {
     public bool Success { get; init; }
-    public required IEnumerable<BookingDetails> Data { get; init; }
+    public required IEnumerable<BookingDetailsDto> Data { get; init; }
 }

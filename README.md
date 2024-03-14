@@ -73,25 +73,7 @@ This README will only cover setting up User Secrets and Environment Variables.
 
 ##### Mail Configuration
 
-```
-dotnet user-secrets set "Mailer:Username" "<your google account email>"
-dotnet user-secrets set "Mailer:Port" "465"
-dotnet user-secrets set "Mailer:Password" "<your app password>"
-dotnet user-secrets set "Mailer:Hostname" "smtp.gmail.com"
-dotnet user-secrets set "Mailer:Address" "<your google account email>"
-```
-
-<details>
-  <summary>Environment Variables</summary>
-
-```
-Mailer__Username=your_google_account_email
-Mailer__Port=465
-Mailer__Password=your_app_password
-Mailer__Hostname=smtp.gmail.com
-Mailer__Address=your_google_account_email
-```
-</details>
+For Mail Configuration, see [MailRailgun](https://github.com/se3-3124/spotless-solutions/tree/main/SpotlessSolutions.Worker.MailRailgun)
 
 ##### Google OAuth
 

@@ -1,0 +1,122 @@
+﻿@use 'tailwindcss/base.css';
+@use 'tailwindcss/components.css';
+@use 'tailwindcss/utilities.css';
+
+.bookings-page-wrapper {
+  @apply w-full mt-24;
+  
+  & .bookings-grid-container {
+    @apply grid grid-cols-12 w-full gap-2;
+    
+    & .bookings-form-container {
+      @apply col-span-9 p-8;
+      
+      & .booking-page-heading {
+        @apply font-bold text-3xl mb-2;
+      }
+      
+      & .booking-service-grid-container {
+        @apply grid grid-cols-2 w-full gap-2;
+        
+        & .booking-item-box {
+          @apply border border-gray-300 p-2 col-auto;
+          
+          & .booking-item-container {
+            @apply flex align-middle justify-center w-full;
+            
+            & .booking-service-descriptor {
+              @apply flex-grow;
+              
+              & p.object-header {
+                @apply font-bold m-0;
+              }
+            }
+          }
+        }
+      }
+      
+      & .fields-grid-container {
+        @apply grid grid-cols-12 w-full gap-2;
+        
+        & .section-title {
+          @apply font-bold;
+          font-size: 16px;
+        }
+      }
+    }
+    
+    & .bookings-sidebar-container {
+      @apply col-span-3 relative;
+    }
+  }
+}
+
+.booking-input-container {
+  & label {
+    @apply block mb-2 text-sm font-medium text-gray-900;
+  }
+  
+  & input[type="number"], & select, & input[type="text"].text-field-lmfao {
+    @apply bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg block w-full p-2.5;
+  }
+  
+  & .date-picker-container {
+    @apply bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg w-full flex;
+    
+    & input[type="text"] {
+      @apply bg-gray-50 border-0 flex-grow p-2.5 rounded-lg;
+    }
+    
+    & .btn-picker {
+      @apply border-l border-l-gray-300 px-2.5;
+    }
+  }
+  
+  & .file-upload-field {
+    @apply flex w-full;
+
+    & input[type="file"] {
+      @apply flex-grow block text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50;
+
+      &::file-selector-button {
+        @apply p-2 text-white bg-gray-800 font-medium text-sm px-5 py-2.5 me-2 border-0;
+      }
+    }
+    
+    & .checkmark {
+      @apply ml-2;
+    }
+  }
+  
+  & .helper-text {
+    @apply mt-1 text-sm text-gray-500;
+  }
+  
+  & .textbox-container {
+    @apply px-4 py-2 bg-white rounded-lg border border-gray-200;
+    
+    & textarea {
+      @apply w-full px-0 text-sm text-gray-900 bg-white border-0;
+      
+      &:focus {
+        @apply ring-0 outline-0;
+      }
+    }
+  }
+  
+  & .checkbox-container {
+    @apply flex items-start;
+    
+    & .checkbox {
+      @apply flex items-center h-5;
+      
+      & input[type="checkbox"] {
+        @apply w-4 h-4 border border-gray-300 rounded bg-gray-50;
+      }
+    }
+
+    label {
+      @apply ms-2 text-sm font-medium
+    }
+  }
+}
