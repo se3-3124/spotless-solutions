@@ -3,40 +3,61 @@
 @use 'tailwindcss/utilities.css';
 
 .footer {
-  @apply w-full bg-fruityorange p-8 text-white ;
+  @apply bg-[#05132F] text-gray-300 py-6;
 
-  @media (max-width: 768px) {
-    @apply p-2; // Adjust padding for smaller screens
-  }
+  .footer-contents {
+    @apply flex flex-col justify-between md:flex-row px-10;
 
-  @media (max-width: 480px) {
-    @apply p-2; // Further adjust padding for even smaller screens
-  }
+    & .footer-section {
+      @apply md:mb-4 flex flex-col items-center;
 
-  & .contents {
-    @apply flex;
-    @apply flex-row;
+      & .footer-company-name {
+        @apply text-white font-bold text-xl sm:text-2xl mb-2;
+      }
 
-    & .contact-field {
-      @apply ml-20;
-      @apply flex-grow;
-      @apply text-midnightblue;
+      & .socials-container {
+        @apply flex mt-4;
+
+        & .anchor {
+          @apply mr-4;
+
+          & .icon {
+            @apply h-6 w-6;
+          }
+        }
+      }
+
+      & .section-2-container {
+        @apply flex flex-col items-center;
+
+        & .contact-us {
+          @apply font-bold text-lg mb-2 text-white;
+        }
+
+        & .contact-item {
+          @apply flex items-center mb-2;
+
+          & .icon {
+            @apply h-4 w-4 mr-2;
+          }
+        }
+      }
+
+      &.section-1 {
+        @apply mb-10;
+      }
+
+      &.section-2 {
+        @apply mb-6 md:mr-10;
+      }
     }
   }
 
-  & .divider {
-    @apply mt-8;
-    @apply mb-8;
-    @apply h-1;
-    @apply w-full;
-    @apply bg-white;
+  .footer-divider {
+    @apply border-gray-300 my-2 mx-10 mb-6;
   }
 
-  & .bottom-footer {
-    @apply w-full; 
-   & h1 {
-    @apply text-white text-2xl text-center font-bold;
-   }
+  .footer-copyright {
+    @apply text-center;
   }
-
 }

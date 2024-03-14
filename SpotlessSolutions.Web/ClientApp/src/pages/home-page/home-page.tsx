@@ -1,102 +1,115 @@
-import { useContext } from 'react'
+import { useState, useEffect, useContext } from 'react'
+import { Link } from 'react-router-dom'
+
+import { HiArrowCircleRight } from 'react-icons/hi'
+import { PiStarFourFill } from 'react-icons/pi'
 
 import AuthContext from '../../contexts/AuthContext.ts'
-import FooterV2 from '../../components/footerv2/FooterV2.tsx'
+import FooterComponent from '../../components/footer/FooterComponent.tsx'
 import NavigationBar from '../../components/navigation/NavigationBar.tsx'
+import Services from './ServicesSection.tsx'
+import Whyus from './WhyUsSection.tsx'
 
-import tdLogo from '../../assets/td_logo.jpg'
-import cleaningImage1 from '../../assets/cleaning_services_hp1.png'
-import cleaningImage2 from '../../assets/cleaning_services_hp2.png'
-import cleaningImage3 from '../../assets/cleaning_services_hp3.png'
-import cleaningImage4 from '../../assets/cleaning_services_hp4.png'
-
+import badge from '../../assets/badge2.png'
+import desktopBG from '../../assets/CleaningServicebg.png'
+import mobileBG from '../../assets/CleaningServiceMobileBG.png'
+import star from '../../assets/star.svg'
 import './home-page.scss'
 
-export default function Home () {
+function Home () {
   const context = useContext(AuthContext)
+
+  const [isSmallScreen, setIsSmallScreen] = useState(false)
+  const [hovered, setHovered] = useState(false)
+  const [animateBadge, setAnimateBadge] = useState(false)
+
+  useEffect(() => {
+    const handleResize = () => {
+      setIsSmallScreen(window.innerWidth < 768)
+    }
+
+    handleResize()
+    window.addEventListener('resize', handleResize)
+
+    return () => {
+      window.removeEventListener('resize', handleResize)
+    }
+  }, [])
+
+  useEffect(() => {
+    setAnimateBadge(true)
+  }, [])
+
+  const handleMouseEnter = () => {
+    setHovered(true)
+  }
+
+  const handleMouseLeave = () => {
+    setHovered(false)
+  }
 
   return (
     <>
-      <NavigationBar user={context.user}/>
-      <section className="section-header">
-        <div className="container">
-          <h1 className="brand">TOPDOWN</h1>
-          <h1>Cleaning</h1>
-          <h1>Services Iloilo</h1>
-          <h3>for Ilonggos, by Ilonggos</h3>
-          <a href='#'>Book a Service</a>
-        </div>
-        <div className="logo-container">
-          <img src={tdLogo} alt="Topdown logo"/>
-        </div>
-      </section>
-      <section className='sectionSize'>
-        <div>
-          <h2 className="secondaryTitle bg-100%">WHAT WE DO</h2>
-        </div>
-        <div className="md:grid md:grid-cols-2 md:grid-rows-2">
-          <div className="flex items-start font-montserrat my-6 mr-10">
-            <img src={cleaningImage4} alt='' className="h-7 mr-5"/>
-            <div>
-              <h3 className="font-semibold text-2xl">Deep Cleaning</h3>
-              <h6 className='secondarySpacing'>ABOUT</h6>
-              <p className='font-bold'>Our flagship products for the deepest and longest lasting clean.</p>
-              <h6 className='secondarySpacing'>BASE PRICE</h6>
-              <p className='font-bold'>₱ 949 on 35sqm and below</p>
-              <h6 className='secondarySpacing'>CONSECUTIVE</h6>
-              <p className='font-bold'>₱ 28 sqm above 35sqm</p>
-              <h6 className='secondarySpacing'>TRANSPORTATION</h6>
-              <p className='font-bold'>₱ 200<span>*Price may be different when outside of Iloilo</span></p>
-            </div>
-          </div>
+      <NavigationBar user={context.user} />
+      <div className="home-root">
+        <img src={isSmallScreen ? mobileBG : desktopBG} alt="Background" className="home-background" />
+        <img src={star} alt="TOPDOWN Logo" className="company-logo" />
 
-          <div className="flex items-start font-montserrat my-6 mr-10">
-            <img src={cleaningImage2} alt='' className="h-7 mr-4"/>
-            <div>
-              <h3 className="font-semibold text-2xl">Post Con Cleaning</h3>
-              <h6 className='secondarySpacing'>ABOUT</h6>
-              <p className='font-bold'>For newly constructed or renovated homes.</p>
-              <h6 className='secondarySpacing'>BASE PRICE</h6>
-              <p className='font-bold'>₱ 1500 on 35sqm and below</p>
-              <h6 className='secondarySpacing'>CONSECUTIVE</h6>
-              <p className='font-bold'>₱ 30 sqm above 35sqm</p>
-              <h6 className='secondarySpacing'>TRANSPORTATION</h6>
-              <p className='font-bold'>₱ 200<span>*Price may be different when outside of Iloilo</span></p>
-            </div>
-          </div>
-
-          <div className="flex items-start font-montserrat my-6 mr-10">
-            <img src={cleaningImage3} alt='' className="h-7 mr-4"/>
-            <div>
-              <h3 className="font-semibold text-2xl">Routine Cleaning</h3>
-              <h6 className='secondarySpacing'>ABOUT</h6>
-              <p className='font-bold'>For newly constructed or renovated homes.</p>
-              <h6 className='secondarySpacing'>BASE PRICE</h6>
-              <p className='font-bold'>₱ 1500 on 35sqm and below</p>
-              <h6 className='secondarySpacing'>CONSECUTIVE</h6>
-              <p className='font-bold'>₱ 30 sqm above 35sqm</p>
-              <h6 className='secondarySpacing'>TRANSPORTATION</h6>
-              <p className='font-bold'>₱ 200<span>*Price may be different when outside of Iloilo</span></p>
-            </div>
-          </div>
-
-          <div className="flex items-start font-montserrat my-6 mr-10">
-            <img src={cleaningImage1} alt='' className="h-7 mr-4"/>
-            <div>
-              <h3 className="font-semibold text-2xl">General Cleaning</h3>
-              <h6 className='secondarySpacing'>ABOUT</h6>
-              <p className='font-bold'>For newly constructed or renovated homes.</p>
-              <h6 className='secondarySpacing'>BASE PRICE</h6>
-              <p className='font-bold'>₱ 1500 on 35sqm and below</p>
-              <h6 className='secondarySpacing'>CONSECUTIVE</h6>
-              <p className='font-bold'>₱ 30 sqm above 35sqm</p>
-              <h6 className='secondarySpacing'>TRANSPORTATION</h6>
-              <p className='font-bold'>₱ 200<span>*Price may be different when outside of Iloilo</span></p>
-            </div>
-          </div>
+        <div className="heading">
+          <h1 className="u39281">
+            TOPDOWN
+          </h1>
+          <h2 className="u71912">
+            Cleaning Services Iloilo
+          </h2>
+          <p className="u99201 font-kaushan">
+            for Ilonggos, by Ilonggos
+          </p>
+          <Link
+            to="/"
+            type="button"
+            className="book-now-btn"
+            onMouseEnter={handleMouseEnter}
+            onMouseLeave={handleMouseLeave}>
+            Book Now
+            {hovered
+              ? (
+                  <PiStarFourFill
+                    size={15}
+                    className="ml-2 md:ml-4 text-[#ff8e2c]"
+                  />
+                )
+              : (
+                  <HiArrowCircleRight size={20} className=" ml-2 md:ml-4" />
+                )}
+          </Link>
         </div>
-      </section>
-      <FooterV2 />
+        <div className="badge-container">
+          <img
+            src={badge}
+            alt="Badge"
+            className={`u82291 ${animateBadge && 'animate'}`} />
+        </div>
+        <div className="what-would-lespaul-say">
+          <p className="u11282">
+            Our focus is on more than just cleaning – it&lsquo;s about crafting
+            exceptional experiences.
+          </p>
+          <p className="u82112">
+            When you heard of TopDown, expect nothing less than the highest standard
+            of service for your home or business.
+          </p>
+        </div>
+        <div className="d99281">
+          <Services />
+        </div>
+        <div className="d82129">
+          <Whyus />
+        </div>
+        <FooterComponent />
+      </div>
     </>
   )
 }
+
+export default Home

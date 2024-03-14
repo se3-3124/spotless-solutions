@@ -1,6 +1,8 @@
 import { useEffect, useState, useRef } from 'react'
+
 import { PiStarFourFill } from 'react-icons/pi'
 import { FaCheck } from 'react-icons/fa'
+
 import peoplecleaning from '../../assets/peoplecleaning.png'
 
 function WhyUsSection () {
@@ -24,51 +26,45 @@ function WhyUsSection () {
   }, [])
 
   return (
-    <div className='flex'>
-      <div className="hidden md:flex md:w-1/2 lg:w-1/3">
-      </div>
+    <div className="d89919">
+      <div className="u11922" />
       <div>
-      <img
-        src={peoplecleaning}
-        alt="People cleaning"
-        className='w-96 absolute lg:left-[20%] md:left-[-2%] hidden md:flex'
-        >
-      </img>
+        <img src={peoplecleaning} alt="People cleaning" className="u44281" />
       </div>
-      <div className="md:w-1/2 lg:w-2/3 ml-[0] lg:ml-[15%]">
-        <div className='px-4 lg:px-28 mb-10 flex flex-col'>
-          <p className="flex items-center mt-2 md:mt-8 text-lg text-blue-500 md:text-2xl mb-2 font-kaushan">
+      <div className="u66281">
+        <div className="u11921">
+          <p className="u44991 font-kaushan">
             why us
-            <PiStarFourFill size={15} className="ml-4 mr-4 text-[#ff8e2c]" />
-            <span ref={ref} className={`line2 ${isVisible ? 'animate' : ''}`}></span>
+            <PiStarFourFill size={15} className="u33201" />
+            <span ref={ref} className={`${isVisible && 'animate'}`}></span>
           </p>
-          <p className="text-2xl font-bold text-blue-900 md:text-4xl mb-6">
+          <p className="u77192">
             What set us apart
           </p>
-          <ul className="ml-6 font-semibold text-gray-600">
-            <li className="mb-2 flex items-center">
-              <FaCheck className="mr-4 text-blue-500" />
-              <p className="md:text-xl">Reliability and Trustworthiness</p>
+          <ul className="u88912">
+            <li>
+              <FaCheck className="icon" />
+              <p>Reliability and Trustworthiness</p>
             </li>
-            <li className="mb-2 flex items-center">
-              <FaCheck className="mr-4 text-blue-500" />
-              <p className='md:text-xl'>Experience and Expertise</p>
+            <li>
+              <FaCheck className="icon" />
+              <p>Experience and Expertise</p>
             </li>
-            <li className="mb-2 flex items-center">
-              <FaCheck className="mr-4 text-blue-500" />
-              <p className='md:text-xl'>Customized Services</p>
+            <li>
+              <FaCheck className="icon" />
+              <p>Customized Services</p>
             </li>
-            <li className="mb-2 flex items-center">
-              <FaCheck className="mr-4 text-blue-500" />
-              <p className='md:text-xl'>Professionalism</p>
+            <li>
+              <FaCheck className="icon" />
+              <p>Professionalism</p>
             </li>
-            <li className="mb-2 flex items-center">
-              <FaCheck className="mr-4 text-blue-500" />
-              <p className='md:text-xl'>Green Cleaning Practices</p>
+            <li>
+              <FaCheck className="icon" />
+              <p>Green Cleaning Practices</p>
             </li>
-            <li className="mb-2 flex items-center">
-              <FaCheck className="mr-4 text-blue-500" />
-              <p className='md:text-xl'>Availability and Flexibility</p>
+            <li>
+              <FaCheck className="icon" />
+              <p>Availability and Flexibility</p>
             </li>
           </ul>
         </div>

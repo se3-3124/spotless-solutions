@@ -1,58 +1,94 @@
-@use 'tailwindcss/base.css';
-@use 'tailwindcss/components.css';
-@use 'tailwindcss/utilities.css';
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
 
-.navbar-main {
-  @apply w-full bg-midnightblue block p-4;
+.navigation-bar {
+  @apply bg-[#05132F] fixed w-full z-20 top-0 start-0 border-b border-gray-200 dark:border-gray-600 shadow-md;
+  @apply rounded-b-md transition-transform duration-300 ease-in-out;
 
-  img {
-    @apply h-16;
+  &.nav-visible {
+    @apply transform -translate-y-full;
   }
 
-  @media (max-width: 768px) {
-    @apply p-2; // Adjust padding for smaller screens
-  }
+  & .nav-container {
+    @apply max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-6;
 
-  @media (max-width: 480px) {
-    @apply p-1; // Further adjust padding for even smaller screens
-  }
+    & .nav-home-logo {
+      @apply flex items-center space-x-3 rtl:space-x-reverse;
 
-  & .navbar-menu-wrapper {
-    @apply flex flex-grow flex-row font-medium items-center justify-center text-center;
-
-    & a {
-      @apply sm:hidden md:block py-2 px-3 text-white font-sans font-bold;
-
-      &.selected {
-        @apply font-bold text-fruityorange;
+      & img {
+        @apply h-8;
       }
 
-      &:hover {
-        @apply text-fruityorange;
-        cursor: pointer;
+      & span {
+        @apply self-center text-2xl font-semibold whitespace-nowrap dark:text-white;
       }
     }
-  }
 
-  & .navbar-right-side {
-    @apply flex flex-row justify-center text-center items-center;
+    & .auth-container {
+      @apply flex md:order-2 space-x-3 md:space-x-0 rtl:space-x-reverse;
 
-    & .btn {
-      @apply py-2 px-3;
-
-      &.login-button {
-        @apply text-white;
+      &.open {
+        @apply justify-start;
       }
 
-      &.signup-button {
-        @apply bg-fruityorange text-white font-medium rounded-lg text-sm text-center;
+      &.close {
+        @apply justify-end;
+      }
+
+      & .login-btn {
+        @apply hover:text-white text-[#05132F] text-sm font-bold flex items-center bg-[#ff8e2c];
+        @apply hover:bg-[#05132F] hover:bg-opacity-35 hover:border-white border border-transparent;
+        @apply px-4 py-2 md:px-6 rounded-lg transition-colors duration-500 ease-in-out mr-1;
 
         &:hover {
-          @apply bg-white text-midnightblue;
+          @apply border;
+        }
+      }
+      
+      & .user-profile {
+        @apply text-white p-1 rounded-lg overflow-hidden relative text-right;
+        
+        & .text-user {
+          @apply font-bold;
+        }
+        
+        &:hover {
+          @apply cursor-pointer;
+        }
+      }
+
+      & .hamburger {
+        @apply md:hidden text-white focus:outline-none font-medium rounded-lg text-sm px-4 py-2 text-center;
+
+        &.open {
+          @apply order-1;
         }
 
-        &:focus {
-          @apply ring-4 outline-none ring-blue-300;
+        &.close {
+          @apply order-2;
+        }
+      }
+    }
+
+    & .nav-contents {
+      @apply items-center justify-between w-full h-screen md:h-10 md:flex md:w-auto md:order-1 pt-2;
+
+      &.open {
+        @apply block;
+      }
+
+      &.close {
+        @apply hidden;
+      }
+
+      & .nav-items-container {
+        @apply flex flex-col p-4 md:p-0 mt-4 divide-y divide-gray-600 text-center md:divide-y-0 md:border-b-0;
+        @apply font-medium md:space-x-8 rtl:space-x-reverse md:flex-row md:mt-0 md:border-0 md:bg-[#05132F];
+        @apply dark:bg-transparent md:md:bg-[#05132F] dark:border-gray-700;
+
+        & .nav-link {
+          @apply block py-2 px-3 text-gray-900 md:hover:bg-transparent md:hover:text-[#EFA25D] md:p-0 dark:text-white;
         }
       }
     }

@@ -2,32 +2,263 @@
 @tailwind components;
 @tailwind utilities;
 
-.section-header {
-  @apply pt-24 md:mt-0 md:h-screen flex flex-col justify-center text-center md:text-left md:flex-row md:justify-between;
-  @apply md:items-center lg:px-48 md:px-12 px-4 bg-midnightblue;
+@keyframes zoom-in-out {
+  0% {
+    transform: scale(0.9) translateY(0);
+  }
+  50% {
+    transform: scale(1.1) translateY(-20%);
+  }
+  100% {
+    transform: scale(1) translateY(0);
+  }
+}
 
-  & .container {
-    @apply md:flex-1 md:mr-10;
 
-    & h1.brand {
-      @apply text-fruityorange text-6xl #{!important};
+@media (max-width: 1920px) {
+  @keyframes drawLine {
+    100% {
+      width: 40%;
+    }
+  }
+}
+
+@media (max-width: 720px) {
+  @keyframes drawLine {
+    100% {
+      width: 25%;
+    }
+  }
+}
+
+@media (max-width: 1920px) {
+  @keyframes drawLine2 {
+    100% {
+      width: 40%;
+    }
+  }
+}
+
+@media (max-width: 720px) {
+  @keyframes drawLine2 {
+    100% {
+      width: 25%;
+    }
+  }
+}
+
+@media (max-width: 400px) {
+  @keyframes drawLine2 {
+    100% {
+      width: 80%;
+    }
+  }
+}
+
+.home-root {
+  @apply relative h-screen;
+
+  & .home-background {
+    @apply inset-0 w-full h-full md:object-cover md:object-center object-bottom;
+  }
+
+  & .company-logo {
+    @apply absolute sm:top-52 -left-3 h-32 -mt-8 md:-left-8 md:h-44 md:-mt-24;
+  }
+
+  & .heading {
+    @apply absolute inset-0 flex flex-col justify-center px-10 md:px-20 text-white;
+
+    & .u39281 {
+      @apply text-5xl md:text-8xl mb-4 font-bold text-[#ff8e2c] flex items-center;
     }
 
-    & h1 {
-      @apply text-white text-5xl font-bold mb-7;
+    & .u71912 {
+      @apply text-3xl md:text-6xl font-bold mb-4;
     }
 
-    & h3 {
-      @apply text-white text-3xl font-bold mb-7;
+    & .u99201 {
+      @apply text-lg md:text-3xl mb-20;
     }
 
-    & a {
-      @apply bg-white px-6 py-4 rounded-lg border-2 border-black border-solid mr-2 mb-2 text-fruityorange;
-      @apply hover:bg-fruityorange hover:text-midnightblue font-bold;
+    & .book-now-btn {
+      @apply absolute bottom-64 md:bottom-52 md:left-20 hover:text-white text-[#05132F] text-sm font-bold md:text-lg;
+      @apply flex items-center bg-[#ff8e2c] hover:bg-[#05132F] border border-transparent hover:border-white;
+      @apply px-4 py-2.5 md:px-16 md:py-3 rounded-3xl md:rounded-3xl transition-colors duration-300;
+      @apply ease-in-out;
+
+      &:hover {
+        @apply border;
+      }
     }
   }
 
-  & .logo-container {
-    @apply flex justify-around md:block mt-8 md:mt-0 md:flex-1;
+  & .badge-container {
+    @apply md:absolute;
+
+    & .u82291 {
+      @apply relative m-auto bottom-36 lg:-top-[118px] lg:left-[15%] lg:m-0 w-40 md:w-1/4;
+
+      &.animate {
+        animation: zoom-in-out 1s ease-in-out;
+        animation-delay: 0.7s;
+      }
+    }
+  }
+
+  & .what-would-lespaul-say {
+    @apply relative bottom-32 md:-bottom-24 lg:bottom-1 md:left-16 lg:left-1/3 mx-10 lg:mx-20 text-2xl font-medium;
+    @apply lg:text-3xl font-roboto max-w-[90%] md:max-w-[80%] lg:max-w-[45%];
+
+    & .u11282 {
+      @apply text-blue-900 mb-6;
+    }
+
+    & .u82112 {
+      @apply text-[#DBAF5A] -mb-20 md:mb-10;
+    }
+  }
+
+  & .d99281 {
+    & .d99102 {
+      @apply bg-[#F9F4EA] md:mt-36 lg:mt-0 md:grid md:grid-cols-2;
+
+      & .d00192 {
+        @apply md:px-4 lg:px-28 mb-10 flex flex-col;
+
+        & .p92812 {
+          @apply flex items-center justify-center md:justify-normal mt-6 md:mt-8 text-xl text-blue-500 md:text-2xl mb-2;
+
+          & .i82712 {
+            @apply ml-4 mr-4 text-[#ff8e2c];
+          }
+
+          & span {
+            width: 0;
+            height: 2px;
+            background-color: rgb(59 130 246 / var(--tw-text-opacity));
+
+            &.animate {
+              animation: zoom-in-out 1s ease-in-out;
+              animation-delay: 0.7s;
+            }
+          }
+        }
+
+        & .p91244 {
+          @apply flex items-center justify-center md:justify-normal text-3xl font-bold text-blue-900 md:text-4xl mb-6;
+        }
+
+        & .d82111 {
+          & .d82912 {
+            @apply md:flex items-center;
+
+            & .image-container {
+              position: relative;
+              overflow: hidden;
+
+              @apply md:my-2;
+
+              & img {
+                @apply md:w-32 md:mr-2 hidden lg:flex;
+                transition: transform 0.3s ease;
+              }
+
+              &:hover img {
+                transform: scale(1.1);
+              }
+            }
+
+            & .d91824 {
+              @apply mb-10 lg:mb-5;
+
+              & .p66127 {
+                @apply flex justify-center lg:justify-normal font-semibold hover:underline text-lg md:text-xl;
+              }
+
+              & .p88273 {
+                @apply flex justify-center lg:justify-normal text-gray-500 md:text-lg;
+              }
+            }
+          }
+        }
+      }
+
+      & .d00124 {
+        @apply hidden md:flex;
+
+        & .i2221 {
+          @apply h-full aspect-square;
+        }
+      }
+    }
+  }
+
+  & .d82129 {
+    @apply md:mt-10 md:mb-10;
+
+    & .d89919 {
+      @apply flex;
+
+      & .u11922 {
+        @apply hidden md:flex md:w-1/2 lg:w-1/3;
+      }
+
+      & .u44281 {
+        @apply w-96 absolute lg:left-[20%] md:left-[-2%] hidden md:flex;
+      }
+
+      & .u66281 {
+        @apply md:w-1/2 lg:w-2/3 ml-[0] lg:ml-[15%];
+
+        & .u11921 {
+          @apply px-4 lg:px-28 mb-10 flex flex-col;
+
+          & .u44991 {
+            @apply flex items-center mt-2 md:mt-8 text-lg text-blue-500 md:text-2xl mb-2;
+
+            & .u33201 {
+              @apply ml-4 mr-4 text-[#ff8e2c];
+            }
+
+            & span {
+              width: 0;
+              height: 2px;
+              background-color: rgb(59 130 246 / var(--tw-text-opacity));
+
+              &.animate {
+                animation: drawLine 1.5s forwards;
+                animation-delay: 0.5s;
+
+                &::before {
+                  animation: drawLine2 1.5s forwards;
+                  animation-delay: 0.5s;
+                }
+              }
+            }
+          }
+
+          & .u77192 {
+            @apply text-2xl font-bold text-blue-900 md:text-4xl mb-6;
+          }
+
+          & .u88912 {
+            @apply ml-6 font-semibold text-gray-600;
+
+            li {
+              @apply mb-2 flex items-center;
+
+              & .icon {
+                @apply mr-4 text-blue-500;
+              }
+
+              & p {
+                @apply md:text-xl;
+              }
+            }
+          }
+        }
+      }
+    }
   }
 }

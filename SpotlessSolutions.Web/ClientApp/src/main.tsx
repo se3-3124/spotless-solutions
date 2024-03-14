@@ -15,8 +15,7 @@ import EmailVerificationStaticStatusPage from './pages/authentication/EmailVerif
 import Dashboard from './pages/dashboard/Dashboard.tsx'
 import DashboardBookingCalendarView from './pages/dashboard/DashboardBookingCalendarView.tsx'
 import History from './pages/dashboard/history-page/history.tsx'
-// import Home from './pages/home-page/home-page.tsx'
-import Home2 from './pages/home-page/home-page2.tsx'
+import HomePage from './pages/home-page/home-page.tsx'
 import LogInPage from './pages/authentication/LoginPage.tsx'
 import LogoutFlowPage from './pages/authentication/LogoutFlowPage.tsx'
 import RegistrationPage from './pages/authentication/RegistrationPage.tsx'
@@ -164,7 +163,7 @@ function Main () {
                       <Route path="/dashboard/service-management" element={<DashboardServiceManagementView />} />
 
                       {/* <Route path="/" element={<Home />} /> */}
-                      <Route path="/" element={<Home2 />} />
+                      <Route path="/" element={<HomePage />} />
                       <Route path="/services" element={<ServicesPage />} />
 
                       {/* User */}
