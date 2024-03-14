@@ -1,4 +1,5 @@
 import { type AxiosInstance } from 'axios'
+import { type DateTime } from 'luxon'
 import { useContext, useEffect, useState } from 'react'
 
 import AuthContext from '../../../../contexts/AuthContext.ts'
@@ -10,6 +11,8 @@ import './CalculationDrawer.styles.scss'
 interface CalculationDrawerProps {
   selectedServices: SelectedServicesType
   serviceConfiguration: ServiceConfigurationType
+  schedule: DateTime
+  area: number
   bookEvent: () => void
 }
 
@@ -18,7 +21,7 @@ interface CalculationResultState {
   total: number
 }
 
-export default function CalculationDrawer ({ selectedServices, serviceConfiguration, bookEvent }: CalculationDrawerProps) {
+export default function CalculationDrawer ({ selectedServices, serviceConfiguration, schedule, area, bookEvent }: CalculationDrawerProps) {
   const authContext = useContext(AuthContext)
   const [calculationResult, setCalculationResult] = useState<CalculationResultState>({
     result: [],
@@ -115,6 +118,14 @@ export default function CalculationDrawer ({ selectedServices, serviceConfigurat
       <div className="grand-total">
         <h1 className="left-heading-text">Grand Total</h1>
         <p className="right-value">P{calculationResult.total}</p>
+      </div>
+      <div className="grand-total subtle">
+        <h1 className="left-heading-text">Schedule</h1>
+        <p className="right-value">{schedule.toFormat('LLLL/dd/yyyy hh:mm')}</p>
+      </div>
+      <div className="grand-total subtle">
+        <h1 className="left-heading-text">Area Size</h1>
+        <p className="right-value">{area} sq. m</p>
       </div>
       <div className="grand-total subtle">
         <h1 className="left-heading-text">20% Down-payment</h1>
